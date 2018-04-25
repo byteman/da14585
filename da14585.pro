@@ -11,7 +11,8 @@ SOURCES += main.c \
     channel.c \
     scaler.c \
     Filter_KMedian.c \
-    Weighing.c
+    Weighing.c \
+    Timer.c
 
 include(deployment.pri)
 qtcAddDeployment()
@@ -25,6 +26,7 @@ HEADERS += \
     scaler.h \
     platform.h \
     Filter_KMedian.h \
-    Weighing.h
+    Weighing.h \
+    Timer.h
 
 LIBS+=-lKernel32
