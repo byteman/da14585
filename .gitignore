@@ -1,0 +1,7 @@
+out_585
+si
+*.scvd
+JLinkLog.txt
+JLinkSettings.ini
+*.uvoptx
+*.user
