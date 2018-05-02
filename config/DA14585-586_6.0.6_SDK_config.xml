@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tns:sdk_configuration
+	xmlns:tns="http://www.diasemi.com/sdkConfig"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.diasemi.com/sdkConfig config.xsd">
+	<!--Please note that the following characters should be escaped in xml:
+"   &quot;
+'   &apos;
+<   &lt;
+>   &gt;
+&   &amp;-->
+	<sdk>
+        <format_ver>2.0</format_ver>
+		<family>DA14585-586</family>
+		<manufacturer>Dialog Semiconductor</manufacturer>
+		<name>SmartSnippets DA14585-586 SDK</name>
+		<version>6.0.6</version>
+		<devices>
+			<device id="DA14585-00"/>
+			<device id="DA14586-00"/>
+		</devices>
+		<platform name="windows" default="yes">
+			<!-- Default means which configuration to be used if platform failed to detect  -->
+			<tools>
+				<tool id="keil">
+					<version>5.23</version>
+				</tool>
+				<tool id="toolchain">
+					<version>4_9-2015q3</version>
+				</tool>
+				<tool id="segger_jlink">
+					<version>6.16a</version>
+				</tool>
+				<tool id="segger_ozone">
+					<version>2.32</version>
+				</tool>
+				<tool id="segger_systemview">
+					<version>2.42</version>
+				</tool>
+			</tools>
+			<tool_buttons>
+				<tool_button id="eclipse_ide"/>
+				<tool_button id="keil_ide"/>
+                <!-- status can be enabled, disabled or invisible. If ommitted, enabled is implied -->
+	            <tool_button id="rf_master"/>
+				<tool_button id="smartsnippets_toolbox"/>
+				<tool_button id="segger_ozone"/>
+				<tool_button id="segger_systemview"/>
+			</tool_buttons>
+		</platform>
+		<platform name="linux" default="no">
+			<tools>
+				<tool id="toolchain">
+					<version>4_9-2015q3</version>
+				</tool>
+				<tool id="segger_jlink">
+					<version>6.16a</version>
+				</tool>
+				<tool id="segger_ozone">
+					<version>2.32</version>
+				</tool>
+				<tool id="segger_systemview">
+					<version>2.42</version>
+				</tool>
+			</tools>
+			<tool_buttons>
+				<tool_button id="eclipse_ide"/>
+                <!-- status can be enabled, disabled or invisible. If ommitted, enabled is implied -->
+	            <tool_button id="rf_master"/>
+				<tool_button id="smartsnippets_toolbox"/>
+				<tool_button id="segger_ozone"/>
+				<tool_button id="segger_systemview"/>
+			</tool_buttons>
+		</platform>
+		<platform name="mac" default="no">
+			<tools>
+				<tool id="toolchain">
+					<version>4_9-2015q3</version>
+				</tool>
+				<tool id="segger_jlink">
+					<version>6.16a</version>
+				</tool>
+				<tool id="segger_ozone">
+					<version>2.32</version>
+				</tool>
+				<tool id="segger_systemview">
+					<version>2.42</version>
+				</tool>
+			</tools>
+			<tool_buttons>
+				<tool_button id="eclipse_ide"/>
+                <!-- status can be enabled, disabled or invisible. If ommitted, enabled is implied -->
+				<tool_button id="segger_ozone"/>
+				<tool_button id="segger_systemview"/>
+			</tool_buttons>
+		</platform>
+	</sdk>
+</tns:sdk_configuration>
+

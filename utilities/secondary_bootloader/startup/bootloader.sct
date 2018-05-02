@@ -1,0 +1,14 @@
+LR_1 0x07FC0000 0x00008000 {    ; load region size_region
+    ER_1 +0 0x00002000 {        ; load address = execution address
+        *.o (RESET, +First)
+        *(InRoot$$Sections)
+        startup_CMSDK_CM0.o
+        system_CMSDK.o
+    }
+
+    ER_2 0x07FD6000 0x2000 {    ; push it to the end of SysRAM
+        .ANY (+RO)
+        .ANY (+RW +ZI)
+        .ANY (STACK)
+    }
+}
