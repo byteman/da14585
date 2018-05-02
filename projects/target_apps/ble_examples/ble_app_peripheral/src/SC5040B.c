@@ -1,7 +1,8 @@
 //
 #include "SC5040B.h"
 #include "gpio.h"
-#include "periph_setup.h"
+#include "user_peripheral.h"
+#include "user_periph_setup.h"
 static void delay_ms(unsigned int z)
 {
 unsigned int x,y;

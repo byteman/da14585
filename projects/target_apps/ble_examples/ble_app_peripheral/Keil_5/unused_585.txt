@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Wed May 02 20:31:59 2018
+;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Wed May 02 20:53:40 2018
 ;VERSION 0.2
 ;FILE adc.o
 adc_calibrate <= USED 0
@@ -77,6 +77,7 @@ batt_cal_cr1225 <= USED 0
 batt_cal_cr2032 <= USED 0
 battery_get_lvl <= USED 0
 ;FILE boot_vectors.o
+;FILE cs1237.o
 ;FILE custom_common.o
 custs1_get_att_handle <= USED 0
 ;FILE custs1.o
@@ -88,7 +89,6 @@ GPIO_DisablePorPin <= USED 0
 GPIO_EnableIRQ <= USED 0
 GPIO_EnablePorPin <= USED 0
 GPIO_GetIRQInputLevel <= USED 0
-GPIO_GetPinStatus <= USED 0
 GPIO_GetPorTime <= USED 0
 GPIO_RegisterCallback <= USED 0
 GPIO_SetIRQInputLevel <= USED 0
@@ -161,6 +161,9 @@ rf_calibration_580 <= USED 0
 set_gauss_modgain <= USED 0
 ;FILE rwble.o
 ;FILE rwip.o
+;FILE sc5040b.o
+SC50X0B_SDA <= USED 0
+sc5040b_play <= USED 0
 ;FILE smpc_util.o
 ;FILE spi.o
 spi_access <= USED 0

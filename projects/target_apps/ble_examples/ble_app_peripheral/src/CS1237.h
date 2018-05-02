@@ -2,7 +2,7 @@
 #ifndef __CS1237_H
 #define __CS1237_H
 
-#include "global_io.h"
+#include "types.h"
 
 typedef enum{
 	AD_HZ_40= 0,

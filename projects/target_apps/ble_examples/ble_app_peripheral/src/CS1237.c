@@ -1,7 +1,8 @@
 
 #include "CS1237.h"
 #include "gpio.h"
-#include "periph_setup.h"
+#include "user_peripheral.h"
+#include "user_periph_setup.h"
 //#include "hal_drivers.h"
 //#include "ioCC2541.h"
 
