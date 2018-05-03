@@ -944,6 +944,16 @@
               <FileType>1</FileType>
               <FilePath>..\src\oled.c</FilePath>
             </File>
+            <File>
+              <FileName>CS1237.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\CS1237.c</FilePath>
+            </File>
+            <File>
+              <FileName>SC5040B.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\SC5040B.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -1885,6 +1895,16 @@
               <FileName>oled.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\oled.c</FilePath>
+            </File>
+            <File>
+              <FileName>CS1237.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\CS1237.c</FilePath>
+            </File>
+            <File>
+              <FileName>SC5040B.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\SC5040B.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Wed May 02 20:53:40 2018
+;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Thu May 03 21:23:53 2018
 ;VERSION 0.2
 ;FILE adc.o
 adc_calibrate <= USED 0
@@ -78,6 +78,7 @@ batt_cal_cr2032 <= USED 0
 battery_get_lvl <= USED 0
 ;FILE boot_vectors.o
 ;FILE cs1237.o
+CS1237_ReadAD <= USED 0
 ;FILE custom_common.o
 custs1_get_att_handle <= USED 0
 ;FILE custs1.o
@@ -89,10 +90,12 @@ GPIO_DisablePorPin <= USED 0
 GPIO_EnableIRQ <= USED 0
 GPIO_EnablePorPin <= USED 0
 GPIO_GetIRQInputLevel <= USED 0
+GPIO_GetPinStatus <= USED 0
 GPIO_GetPorTime <= USED 0
 GPIO_RegisterCallback <= USED 0
 GPIO_SetIRQInputLevel <= USED 0
 GPIO_SetPorTime <= USED 0
+;FILE gui.o
 ;FILE hardfault_handler.o
 ;FILE hw_otpc.o
 hw_otpc_blank <= USED 0
@@ -127,7 +130,7 @@ dummyf <= USED 0
 ;FILE oled.o
 Draw_BMP <= USED 0
 LCD_CLS <= USED 0
-LCD_P8x16Str <= USED 0
+LCD_P6x8Str <= USED 0
 ;FILE patch.o
 ;FILE pll_vcocal_lut.o
 GPADC_init <= USED 0
