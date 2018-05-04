@@ -10,10 +10,11 @@ param_err_t param_load()
     {
         g_param.corn_k[i] = 1.0;
     }
+		return PARA_ERR_NONE;
 }
 
 
-param_err_t *param_get(device_param **para)
+param_err_t param_get(device_param **para)
 {
     if(!g_init) return PARA_ERR_UNINIT;
     if(para == 0) return PARA_ERR_INVALID_PARA;

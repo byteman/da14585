@@ -43,8 +43,12 @@ void gui_show_history_weight(float* wf,uint8 num, uint8 dot)
 				
 
 	 LCD_P16x16Ch(80,0,32); 
-	LCD_P16x16Ch(80,2,33);
+	 LCD_P16x16Ch(80,2,33);
 		LCD_P16x16Ch(80,4,34);
 		
 }
-
+//¶¨Ê±
+void gui_isr()
+{
+	
+}

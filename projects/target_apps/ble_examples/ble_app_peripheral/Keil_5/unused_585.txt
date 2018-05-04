@@ -1,7 +1,6 @@
-;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Thu May 03 21:23:53 2018
+;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Fri May 04 20:13:45 2018
 ;VERSION 0.2
 ;FILE adc.o
-adc_calibrate <= USED 0
 adc_disable <= USED 0
 ;FILE app.o
 active_conhdl_to_conidx <= USED 0
@@ -72,10 +71,8 @@ read_rcx_freq <= USED 0
 set_xtal16m_trim_value <= USED 0
 ;FILE attm_db_128.o
 ;FILE battery.o
-batt_cal_aaa <= USED 0
-batt_cal_cr1225 <= USED 0
-batt_cal_cr2032 <= USED 0
-battery_get_lvl <= USED 0
+;FILE batty.o
+battery_isr <= USED 0
 ;FILE boot_vectors.o
 ;FILE cs1237.o
 CS1237_ReadAD <= USED 0
@@ -84,18 +81,26 @@ custs1_get_att_handle <= USED 0
 ;FILE custs1.o
 ;FILE custs1_task.o
 ;FILE diss.o
+;FILE filter_kmedian.o
+FKM_Filter <= USED 0
+FKM_InitFilterList <= USED 0
+FKM_SetFilterGrade <= USED 0
+IsFilterDataStable <= USED 0
+creep_ad_deal <= USED 0
+creep_init <= USED 0
+static_creep_zero_track <= USED 0
 ;FILE gpio.o
 GPIO_ConfigurePinPower <= USED 0
 GPIO_DisablePorPin <= USED 0
 GPIO_EnableIRQ <= USED 0
 GPIO_EnablePorPin <= USED 0
 GPIO_GetIRQInputLevel <= USED 0
-GPIO_GetPinStatus <= USED 0
 GPIO_GetPorTime <= USED 0
 GPIO_RegisterCallback <= USED 0
 GPIO_SetIRQInputLevel <= USED 0
 GPIO_SetPorTime <= USED 0
 ;FILE gui.o
+gui_isr <= USED 0
 ;FILE hardfault_handler.o
 ;FILE hw_otpc.o
 hw_otpc_blank <= USED 0
@@ -125,12 +130,18 @@ i2c_eeprom_write_page <= USED 0
 i2c_wait_until_eeprom_ready <= USED 0
 ;FILE jump_table.o
 dummyf <= USED 0
+;FILE key.o
+Delay <= USED 0
+key_init <= USED 0
 ;FILE nmi_handler.o
 ;FILE nvds.o
 ;FILE oled.o
 Draw_BMP <= USED 0
 LCD_CLS <= USED 0
 LCD_P6x8Str <= USED 0
+;FILE param.o
+param_get <= USED 0
+param_load <= USED 0
 ;FILE patch.o
 ;FILE pll_vcocal_lut.o
 GPADC_init <= USED 0
@@ -206,6 +217,14 @@ spi_read_flash_unique_id <= USED 0
 syscntl_set_dcdc_vbat3v_level <= USED 0
 ;FILE system_armcm0.o
 SystemCoreClockUpdate <= USED 0
+;FILE timer.o
+SysTick_Event <= USED 0
+Timer_Delete <= USED 0
+Timer_Disable <= USED 0
+Timer_Enable <= USED 0
+Timer_Init <= USED 0
+Timer_Regist <= USED 0
+Timer_Server <= USED 0
 ;FILE trng.o
 ;FILE uart2.o
 uart2_finish_transfers <= USED 0
@@ -224,6 +243,25 @@ user_svc1_indicateable_ind_cfm_handler <= USED 0
 user_svc1_long_val_ntf_cfm_handler <= USED 0
 ;FILE user_periph_setup.o
 ;FILE user_peripheral.o
+;FILE weighing.o
+AD_CheckNew <= USED 0
+AD_Read <= USED 0
+WetApp_Convert_Data <= USED 0
+Wet_Clear_Err <= USED 0
+Wet_ErrRead <= USED 0
+Wet_Filter_Set <= USED 0
+Wet_Init <= USED 0
+Wet_InitPara <= USED 0
+Wet_InitZero <= USED 0
+Wet_MultiRange_Dela <= USED 0
+Wet_Read <= USED 0
+Wet_Read_Err <= USED 0
+Wet_Read_State <= USED 0
+Wet_Read_Wet <= USED 0
+Wet_StartAvg <= USED 0
+Wet_Taring <= USED 0
+Wet_Working <= USED 0
+Wet_Zeroing <= USED 0
 ;FILE wkupct_quadec.o
 quad_decoder_disable_irq <= USED 0
 quad_decoder_enable_irq <= USED 0

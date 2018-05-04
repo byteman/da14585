@@ -18,6 +18,7 @@ void gui_show_battry_state(uint8 value);
 
 void gui_show_weight(int value, uint8 dot, uint8 unit);
 
-
+//定时调用显示逻辑业务
+void gui_isr();
 #endif
 

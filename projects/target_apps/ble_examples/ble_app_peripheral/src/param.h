@@ -152,7 +152,7 @@ param_err_t param_save();
  * @return 成功与否
  */
 
-param_err_t* param_get(device_param** para);
+param_err_t param_get(device_param** para);
 
 /**
  * @brief 写入参数到内存中.

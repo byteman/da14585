@@ -2,11 +2,14 @@
 #include "app_easy_timer.h"
 #include "oled.h"
 #include "cs1237.h"
+#include "batty.h"
+#include "key.h"
 
 static timer_hnd user_timer;
 
 #define USER_TIME_INTERVAL 100 
 char buffer[16] = {0,};
+int batty = 0;
 void user_app_time_handle()
 {
 	  int i = 0;
@@ -29,6 +32,9 @@ void user_app_time_handle()
 		
 		float weight[]= {1123,1345,345};
 		gui_show_history_weight(weight,3,1);
+		
+		batty = battery_get();
+		key_isr();
 		//LCD_P6x8Str(0,7,"1234567890123");
 		//sc5040b_play(1);
 }

@@ -189,6 +189,22 @@
 //RST
 #define LCD_RST_PORT GPIO_PORT_0
 #define LCD_RST  GPIO_PIN_5
+
+
+//KEY
+
+#define KEY_PWR_PORT GPIO_PORT_0
+#define KEY_PWR_PIN  GPIO_PIN_6
+
+#define KEY_ZERO_PORT GPIO_PORT_0
+#define KEY_ZERO_PIN  GPIO_PIN_0
+
+
+//PWR control
+
+#define PWR_OFF_PORT GPIO_PORT_2
+#define PWR_OFF_PIN  GPIO_PIN_4
+
 /*
  * FUNCTION DECLARATIONS
  ****************************************************************************************

@@ -78,7 +78,7 @@ Std_ReturnType	Wet_Init(void)
 
     if(PARA_ERR_NONE != param_get(&g_param))
     {
-        return;
+        return 0;
     }
 
     pt = Timer_Regist(LOOP, 2 ,Wet_Working);//定时称重处理  ///g_Para_ICR[g_param->user.ICR]
@@ -91,7 +91,7 @@ Std_ReturnType	Wet_Init(void)
         g_wet_err.state.errWorkTask = 0;
     }
 
-	pt = Timer_Regist(LOOP,100,Wet_StableWt);		//定时判稳处理		  
+		pt = Timer_Regist(LOOP,100,Wet_StableWt);		//定时判稳处理		  
 		if(pt == NULL)g_wet_err.state.errStableTask = 1;
 		else	g_wet_err.state.errStableTask = 0;
 
