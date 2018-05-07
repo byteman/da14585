@@ -52,7 +52,7 @@ static device_param* g_param;
 /* Private functions ---------------------------------------------------------*/
 //static	Std_ReturnType	Wet_InitPara(void);
 void	Wet_Working(void);
-static	void	Wet_Process(INT32S adcode,FP32 temp);	
+
 static	INT32S	Wet_Linear(INT32S wt);
 //static	INT32S	Wet_StableAD(INT32S wt);
 static	void	Wet_StableWt(void);
@@ -102,7 +102,7 @@ Std_ReturnType	Wet_Init(void)
         //rtn = Wet_InitPara();
 		if(rtn == FALSE)g_wet_err.state.errpara = 1;
 		else	g_wet_err.state.errpara = 0;
-	Wet_InitZero();
+		Wet_InitZero();
     FKM_SetFilterGrade(g_param->mFltLevel ,g_UserClb_DivCod,g_UserClb_DivCod*10);
 
 
@@ -471,59 +471,6 @@ void	Wet_Process(INT32S adcode,FP32 temp)
 
 #else
 
-/******************************************************************************
-  * @brief  称重处理
-  * @param 	adcode：AD转换采集的原始数据
- 			temp：实时温度数据 			 
-  * @retval None
-******************************************************************************/
-void	Wet_Process(INT32S adcode,FP32 temp)
-{
-	static	INT32U	s_POdecrease = 20;		
-	static		INT32S	swet;
-	static		FP32	fwet;
-
-	g_wet_state.busy = 1;
-
-	if(s_POdecrease)s_POdecrease--;									//上电后先处理20次
-	else g_wet_state.wetready = 1;
-
-	if((adcode > 4000000)||((adcode < -4000000)))					//ADC超载
-		g_wet_state.overADC = 1;
-	else
-		g_wet_state.overADC = 0; 	
-    swet = (adcode - g_param->factory.SZA)*g_FactClb_k;					//工厂标定
-//	g_wet_input = Wet_StableAD(swet);								//稳定处理
-	g_wet_input = swet;
-	 												 
-    fwet = (FP32)(g_wet_input - g_param->user.LDW)*g_UserClb_k;		//用户标定
-//	if(g_param->user.NOV > 0)
-//		fwet = fwet * g_param->user.NOV / 1000000;						//量程处理
-	g_Stable_input = fwet - g_fwet_zero;							//清除零点
-	Wet_ZeroJudge(g_Stable_input);									//零位判断
-    if(g_param->user.ZSE > 0)Wet_ZeroPowerUp();						//开机清零
-    //if(g_param->user.ZTR > 0)Wet_ZeroTracking();						//零点跟踪
-	g_wet_newest = Wet_Linear(g_Stable_input); 					//线性处理			
-	g_wet_gross = Wet_IncFormat(g_wet_newest);						//毛重,分度值格式化，多量程
-    g_wet_net   = g_wet_gross - g_param->user.TAV;						//净重
-
-    if(g_wet_gross > (g_param->user.NOV + 9*g_param->user.RSN))					//毛重超载
-			g_wet_state.overGross = 1;
-	else 	g_wet_state.overGross = 0;
-    if(g_wet_gross < (0 - 20*g_param->user.RSN))						//毛重欠载
-			g_wet_state.underGross = 1;
-	else	g_wet_state.underGross = 0;
-    if(g_wet_net > ( g_param->user.NOV + 9*g_param->user.RSN))	//1000000				//净重超载
-			g_wet_state.overNET = 1;
-	else	g_wet_state.overNET = 0;
-    if(g_param->user.MRA > 0)											//双量程判断
-    {	if(g_wet_gross > g_param->user.MRA)g_wet_state.range = 1;
-		else g_wet_state.range = 0;}
-	else	g_wet_state.range = 0;
-																			   
-	g_wet_state.dnew = 1;
-	g_wet_state.busy = 0;
-}
 #endif
 /******************************************************************************
   * @brief  线性修正

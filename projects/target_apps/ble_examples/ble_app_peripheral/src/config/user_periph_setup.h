@@ -68,8 +68,8 @@
     #define SPI_CLK_GPIO_PORT   GPIO_PORT_0
     #define SPI_CLK_GPIO_PIN    GPIO_PIN_0
 
-    #define SPI_DO_GPIO_PORT    GPIO_PORT_0
-    #define SPI_DO_GPIO_PIN     GPIO_PIN_6
+    //#define SPI_DO_GPIO_PORT    GPIO_PORT_0
+    //#define SPI_DO_GPIO_PIN     GPIO_PIN_6
 
     #define SPI_DI_GPIO_PORT    GPIO_PORT_0
     #define SPI_DI_GPIO_PIN     GPIO_PIN_5
