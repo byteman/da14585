@@ -37,8 +37,9 @@ void scaler_run()
               g_sinfo.adc_soc_err = 1;
         else
               g_sinfo.adc_soc_err = 0;
-				
-				Wet_Process(g_sinfo.filter_ad ,20.0f);
+		Wet_Process(g_sinfo.filter_ad ,20.0f);
+		Wet_Service();		
+		//
     }
 }
 

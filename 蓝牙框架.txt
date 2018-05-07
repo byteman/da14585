@@ -1,0 +1,52 @@
+1.用户层需要给调用服务是通过发送消息
+2.服务是通过调用用户的函数来通知
+
+
+{GATTC_WRITE_REQ_IND,           (ke_msg_func_t)gattc_write_req_ind_handler},
+
+当ble协议栈 收到了 手机app发来的写请求的时候，会通知自定义服务的任务gattc_write_req_ind_handler函数
+gattc_write_req_ind_handler函数来构造一个本服务级别的消息CUSTS1_VAL_WRITE_IND，这个消息由于没有在本服务内注册
+所以被用户user_perpheral.c中的user_catch_rest_hndl函数拦截，这个是主服务任务处理完了的其他消息处理的地方。
+完成真正实现服务功能的地方，user_perpheral.c会调用user_custs1_impl.c来真正实现，user_perpheral.c只是一个控制器，或者
+说消息分发器。
+
+
+
+当真正的实现函数完成任务后，需要将数据和结果通知或者返回给手机app，那么需要通过消息通知的方式
+
+CUSTS1_VAL_NTF_REQ 发送一个通知消息，这个消息会先到cust1_task.c ，因为CUSTS1_VAL_NTF_REQ消息被他注册了
+
+任务管理器在调用他内部的custs1_val_ntf_req_handler ，由他在构造GATTC_SEND_EVT_CMD消息，这个消息被发送给蓝牙的协议栈
+来处理了，就真正的发送出去了
+
+
+
+sdk_profiles:
+	custs1.c 主要是个注册工厂，负责注册本服务，初始化profile，创建一个属性数据库，分配属性需要的内存，初始化profile任务的描述符
+	custs1_task.c 是蓝牙协议栈和用户任务衔接的地方，负责解释协议栈的消息，调用用户程序，执行功能
+			接收用户层的自定义消息，然后调用协议栈发送出去。
+
+
+
+修改自定义名字
+
+user_config.h
+#define USER_DEVICE_NAME        "WL-Scaler"
+
+
+自定义蓝牙地址
+da1458x_config_advanced.h
+
+#define CFG_NVDS_TAG_BD_ADDRESS
+
+要做到根据设备唯一id自动生成
+
+
+user_modules_config.h
+可以控制启用那些模块和服务
+
+
+修改广播时间间隔
+
+uses.intv=MS_TO_BLESLOTS(687.5) =1s
+

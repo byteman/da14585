@@ -236,7 +236,28 @@ uint8 CS1237_Ready(uint8 chan)
 	return 1;
 }
 
+void CS1237_Power(uint8 chan, uint8 pn)
+{
+	#if 0
+	int i = 0;
+	for(i = 0;i<4;i++)
+	{
+		cs1237_set_channel(i);
+		Delay(100);
+		Pin_CS1237_Set(ADSCLK, PinLogic_Low);
+		Delay(100);
 
+		if(pn == 0)
+		{
+			Pin_CS1237_Set(ADSCLK, PinLogic_High);
+			Delay(100000);
+			Delay(100000);
+			Delay(100000);
+		}
+	}	
+  	g_cs1237_power = pn;
+	#endif
+}
 
 
 
