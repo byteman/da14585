@@ -5,6 +5,7 @@
 #include "batty.h"
 #include "key.h"
 #include "dispatcher.h"
+#include "param.h"
 char weight[16];
 
 static void menu_menu_msg_cb(comm_msg_t* msg)
@@ -15,6 +16,7 @@ static void menu_menu_msg_cb(comm_msg_t* msg)
 		{
 				if(gui_current() == MENU_MAIN)
 				{
+						
 						gui_show_ble_state(msg->u8_param);
 				}
 		}

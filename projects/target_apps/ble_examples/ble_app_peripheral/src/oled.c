@@ -504,7 +504,7 @@ void LCD_DLY_ms(unsigned int ms)
 	}
 	return;
 }
-
+#define SIM_I2C 1
 #ifdef OLED_SPI
 /*********************LCDÐ´Êý¾Ý************************************/ 
 void LCD_WrDat(unsigned char dat)	 
@@ -548,7 +548,7 @@ void LCD_WrCmd(unsigned char cmd)
 		//LCD_CLK = 1;
 	}
 }
-#else
+#elif defined(SIM_I2C)
 
 #define OLED_SCLK_Clr() GPIO_SetInactive(LCD_CLK_PORT, LCD_CLK )//SCL IIC
 #define OLED_SCLK_Set() GPIO_SetActive(LCD_CLK_PORT, LCD_CLK )
@@ -583,6 +583,7 @@ static  void IIC_Wait_Ack()
 /**********************************************
 // IIC Write byte
 **********************************************/
+
 static void Write_IIC_Byte(unsigned char IIC_Byte)
 {
 	unsigned char i;
@@ -606,57 +607,47 @@ static void Write_IIC_Byte(unsigned char IIC_Byte)
 		OLED_SCLK_Clr();
 	}
 }
-/**********************************************
-// IIC Write Command
-**********************************************/
-static void Write_IIC_Command(unsigned char IIC_Command)
+
+#else
+
+#define SEND_I2C_COMMAND(X)                SetWord16(I2C_DATA_CMD_REG, (X))
+
+#define WAIT_WHILE_I2C_FIFO_IS_FULL()      while((GetWord16(I2C_STATUS_REG) & TFNF) == 0)
+
+#define WAIT_UNTIL_I2C_FIFO_IS_EMPTY()     while((GetWord16(I2C_STATUS_REG) & TFE) == 0)
+
+#define WAIT_UNTIL_NO_MASTER_ACTIVITY()    while((GetWord16(I2C_STATUS_REG) & MST_ACTIVITY) !=0)
+
+#define WAIT_FOR_RECEIVED_BYTE()           while(GetWord16(I2C_RXFLR_REG) == 0)
+static void IIC_Start()
 {
-	IIC_Start();
-	Write_IIC_Byte(0x78);           //Slave address,SA0=0
-	IIC_Wait_Ack();
-
-	Write_IIC_Byte(0x00);
-	//write command
-	IIC_Wait_Ack();
-
-	Write_IIC_Byte(IIC_Command); 
-	IIC_Wait_Ack();
-
-	IIC_Stop();
+	
 }
 /**********************************************
-// IIC Write Data
+//IIC Stop
 **********************************************/
-static void Write_IIC_Data(unsigned char IIC_Data)
+static void IIC_Stop()
 {
-    IIC_Start();
-    Write_IIC_Byte(0x78);
-//D/C#=0; R/W#=0
-	IIC_Wait_Ack();
-
-    Write_IIC_Byte(0x40);
-//write data
-	IIC_Wait_Ack();
-
-    Write_IIC_Byte(IIC_Data);
-	IIC_Wait_Ack();
-
-    IIC_Stop();
+	
 }
-static void OLED_WR_Byte(unsigned dat,unsigned cmd)
+static  void IIC_Wait_Ack()
 {
-	if(cmd)
-	{
-		Write_IIC_Data(dat);
-	}
-	else 
-	{
-		Write_IIC_Command(dat);
-	}
+	 WAIT_UNTIL_I2C_FIFO_IS_EMPTY();                         // Wait until Tx FIFO is empty
+   WAIT_UNTIL_NO_MASTER_ACTIVITY();                        // Wait until no master activity
 }
+static void Write_IIC_Byte(unsigned char IIC_Byte)
+{
+		SEND_I2C_COMMAND(IIC_Byte);
+}
+
+#endif
+
+
 /**************************************************
 
 **************************************************/ 
+
+#if 1
 static void LCD_WrDat(uint8_t IIC_Data)
 {
 	IIC_Start();
@@ -672,21 +663,7 @@ static void LCD_WrDat(uint8_t IIC_Data)
 
 	IIC_Stop();
 }
-static void OLED_WrDat32(uint8_t IIC_Data)
-{
-	IIC_Start();
-	Write_IIC_Byte(0x78);            //Slave address,SA0=0
-	IIC_Wait_Ack();
 
-	Write_IIC_Byte(0x20);
-	//write command
-	IIC_Wait_Ack();
-
-	Write_IIC_Byte(IIC_Data); 
-	IIC_Wait_Ack();
-
-	IIC_Stop();
-}
 static void LCD_WrCmd(uint8_t IIC_Command)
 {
 	IIC_Start();
@@ -702,7 +679,49 @@ static void LCD_WrCmd(uint8_t IIC_Command)
 
 	IIC_Stop();
 }
+#else
+#define OLED_I2C_SLAVE_ADDRESS 0x78
+
+static void LCD_WrDat(uint8_t IIC_Data)
+{
+		i2c_eeprom_init(OLED_I2C_SLAVE_ADDRESS, I2C_SPEED_MODE, I2C_ADDRESS_MODE, I2C_ADDRESS_SIZE);
+		 int j;
+
+    // Critical section
+    GLOBAL_INT_DISABLE();
+
+    i2c_send_address(address);
+
+    for (j = 0; j < size; j++)
+    {
+        WAIT_WHILE_I2C_FIFO_IS_FULL();              // Wait if Tx FIFO is full
+        SEND_I2C_COMMAND(0x0100);                   // Set read access for <size> times
+    }
+
+    // End of critical section
+    GLOBAL_INT_RESTORE();
+
+    // Get the received data
+    for (j = 0; j < size; j++)
+    {
+        WAIT_FOR_RECEIVED_BYTE();                   // Wait for received data
+        **p =(0xFF & GetWord16(I2C_DATA_CMD_REG));  // Get the received byte
+        (*p)++;
+    }
+
+    WAIT_UNTIL_I2C_FIFO_IS_EMPTY();                 // Wait until Tx FIFO is empty
+    WAIT_UNTIL_NO_MASTER_ACTIVITY();                // wait until no master activity	
+		
+}
+static void LCD_WrCmd(uint8_t IIC_Command)
+{
+
+}
+
+
+
 #endif
+
 
 
 void LCD_Set_Pos(unsigned char x, unsigned char y) 
@@ -740,6 +759,7 @@ void LCD_CLS(void)
 /*********************LCD³õÊ¼»¯************************************/
 void LCD_Init(void)     
 {  
+	
 	GPIO_SetActive(LCD_CLK_PORT,LCD_CLK);
 	//LCD_CLK=1;
 	GPIO_SetInactive(LCD_RST_PORT,LCD_RST);

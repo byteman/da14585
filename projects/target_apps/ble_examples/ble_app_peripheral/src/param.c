@@ -4,35 +4,18 @@
 #include "user_periph_setup.h"
 static device_param g_param;
 static uint8_t g_init =0;
-/**
- ****************************************************************************************
- * @brief Test write data.
- * @param[in] data              Pointer to the array of bytes to be written
- * @param[in] address           Starting address of the write process
- * @param[in] size              Size of the data to be written
- * @param[in|out] bytes_written Bytes that were actually written (due to memory size limitation)
- * @return void
- ****************************************************************************************
- */
-static void test_write_data(uint8_t *data, uint32_t address, uint32_t size, uint32_t *bytes_written)
+
+
+static void _enter(void)
 {
-    //printf_string("\n\rWriting page to EEPROM (values 0x00-FF)...\n\r");
-    i2c_error_code code = i2c_eeprom_write_data(data, address, size, bytes_written);
-    if (code == I2C_NO_ERROR)
-    {
-        //printf_string("\n\rPage written.\n\r");
-        //printf_string("\n\rBytes written: 0x");
-        //printf_byte(((*bytes_written) >> 16) & 0xFF);
-        //printf_byte(((*bytes_written) >> 8) & 0xFF);
-        //printf_byte((*bytes_written) & 0xFF);
-        //printf_string("\n\r");
-    }
-    else
-    {
-        //printf_string(" - Test failed! - I2C Error code: 0x");
-        //printf_byte(code & 0xFF);
-        //printf_string("\n\r");
-    }
+		init_eeprom_pin();
+    i2c_eeprom_init(I2C_SLAVE_ADDRESS, I2C_SPEED_MODE, I2C_ADDRESS_MODE, I2C_ADDRESS_SIZE);
+	
+}
+static void _leave(void)
+{
+		i2c_eeprom_release();
+		init_oled_pin();
 }
 
 /**
@@ -43,24 +26,12 @@ static void test_write_data(uint8_t *data, uint32_t address, uint32_t size, uint
  * @return void
  ****************************************************************************************
  */
-static void test_write_byte(uint32_t address, uint8_t byte)
+static i2c_error_code _write_byte(uint32_t address, uint8_t byte)
 {
-    //printf_string("\n\rWrite byte (0x");
-    //printf_byte(byte & 0xFF);
-    //printf_string(") @ address ");
-    //printf_byte_dec(address & 0xFF);
-    //printf_string(" (zero based)...\n\r");
-    i2c_error_code code = i2c_eeprom_write_byte(address, byte);
-    if (code == I2C_NO_ERROR)
-    {
-        //printf_string("\n\rWrite done.\n\r");
-    }
-    else
-    {
-        //printf_string(" - Test failed! - I2C Error code: 0x");
-        //printf_byte(code & 0xFF);
-        //printf_string("\n\r");
-    }
+    _enter();
+    i2c_error_code code = i2c_eeprom_write_byte(address, byte);  
+		_leave();
+		return code;
 }
 
 /**
@@ -71,22 +42,32 @@ static void test_write_byte(uint32_t address, uint8_t byte)
  * @return void
  ****************************************************************************************
  */
-static void test_read_byte(uint32_t address, uint8_t *byte)
+static i2c_error_code _read_byte(uint32_t address, uint8_t *byte)
 {
-    i2c_error_code code = i2c_eeprom_read_byte(address, byte);
-    //printf_string("\n\rRead byte @ address ");
-    //printf_byte_dec(address & 0xFF);
-    //printf_string(": 0x");
-    //printf_byte((*byte) & 0xFF);
-    //printf_string("\n\r");
-    if (code != I2C_NO_ERROR)
-    {
-        //printf_string(" - Test failed! - I2C Error code: 0x");
-        //printf_byte(code & 0xFF);
-        //printf_string("\n\r");
-    }
-}
+	
+	   _enter();
+    i2c_error_code code = i2c_eeprom_read_byte(address, byte);  
+		_leave();
+		return code;
 
+}
+/**
+ ****************************************************************************************
+ * @brief Test write data.
+ * @param[in] data              Pointer to the array of bytes to be written
+ * @param[in] address           Starting address of the write process
+ * @param[in] size              Size of the data to be written
+ * @param[in|out] bytes_written Bytes that were actually written (due to memory size limitation)
+ * @return void
+ ****************************************************************************************
+ */
+static i2c_error_code _write_data(uint8_t *data, uint32_t address, uint32_t size, uint32_t *bytes_written)
+{
+		 _enter();
+    i2c_error_code code = i2c_eeprom_write_data(data, address, size, bytes_written);
+		_leave();
+		return code;
+}
 /**
  ****************************************************************************************
  * @brief Test read data.
@@ -97,44 +78,49 @@ static void test_read_byte(uint32_t address, uint8_t *byte)
  * @return void
  ****************************************************************************************
  */
-static void test_read_data(uint8_t *data, uint32_t address, uint32_t size, uint32_t *bytes_read)
+static i2c_error_code _read_data(uint8_t *data, uint32_t address, uint32_t size, uint32_t *bytes_read)
 {
+	
+	 _enter();
     i2c_error_code code = i2c_eeprom_read_data(data, address, size, bytes_read);
-    if (code == I2C_NO_ERROR)
-    {
-        //printf_string("\n\r");
-        // Display Results
-        //for (uint32_t i = 0 ; i < size ; i++)
-        //{
-         //   printf_byte(data[i]);
-        //    printf_string(" ");
-        //}
-        //printf_string("\n\r\n\rBytes read: 0x");
-        //printf_byte(((*bytes_read) >> 16) & 0xFF);
-        //printf_byte(((*bytes_read) >> 8) & 0xFF);
-        //printf_byte((*bytes_read) & 0xFF);
-        //printf_string("\n\r");
-    }
-    else
-    {
-        //printf_string(" - Test failed! - I2C Error code: 0x");
-        //printf_byte(code & 0xFF);
-        //printf_string("\n\r");
-    }
+   _leave();
+		return code;
 }
+
 uint8_t byte;
+INT8U checksum(INT8U *str,INT32U len)
+{
+	INT32U i;
+	INT8U chksum = 0xAA;
+
+	for(i=0; i<len; i++)
+	{	
+		chksum += *str;
+		str++;
+	}
+	return chksum;	
+}
 param_err_t param_init(void)
 {
     int i = 0;
+		uint32_t bytes_read = 0;
+		i2c_error_code code = _read_data((uint8_t*)&g_param, 0, sizeof(g_param), &bytes_read);
+		if(code != I2C_NO_ERROR)
+		{
+				return PARA_ERR_READ_TIMEOUT;
+		}
+		
+		if(*(g_param.checksum) != checksum((uint8_t*)&g_param,sizeof(g_param)-1))
+		return TRUE;
+	else
+		return FALSE;
 	
-		
     // Initialize I2C interface for the I2C EEPROM
-    i2c_eeprom_init(I2C_SLAVE_ADDRESS, I2C_SPEED_MODE, I2C_ADDRESS_MODE, I2C_ADDRESS_SIZE);
-		
-		test_write_byte(22, 0x5A);
+		//_read_data
+		_write_byte(24, 0x5B);
 
     // Random Read Byte
-    test_read_byte(22, &byte);
+    _read_byte(24, &byte);
 	
     g_param.sensor_nb = 3;
     for(i = 0; i < g_param.sensor_nb; i++)
@@ -142,9 +128,17 @@ param_err_t param_init(void)
         g_param.corn_k[i] = 1.0;
     }
 		g_init = 1;
+		
 		return PARA_ERR_NONE;
 }
+param_err_t param_save(void)
+{
+		byte = 0;
+		_write_byte(24, 0x5A);
 
+    // Random Read Byte
+    _read_byte(24, &byte);
+}
 
 param_err_t param_get(device_param **para)
 {

@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Wed May 09 11:49:32 2018
+;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Wed May 09 18:08:30 2018
 ;VERSION 0.2
 ;FILE adc.o
 ;FILE adc_1.o
@@ -112,8 +112,6 @@ hw_otpc_tdec <= USED 0
 hw_otpc_twr <= USED 0
 hw_otpc_write_rr <= USED 0
 ;FILE i2c_eeprom.o
-i2c_eeprom_read_data <= USED 0
-i2c_eeprom_release <= USED 0
 i2c_eeprom_write_data <= USED 0
 i2c_eeprom_write_page <= USED 0
 ;FILE jump_table.o
@@ -128,6 +126,7 @@ LCD_CLS <= USED 0
 LCD_P10x8Ch <= USED 0
 LCD_P16x16Ch <= USED 0
 ;FILE param.o
+param_save <= USED 0
 ;FILE patch.o
 ;FILE pll_vcocal_lut.o
 GPADC_init <= USED 0
