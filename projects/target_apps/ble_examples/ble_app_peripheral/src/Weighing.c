@@ -45,7 +45,7 @@ static		FP32	g_corr_link[NP_LIN];	//线性补偿系数
 static	INT32S	g_AvgNum = 0;
 static	INT32S	g_AvgCount = 0;
 static	INT32S	g_AvgSum = 0;
-//static	WET_AVG_PROC g_AvgBackFn = NULL;
+static	WET_AVG_PROC g_AvgBackFn = NULL;
 static		INT32U	g_UserClb_DivCod = 20;
 
 static device_param* g_param;
@@ -142,7 +142,7 @@ Std_ReturnType	Wet_InitPara(void)
 // 	err+= Wet_ParaIsRight(g_param->user.LWT,-1600000,4600000);
 // 	err+= Wet_ParaIsRight(g_param->user.CWT,-1600000,4600000);
 	if(err == 0)
-        g_UserClb_k = (FP32)g_param->user.CWT /(FP32)(g_param->user.LWT - g_param->user.LDW);
+        g_UserClb_k = (FP32)g_param->CWT /(FP32)(g_param->LWT - g_param->LDW);
 	else
 		g_UserClb_k = 1.0;
 
@@ -277,9 +277,9 @@ void	Wet_Read_Wet(WET_DATA* wt)
 {
 	if(wt == NULL)
 		return;
-	wt->mWet_Stable = g_wet_input ;// g_Stable_output;
-	wt->mWet_newest = (INT32S )g_Stable_X10;//g_wet_newest;
-	wt->mWet_gross	= g_wet_gross;
+	wt->mWet_Stable = g_wet_input ;// g_Stable_output; 没有经过分度值处理
+	wt->mWet_newest = (INT32S )g_Stable_X10;//g_wet_newest; //放到了10倍
+	wt->mWet_gross	= g_wet_gross; //经过分度值处理的毛重
 	wt->mWet_net	= g_wet_net;
 }
 
@@ -314,14 +314,14 @@ void Wet_Clear_Err(void )
 ******************************************************************************/
 Std_ReturnType	Wet_StartAvg(INT32U num,WET_AVG_PROC fn)
 {
-//	if((num > 0)&&(fn != NULL))
-//	{
-//		g_AvgNum = num;
-//		g_AvgCount = num;
-//		g_AvgSum = 0;
-//		g_AvgBackFn = fn;
-//		return TRUE;
-//	}
+	if((num > 0)&&(fn != NULL))
+	{
+		g_AvgNum = num;
+		g_AvgCount = num;
+		g_AvgSum = 0;
+		g_AvgBackFn = fn;
+		return TRUE;
+	}
 	return FALSE;
 }
 int AD_CheckNew()
@@ -351,20 +351,21 @@ void	Wet_Working(void)
 //		temp = TEMP_Read();
 		Wet_Process(adcode,20.0);
 //AVG work----------------------------------------------------------------------
-//		if(g_AvgCount > 0)
-//		{
-//			g_AvgSum += g_wet_input;
-//			g_AvgCount--;
-//			if(g_AvgCount == 0)
-//			{
-//				g_AvgSum /= g_AvgNum;
-//				if(g_AvgBackFn != NULL)g_AvgBackFn(g_AvgSum);
-//				g_AvgCount = 0;
-//				g_AvgNum = 0;
-//				g_AvgSum = 0;
-//				g_AvgBackFn = NULL;
-//			}
-//		}
+		if(g_AvgCount > 0)
+		{
+			g_AvgSum += g_wet_input;
+			g_AvgCount--;
+			if(g_AvgCount == 0)
+			{
+				g_AvgSum /= g_AvgNum;
+				if(g_AvgBackFn != NULL)g_AvgBackFn(g_AvgSum);
+				g_AvgCount = 0;
+				g_AvgNum = 0;				
+				g_AvgSum = 0;
+				g_AvgBackFn = NULL;	
+			}
+		}					
+
 	}
     //AD_ErrRead(&aderr);
 //	TEMP_ErrRead(&tmperr);
@@ -408,10 +409,6 @@ FP32 Wet_MultiRange_Dela(INT32S inWet)
 	return mTempWet;
 }
 
-INT32S WetApp_Convert_Data(float inwet)
-{
-
-}
 
 /******************************************************************************
   * @brief  称重处理
@@ -434,35 +431,40 @@ void	Wet_Process(INT32S adcode,FP32 temp)
 		g_wet_state.overADC = 1;
 	else
 		g_wet_state.overADC = 0; 	
-    //swet = (adcode - g_param->factory.SZA)*g_FactClb_k;					//工厂标定
-//	g_wet_input = Wet_StableAD(swet);								//稳定处理
 	g_wet_input = adcode;
 	 												 
-    //fwet = (FP32)(g_wet_input - g_param->user.LDW)*g_UserClb_k;		//用户标定
-	fwet = Wet_MultiRange_Dela(g_wet_input);
+    fwet = (FP32)(g_wet_input - g_param->LDW)*g_UserClb_k;		//用户标定
+	//fwet = Wet_MultiRange_Dela(g_wet_input);
 	g_Stable_X10 = (fwet - g_fwet_zero) * 10.0;	//
 	g_Stable_input = fwet - g_fwet_zero;							//清除零点
 	Wet_ZeroJudge(g_Stable_input);									//零位判断
-    if(g_param->user.ZSE > 0)Wet_ZeroPowerUp();						//开机清零
-    //if(g_param->user.ZTR > 0)Wet_ZeroTracking();						//零点跟踪
+    if(g_param->ZSE > 0)
+		Wet_ZeroPowerUp();						//开机清零
+    //if(g_param->ZTR > 0)Wet_ZeroTracking();						//零点跟踪
 	
 	g_wet_newest = (INT32S)( g_Stable_input + 0.5 );//Wet_Linear(g_Stable_input); 					//线性处理			
 	g_wet_gross = WetApp_Convert_Data(g_Stable_input);						//毛重,分度值格式化，多量程
-    g_wet_net   = g_wet_gross - WetApp_Convert_Data(g_param->user.TAV);						//净重
+    g_wet_net   = g_wet_gross - WetApp_Convert_Data(g_param->TAV);						//净重
 
-    if(g_wet_newest > (g_param->user.NOV + 9*g_param->user.RSN))					//毛重超载
-			g_wet_state.overGross = 1;
-	else 	g_wet_state.overGross = 0;
-    if(g_wet_newest < (0 - 20*g_param->user.RSN))						//毛重欠载
-			g_wet_state.underGross = 1;
-	else	g_wet_state.underGross = 0;
-    if(g_wet_net > ( g_param->user.NOV + 9*g_param->user.RSN))	//1000000				//净重超载
-			g_wet_state.overNET = 1;
-	else	g_wet_state.overNET = 0;
-    if(g_param->user.MRA > 0)											//双量程判断
-    {	if(g_wet_newest > g_param->user.MRA)g_wet_state.range = 1;
-		else g_wet_state.range = 0;}
-	else	g_wet_state.range = 0;
+    if(g_wet_newest > (g_param->NOV + 9*g_param->RSN))					//毛重超载
+		g_wet_state.overGross = 1;
+	else 	
+		g_wet_state.overGross = 0;
+    if(g_wet_newest < (0 - 20*g_param->RSN))						//毛重欠载
+		g_wet_state.underGross = 1;
+	else	
+		g_wet_state.underGross = 0;
+    if(g_wet_net > ( g_param->NOV + 9*g_param->RSN))	//1000000				//净重超载
+		g_wet_state.overNET = 1;
+	else	
+		g_wet_state.overNET = 0;
+    if(g_param->MRA > 0)											//双量程判断
+    {	
+    	if(g_wet_newest > g_param->MRA)g_wet_state.range = 1;
+		else g_wet_state.range = 0;
+	}
+	else	
+		g_wet_state.range = 0;
 																			   
 	g_wet_state.dnew = 1;
 	g_wet_state.busy = 0;
@@ -515,105 +517,7 @@ INT32S	Wet_Linear(INT32S wt)
 
 void	Wet_StableWt(void)
 {
-static	INT32U	s_flg_inited = 1;
-static	FP32	s_wt_bufer[NUM_STBUF];
-static	INT32U	s_wt_BufPtr = 0;
-		FP32	wtMAX,wtMIN,wtAVG,linmit;
-		INT32U	i;
-static	INT32U	s_flg_Stable = 0;
-static	FP32	s_wtLOCK;
-static	INT32U	s_AvgUp_counter = 0,s_AvgDown_counter = 0;
-//DebugPtf("g_Stable_input = %f\r\n",g_Stable_input);
 	g_wet_state.stable = IsFilterDataStable();	
-	//my_printf("%d \r\n",g_wet_state.stable);
-	return;
-	
-	
-    if(g_param->user.MTD == 0)
-	{
-		g_Stable_output = g_Stable_input;
-		
-		g_wet_state.stable = IsFilterDataStable();//1;
-		return;
-	}
-	else 
-        linmit = g_param->user.MTD * (FP32)g_param->user.RSN / 2;
-			 
-	if(s_flg_inited)
-	{
-		for(i=0;i<NUM_STBUF;i++)
-			s_wt_bufer[i] = g_Stable_input;
-		s_flg_inited = 0;	
-	}
-
-	s_wt_bufer[s_wt_BufPtr] = g_Stable_input; 
-	s_wt_BufPtr++;
-	if(s_wt_BufPtr >= NUM_STBUF)s_wt_BufPtr=0;
-
-	wtMAX = s_wt_bufer[0];
-	for(i=1;i<NUM_STBUF;i++)
-		if(s_wt_bufer[i] > wtMAX)wtMAX = s_wt_bufer[i];
-	wtMIN = s_wt_bufer[0];
-	for(i=1;i<NUM_STBUF;i++)
-		if(s_wt_bufer[i] < wtMIN)wtMIN = s_wt_bufer[i];
-
-	wtAVG = 0;
-	for(i=0;i<NUM_STBUF;i++)
-		wtAVG += s_wt_bufer[i];
-	wtAVG /= NUM_STBUF;
-
-	if(s_flg_Stable)
-	{
-		if(wtAVG > s_wtLOCK)		
-		{
-			if((wtAVG - s_wtLOCK) > linmit)
-			{
-				s_AvgDown_counter = NUM_BREAK;
-				if(s_AvgUp_counter)s_AvgUp_counter--;
-				else  s_flg_Stable = 0;  
-			}
-			else
-			{
-				s_AvgUp_counter = NUM_BREAK;
-				s_AvgDown_counter = NUM_BREAK;
-			}
-		}
-		else					
-		{
-			if((s_wtLOCK - wtAVG) > linmit)
-			{
-				s_AvgUp_counter = NUM_BREAK;
-				if(s_AvgDown_counter)s_AvgDown_counter --;
-				else  s_flg_Stable = 0;
-			}
-			else
-			{
-				s_AvgUp_counter = NUM_BREAK;
-				s_AvgDown_counter = NUM_BREAK;
-			}
-		}
-	}
-	else
-	{
-		if((wtMAX - wtMIN) < linmit)
-		{
-			s_flg_Stable = 1;	
-			s_wtLOCK = wtAVG;	
-			s_AvgUp_counter = NUM_BREAK;
-			s_AvgDown_counter = NUM_BREAK;
-		}
-	}
-	if(s_flg_Stable)
-	{
-		g_wet_state.stable = 1;
-		g_Stable_output = wtAVG;
-	}
-	else 
-	{
-		g_wet_state.stable = 0;
-		g_Stable_output = g_Stable_input;
-	}	
-	g_wet_state.stable = IsFilterDataStable();
 }
 /******************************************************************************
   * @brief  判断示值是否稳定(0.1秒处理一次，处理长度1秒)
@@ -626,7 +530,7 @@ void	Wet_ZeroJudge(FP32	wt)
 
 	if(g_wet_state.stable == 1)
 	{
-        linmitMAX = 0.25 * (FP32)g_param->user.RSN;
+        linmitMAX = 0.25 * (FP32)g_param->RSN;
 		linmitMIN = 0 - linmitMAX;
 		if((wt > linmitMIN)&&(wt < linmitMAX))
 			g_wet_state.zero = 1;
@@ -645,10 +549,10 @@ Std_ReturnType	Wet_Zeroing(void)
 {
 	if(g_wet_state.stable == 1)
 	{
-        if(g_param->user.NOV > 0)
+        if(g_param->NOV > 0)
 		{
             //if(g_wet_newest < (g_param->user.NOV /50 ))	//< 2%
-            if(g_wet_newest <(g_param->user.NOV / 100 * g_param->user.ZSEHd) )
+            if(g_wet_newest <(g_param->NOV / 100 * g_param->ZSEHd) )
 			{	
 				g_fwet_zero += g_Stable_input;
 				g_wet_err.state.err_set_zero = 0;
@@ -694,7 +598,7 @@ void	Wet_ZeroPowerUp(void)
 		{
             if(g_param->user.NOV > 0)
 			{
-                if(g_wet_newest < (g_param->user.NOV / 100 * g_param->user.ZSE ) )//g_table_ZSE[g_param->user.ZSE]))
+                if(g_wet_newest < (g_param->NOV / 100 * g_param->ZSE ) )//g_table_ZSE[g_param->user.ZSE]))
 				{
 					g_fwet_zero += g_Stable_input;
 					g_wet_err.state.err_poweron_set_zero = 0;
@@ -707,7 +611,7 @@ void	Wet_ZeroPowerUp(void)
 			}
 			else
 			{
-                if(g_wet_newest < (10000 *  g_param->user.ZSE) )//g_table_ZSE[g_param->user.ZSE]))
+                if(g_wet_newest < (10000 *  g_param->ZSE) )//g_table_ZSE[g_param->user.ZSE]))
 				{
 					g_fwet_zero += g_Stable_input;
 					g_wet_err.state.err_poweron_set_zero = 0;

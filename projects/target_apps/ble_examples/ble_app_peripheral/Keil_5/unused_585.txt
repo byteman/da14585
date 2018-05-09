@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Sun May 06 15:40:59 2018
+;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Wed May 09 11:49:32 2018
 ;VERSION 0.2
 ;FILE adc.o
 ;FILE adc_1.o
@@ -73,6 +73,7 @@ battery_isr <= USED 0
 ;FILE channel.o
 channel_init <= USED 0
 ;FILE cs1237.o
+CS1237_Power <= USED 0
 ;FILE custom_common.o
 custs1_get_att_handle <= USED 0
 ;FILE custs1.o
@@ -111,14 +112,10 @@ hw_otpc_tdec <= USED 0
 hw_otpc_twr <= USED 0
 hw_otpc_write_rr <= USED 0
 ;FILE i2c_eeprom.o
-i2c_eeprom_init <= USED 0
-i2c_eeprom_read_byte <= USED 0
 i2c_eeprom_read_data <= USED 0
 i2c_eeprom_release <= USED 0
-i2c_eeprom_write_byte <= USED 0
 i2c_eeprom_write_data <= USED 0
 i2c_eeprom_write_page <= USED 0
-i2c_wait_until_eeprom_ready <= USED 0
 ;FILE jump_table.o
 dummyf <= USED 0
 ;FILE key.o
@@ -236,13 +233,33 @@ Wet_Clear_Err <= USED 0
 Wet_ErrRead <= USED 0
 Wet_Filter_Set <= USED 0
 Wet_InitPara <= USED 0
-Wet_Read <= USED 0
+Wet_MultiRange_Dela <= USED 0
 Wet_Read_Err <= USED 0
 Wet_Read_State <= USED 0
-Wet_Read_Wet <= USED 0
 Wet_StartAvg <= USED 0
 Wet_Taring <= USED 0
 Wet_Zeroing <= USED 0
+;FILE wetapp.o
+LED_Flash <= USED 0
+WetApp_Cal_Liner_P0 <= USED 0
+WetApp_Cal_Liner_P1 <= USED 0
+WetApp_Cal_Liner_P2 <= USED 0
+WetApp_Cal_Liner_P3 <= USED 0
+WetApp_Cal_Liner_P4 <= USED 0
+WetApp_Cal_Liner_P5 <= USED 0
+WetApp_Cal_Wet <= USED 0
+WetApp_Cal_Zero <= USED 0
+WetApp_GetKeyLock <= USED 0
+WetApp_Get_RealPt <= USED 0
+WetApp_Get_StableFlag <= USED 0
+WetApp_Init <= USED 0
+WetApp_Poweroff_Manage <= USED 0
+WetApp_SetKeyLock <= USED 0
+WetApp_SetZero <= USED 0
+WetApp_Start_KeyLock <= USED 0
+WetApp_Work_En <= USED 0
+com_flash <= USED 0
+wet_set_work_mode <= USED 0
 ;FILE wkupct_quadec.o
 quad_decoder_disable_irq <= USED 0
 quad_decoder_enable_irq <= USED 0

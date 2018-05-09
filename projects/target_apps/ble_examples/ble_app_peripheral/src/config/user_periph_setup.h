@@ -47,15 +47,13 @@
 /* I2C EEPROM configuration                                                             */
 /****************************************************************************************/
 
-
+// Select EEPROM characteristics
 #define I2C_EEPROM_SIZE   0x800         // EEPROM size in bytes
 #define I2C_EEPROM_PAGE   256             // EEPROM page size in bytes
 #define I2C_SLAVE_ADDRESS 0x50            // Set slave device address
 #define I2C_SPEED_MODE    I2C_FAST        // Speed mode: I2C_STANDARD (100 kbits/s), I2C_FAST (400 kbits/s)
 #define I2C_ADDRESS_MODE  I2C_7BIT_ADDR   // Addressing mode: {I2C_7BIT_ADDR, I2C_10BIT_ADDR}
 #define I2C_ADDRESS_SIZE  I2C_2BYTES_ADDR // Address width: {I2C_1BYTE_ADDR, I2C_2BYTES_ADDR, I2C_3BYTES_ADDR}
-
-
 /****************************************************************************************/
 /* SPI FLASH configuration                                                              */
 /****************************************************************************************/
@@ -208,8 +206,6 @@
 #define PWR_OFF_PORT GPIO_PORT_2
 #define PWR_OFF_PIN  GPIO_PIN_4
 
-
-//EEPROM 
 #define I2C_GPIO_PORT     GPIO_PORT_2
 #define I2C_SCL_PIN       GPIO_PIN_5
 #define I2C_SDA_PIN       GPIO_PIN_0

@@ -37,8 +37,7 @@ typedef struct
 
     INT8U	FMD;			//滤波模式		FMD;(0 = IIR2,1 = FIR32,2 = IIR8,3 = IIR4FT,4 = FIR64,5 = FIR64+ MA)
     INT8U	ICR;			//输出速率		ICR;(0...7, 600\300\150\75\38\19\9\4)
-
-    INT32S	NOV;		//满量程	NOV;(0...1599999,Nominal Value)
+	   INT32S	NOV;		//满量程	NOV;(0...1599999,Nominal Value)
     INT32S	CWT;		//标定值	CWT;(1000000,20%...120%NOV)	//	标定砝码值
     INT32S	LDW;		//标定零点	LDW;(0...+-1599999,zero point)   //标定零点AD码
     INT32S	LWT;		//标定加载	LWT;(0...+-1599999,full scale)	 //标定量程ad码
@@ -48,6 +47,7 @@ typedef struct
     INT8U	ZSE;		//置零范围		ZSE;(0 = deactivated,1 = 2%NOV,2 = 5%,3 = 10%,4 = 20%)
     INT8U	ZTR;		//零点跟住范围		ZTR;(0 = deactivated,1 = 0.5d,2 = 1.0d,3 = 2.0d,4 = 3.0d)
     INT8U	MTD;		//零点跟踪速度		MTD;(0 = deactivated,1 = 0.25d/s, 0.5 , 1 , 2 , 3)
+		INT8U	ZSEHd;		//手动置零范围
 
     //线性修正用的
     INT32S	LIC[4];		//INT32S	LIC[4];
@@ -57,7 +57,6 @@ typedef struct
     INT8U	TAS;		//毛重/皮重		TAS;(0 = net, 1 = gross)
     INT32S	TAV;		//皮重值	TAV;(Tare value)
 
-    INT8U	ZSEHd;		//手动置零范围
     float		CalkValue;
     INT32S		SensorTotalRg;
     INT32S	SensorSen;
@@ -113,7 +112,6 @@ typedef struct PARA_USER
 	INT8U	TAS;		//??/??		TAS;(0 = net, 1 = gross)
 	INT32S	TAV;		//???	TAV;(Tare value)
 
-	INT8U	ZSEHd;		//??????
 	float		CalkValue;
 	INT32S		SensorTotalRg;
 	INT32S	SensorSen;	
@@ -129,10 +127,22 @@ typedef struct _device_param{
     INT16U  mWetDown;	//重量下限值
 
     INT16U	mBeep;		//蜂鸣模式
+	INT8U	ZSEHd;		//??????
+
 
 	INT32S	NOV;		//满量程	NOV;(0...1599999,Nominal Value)
-	INT32S	RSN; //分度值.
-	INT8U	ZSE; //置零范围.
+	INT32S	CWT;		//标定值	CWT;(1000000,20%...120%NOV)	//	标定砝码值
+	INT32S	LDW;		//标定零点	LDW;(0...+-1599999,zero point)   //标定零点AD码
+	INT32S	LWT;		//标定加载	LWT;(0...+-1599999,full scale)	 //标定量程ad码
+	INT32S	MRA;		//多量程选择点	MRA;(Multirange switch point)
+	INT32S	RSN;		//分度值	RSN;(1, 2, 5, 10, 20, 50, 100 )
+	INT8U	DPT;		//小数点		DPT;(0...6,1 = xxxxxx.x,2 = xxxxx.xx,3 = xxxx.xxx)
+	INT8U	ZSE;		//置零范围		ZSE;(0 = deactivated,1 = 2%NOV,2 = 5%,3 = 10%,4 = 20%)
+	INT8U	ZTR;		//零点跟住范围		ZTR;(0 = deactivated,1 = 0.5d,2 = 1.0d,3 = 2.0d,4 = 3.0d)
+	INT8U	MTD;		//零点跟踪速度		MTD;(0 = deactivated,1 = 0.25d/s, 0.5 , 1 , 2 , 3)
+	INT8U	TAS;		//??/??		TAS;(0 = net, 1 = gross)
+	INT32S	TAV;		//???	TAV;(Tare value)
+
     INT8U	mInc[4];	//分度值
     INT32U	mCap[4];	//满量程
     INT8U	mKeyLock;		//键盘锁定

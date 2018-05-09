@@ -1024,6 +1024,11 @@
               <FileType>1</FileType>
               <FilePath>..\src\Weighing.c</FilePath>
             </File>
+            <File>
+              <FileName>WetApp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\WetApp.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -2045,6 +2050,11 @@
               <FileName>Weighing.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\Weighing.c</FilePath>
+            </File>
+            <File>
+              <FileName>WetApp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\WetApp.c</FilePath>
             </File>
           </Files>
         </Group>
