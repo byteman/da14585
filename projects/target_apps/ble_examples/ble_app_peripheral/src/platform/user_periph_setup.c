@@ -69,6 +69,9 @@ void GPIO_reservations(void)
 	
 	RESERVE_GPIO(PWR,PWR_OFF_PORT,PWR_OFF_PIN,PID_GPIO);
 	
+	RESERVE_GPIO(EEPROM,I2C_GPIO_PORT,I2C_SCL_PIN,PID_I2C_SCL);
+	RESERVE_GPIO(EEPROM,I2C_GPIO_PORT,I2C_SDA_PIN,PID_I2C_SDA);
+	
 	
 	
 }
@@ -114,6 +117,10 @@ void set_pad_functions(void)        // set gpio port function mode
 
 //输出高控制关机
 	GPIO_ConfigurePin(PWR_OFF_PORT,PWR_OFF_PIN,OUTPUT,PID_GPIO,false);
+
+//配置EEPROM
+  GPIO_ConfigurePin(I2C_GPIO_PORT, I2C_SCL_PIN, INPUT, PID_I2C_SCL, false);
+  GPIO_ConfigurePin(I2C_GPIO_PORT, I2C_SDA_PIN, INPUT, PID_I2C_SDA, false);
 
 }
 
