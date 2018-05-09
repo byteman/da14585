@@ -50,163 +50,7 @@ static INT32S	gCalLineNov[6];
 static INT32S	gCalLinePt[6];
 static INT16S	g_adj_flag_cnt=0 ;
 static device_param* g_param;
- 
-
-void WetApp_Cal_Liner_P0(INT32S value)
-{
-	int temp = 0;
-
-	temp = value - g_param->mLinerPt[0]  ;
-	g_param->mLinerPt[0] = value;
-	g_param->mLinerNov[0]  = 0;
-
-	g_param->mLinerPt[1] += temp;
-	g_param->mLinerPt[2] += temp;
-	g_param->mLinerPt[3] += temp;
-	g_param->mLinerPt[4] += temp;
-	g_param->mLinerPt[5] += temp;
-	
-	//gCalDelay = 1;
-	g_adj_flag_cnt = 0;
-	gCalErrFlag = 0;
-	Wet_InitZero();
-
-}
-void WetApp_Cal_Liner_P1(INT32S value)
-{
-
-	if(g_param->mLinerNov[1] * 2 > (value  - g_param->mLinerPt[0] ) ) //10万分子一
-		return;
-	
-	g_param->mLinerPt[1] = value;
-	g_param->mLinerPt[2] = value;
-	g_param->mLinerPt[3] = value;
-	g_param->mLinerPt[4] = value;
-	g_param->mLinerPt[5] = value;
-
-	g_param->mLinerNov[0]  = 0;
-
-	g_param->mLinerNov[2] =  g_param->mLinerNov[1]; 
-	g_param->mLinerNov[3] =  g_param->mLinerNov[1]; 
-	g_param->mLinerNov[4] =  g_param->mLinerNov[1]; 
-	g_param->mLinerNov[5] =  g_param->mLinerNov[1]; 
-
-	if(g_param->mLinerPt[0] >= value)
-	{
-		gCalErrFlag = 1;
-		g_adj_flag_cnt = 1;
-	}
-	g_adj_flag_cnt = 0;
-	//gCalDelay = 1;
-	Wet_InitZero();
-	//Para_Save_block(EE_ADDR_PLATFORM,(INT8U*)&g_ParaPlatForm,sizeof(PARA_PLATFORM));
-}
-
-void WetApp_Cal_Liner_P2(INT32S value)
-{
-	if(g_param->mLinerPt[1] >= value)
-	{
-		gCalErrFlag = 1;
-		g_adj_flag_cnt = 1;
-		return ;
-	}
-	
-	g_param->mLinerPt[2] = value;
-	g_param->mLinerPt[3] = value;
-	g_param->mLinerPt[4] = value;
-	g_param->mLinerPt[5] = value;	
-
-	g_param->mLinerNov[3] =  g_param->mLinerNov[2]; 
-	g_param->mLinerNov[4] =  g_param->mLinerNov[2]; 
-	g_param->mLinerNov[5] =  g_param->mLinerNov[2]; 
-	
-	g_adj_flag_cnt = 0;
-	gCalEndFlag = 1;
-	//gCalDelay = 1;
-	Wet_InitZero();
-	//Beep(3,3);
-	//Para_Save_block(EE_ADDR_PLATFORM,(INT8U*)&g_ParaPlatForm,sizeof(PARA_PLATFORM));
-}	
-void WetApp_Cal_Liner_P3(INT32S value)
-{
-
-	if(g_param->mLinerPt[2] >= value)
-	{
-		gCalErrFlag = 1;
-		g_adj_flag_cnt = 1;
-		return;
-	}
-	g_param->mLinerPt[3] = value;
-	g_param->mLinerPt[4] = value;
-	g_param->mLinerPt[5] = value;	
-
-	g_param->mLinerNov[4] =  g_param->mLinerNov[3]; 
-	g_param->mLinerNov[5] =  g_param->mLinerNov[3]; 
-	
-
-	g_adj_flag_cnt = 0;
-	gCalEndFlag = 1;
-	//gCalDelay = 1;
-	Wet_InitZero();
-	//Beep(3,3);
-	//Para_Save_block(EE_ADDR_PLATFORM,(INT8U*)&g_ParaPlatForm,sizeof(PARA_PLATFORM));
-}	
-void WetApp_Cal_Liner_P4(INT32S value)
-{
-	if(g_param->mLinerPt[3] >= value)
-	{
-		gCalErrFlag = 1;
-		g_adj_flag_cnt = 1;
-		return;
-	}
-	
-	g_param->mLinerPt[4] = value;
-	g_param->mLinerPt[5] = value;	
-	g_param->mLinerNov[5] =  g_param->mLinerNov[4]; 
-
-	g_adj_flag_cnt = 0;
-	gCalEndFlag = 1;
-	//gCalDelay = 1;
-	Wet_InitZero();
-	//Beep(3,3);
-	//Para_Save_block(EE_ADDR_PLATFORM,(INT8U*)&g_ParaPlatForm,sizeof(PARA_PLATFORM));
-}	
-void WetApp_Cal_Liner_P5(INT32S value)
-{
-
-	if(g_param->mLinerPt[4] >= value)
-	{
-		gCalErrFlag = 1;
-		g_adj_flag_cnt = 1;
-		return;
-	}
-	
-	g_param->mLinerPt[5] = value;
-
-	g_adj_flag_cnt = 0;
-	gCalEndFlag = 1;
-//	gCalDelay = 1;
-	Wet_InitZero();
-	//Beep(3,3);
-	//Para_Save_block(EE_ADDR_PLATFORM,(INT8U*)&g_ParaPlatForm,sizeof(PARA_PLATFORM));
-}	
-
-
-void WetApp_Start_KeyLock(void)
-{
-	gScaleAppData.mKeyLockCnt = 0;
-	gScaleAppData.mKeyLockEN = 1;
-}
-void WetApp_SetKeyLock(INT8U lock)
-{
-	//g_param->mKeyLock = lock;
-	gScaleAppData.mKeyLockCnt = 0;
-	gScaleAppData.mKeyLockEN = lock;	
-}
-INT8U WetApp_GetKeyLock(void )
-{
-	return gScaleAppData.mKeyLockEN;
-}
+static PARA_USER_T * g_user;
 
 
 void WetApp_Poweroff_Manage(void)
@@ -221,7 +65,7 @@ void WetApp_Poweroff_Manage(void)
 	mBlOffTmr = PowrOffArr[g_param->mBLAuto] * 10 * 60 ;
 	if(mBlOffTmr != 0)
 	{
-		if((gScaleAppData.mScaleNetWet <  g_param->RSN * 2)  )
+		if((gScaleAppData.mScaleNetWet <  g_user->RSN * 2)  )
 		{
 			mBlOffCnt++;
 			if(mBlOffCnt >= mBlOffTmr)
@@ -272,7 +116,7 @@ INT32S	WetApp_IncFormat(float wet)
 	FP32 tempF;
 	INT32S	curRSN;
 	//curRSN = Unit_Convert_UnitIncr(1);
-	curRSN = g_param->RSN;
+	curRSN = g_user->RSN;
 	tempF = (FP32)wet / curRSN;	
 	if (tempF < 0)	tempF -= 0.5;
 	else			tempF += 0.5;		
@@ -300,7 +144,7 @@ void WetApp_Cal_Zero(INT32S avg)
 	Std_ReturnType	rtn;
 	//if((avg > -1000000)&&(avg < 1000000))
 	{
-		g_param->LDW = avg;
+		g_user->LDW = avg;
 		Wet_InitPara();
 		Wet_InitZero();
 		//rtn = Para_Save_block(EE_ADDR_USER,(INT8U*)&g_ParaUser,sizeof(PARA_USER));
@@ -310,9 +154,9 @@ void WetApp_Cal_Zero(INT32S avg)
 void	WetApp_Cal_Wet(INT32S avg)
 {
 	Std_ReturnType	rtn;
-	if(avg > g_param->LDW)
+	if(avg > g_user->LDW)
 	{
-		g_param->LWT = avg;
+		g_user->LWT = avg;
 		Wet_InitPara();
 		Wet_InitZero();
 		//rtn = Para_Save_block(EE_ADDR_USER,(INT8U*)&g_ParaUser,sizeof(PARA_USER));
@@ -369,7 +213,7 @@ Std_ReturnType	WetApp_Init(void)
 	//LCD_DispSymbl(UM_OPMODE_EN, SYMI_S12_1_SEC);
 
 	gScaleAppData.mScaleSleepFlag = 0;
-	g_param->mKeyLock = 0;
+	//g_param->mKeyLock = 0;
 	//g_param->TAV = 0;
 	//WetApp_CheckNet();
 
@@ -402,7 +246,7 @@ void Wet_Service(void)
 		{
 			//gWetData.mWet_newest; //借用这个变量显示放大10倍的重量
 			gScaleAppData.mScaleConvertWet	= WetApp_Convert_Data(gWetData.mWet_newest); //gWetData.mWet_newest
-			gScaleAppData.mScaleNetWet 	= gScaleAppData.mScaleConvertWet - WetApp_Convert_Data(g_param->TAV * 10);//gWetData.mWet_net;	//净重
+			gScaleAppData.mScaleNetWet 	= gScaleAppData.mScaleConvertWet - WetApp_Convert_Data(g_user->TAV * 10);//gWetData.mWet_net;	//净重
 		}
 		else
 		{
@@ -423,7 +267,7 @@ void Wet_Service(void)
 		//gScaleAppData.mScaleStatue.stWetX10 = ;
 		gScaleAppData.mScaleStatue.stMenuMode = 0;
 		
-		if(gScaleAppData.mScaleNetWet < g_param->RSN * 2) // <20d表示卸载货物
+		if(gScaleAppData.mScaleNetWet < g_user->RSN * 2) // <20d表示卸载货物
 		{
 			//mAddUpFlag = 0;
 		}

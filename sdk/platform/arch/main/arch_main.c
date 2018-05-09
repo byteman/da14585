@@ -155,7 +155,11 @@ int main(void)
      * Platform initialization
      ************************************************************************************
      */
-
+		//while(1)
+		//{
+		//	GPIO_SetActive( GPIO_PORT_2, GPIO_PIN_0);
+		//	GPIO_SetInactive( GPIO_PORT_2, GPIO_PIN_0);
+		//}
     while(1)
     {
         do {
@@ -164,7 +168,7 @@ int main(void)
         }
         while (app_asynch_proc() != GOTO_SLEEP);    //grant control to the application, try to go to power down
                                                     //if the application returns GOTO_SLEEP
-
+				
         //wait for interrupt and go to sleep if this is allowed
         if (((!BLE_APP_PRESENT) && (check_gtl_state())) || (BLE_APP_PRESENT))
         {
