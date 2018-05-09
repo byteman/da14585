@@ -80,28 +80,59 @@ typedef struct
     INT8U 	checksum;
 }PARA_OTHER;
 
+typedef struct PARA_USER
+{
+	INT8U devicename[15+1];	//devicename[15+1];
+	INT8U password[7+1];	//password[7+1];
+	INT8U dLCAddr;			//dLCAddr;
+	INT8U AddrChr[2+1];		//AddrChr[2+1];
+	
+	INT32U baudRate;		//baudRate;
+	INT8U wordLength;		//wordLength;
+	INT8U parityBit;		//parityBit;
+
+	INT8U	FMD;			//????		FMD;(0 = IIR2,1 = FIR32,2 = IIR8,3 = IIR4FT,4 = FIR64,5 = FIR64+ MA)
+	INT8U	ICR;			//????		ICR;(0...7, 600\300\150\75\38\19\9\4)
+
+	INT32S	NOV;		//???	NOV;(0...1599999,Nominal Value)
+	INT32S	CWT;		//???	CWT;(1000000,20%...120%NOV)	//	?????
+	INT32S	LDW;		//????	LDW;(0...+-1599999,zero point)   //????AD?
+	INT32S	LWT;		//????	LWT;(0...+-1599999,full scale)	 //????ad?
+	INT32S	MRA;		//??????	MRA;(Multirange switch point)
+	INT32S	RSN;		//???	RSN;(1, 2, 5, 10, 20, 50, 100 )
+	INT8U	DPT;		//???		DPT;(0...6,1 = xxxxxx.x,2 = xxxxx.xx,3 = xxxx.xxx)
+	INT8U	ZSE;		//????		ZSE;(0 = deactivated,1 = 2%NOV,2 = 5%,3 = 10%,4 = 20%)
+	INT8U	ZTR;		//??????		ZTR;(0 = deactivated,1 = 0.5d,2 = 1.0d,3 = 2.0d,4 = 3.0d)
+	INT8U	MTD;		//??????		MTD;(0 = deactivated,1 = 0.25d/s, 0.5 , 1 , 2 , 3)
+	
+	//??????
+	INT32S	LIC[4];		//INT32S	LIC[4];
+	INT32S	LICI[4];	//INT32S	LICI[3];
+	INT32S	LICD[4];	//INT32S	LICD[3];
+
+	INT8U	TAS;		//??/??		TAS;(0 = net, 1 = gross)
+	INT32S	TAV;		//???	TAV;(Tare value)
+
+	INT8U	ZSEHd;		//??????
+	float		CalkValue;
+	INT32S		SensorTotalRg;
+	INT32S	SensorSen;	
+	INT8U checksum;		// checksum;
+}PARA_USER_T;
+
 //需要持久化保存的设备参数.
 typedef struct _device_param{
     uint8_t sensor_nb; //传感器个数
     float32	corn_k[MAX_CORN_NUM]; //角差系数
-    INT32S	mAdjPcsWet;	//计数标定重量
-    INT16U	mAdjPcsCnt;//计数标定片数
+
     INT16U	mWetUp;		//	重量上限值
-    INT16U  	mWetDown;	//重量下限值
-    INT16U	mPcsUp;		//检数上限值
-    INT16U	mPcsDown;	//检数下限值
+    INT16U  mWetDown;	//重量下限值
+
     INT16U	mBeep;		//蜂鸣模式
 
-    INT8U	mAutoSetTare ;	///是否可以自动
-    INT8U	mWorkMode;	//打印及累积模式
-    INT8U	mRngType;		//多量程设定
-    INT8U  	mLabx ;		//lab x 数据输出模式 tr-232
-    INT8U	mPrtx;		//Prt x 数据输出模式 d-out
-    INT8U	mLang;		//语言模式
-    INT8U	mCalFlag;	//鉴定标志
-
-    INT8U	mDualNum;	//多量程选择
-    INT16U	mCount	;	//内分度数
+	INT32S	NOV;		//满量程	NOV;(0...1599999,Nominal Value)
+	INT32S	RSN; //分度值.
+	INT8U	ZSE; //置零范围.
     INT8U	mInc[4];	//分度值
     INT32U	mCap[4];	//满量程
     INT8U	mKeyLock;		//键盘锁定
@@ -114,7 +145,7 @@ typedef struct _device_param{
     INT8U   	mTareEN;// 皮重允许
     INT8U	mBLEN;	//背光开关设置
     INT8U	mBLAuto;//自动关机管理
-    INT32S  	mLinerPt[6]; //线性标定的点
+    INT32S  mLinerPt[6]; //线性标定的点
     INT32S	mLinerNov[6]; //线性标定的值
 
     float		mFatLiter; //公升转换值
@@ -138,12 +169,12 @@ typedef struct _device_param{
 
     PARA_TACTORY factory;
     PARA_USER user;
-    PARA_OTHER other;
+    //PARA_OTHER other;
 }device_param;
 //从芯片中读取参数
-param_err_t param_load();
+param_err_t param_init(void);
 //保存参数到芯片中
-param_err_t param_save();
+param_err_t param_save(void);
 
 
 /**

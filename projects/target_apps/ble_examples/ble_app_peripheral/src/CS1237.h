@@ -9,7 +9,7 @@ typedef enum{
 }AD_HZ;
 extern  void CS1237_Init(AD_HZ hz);
 extern  int8 CS1237_ReadAD(uint8 chan,int32* ad);
-
+extern  uint8 CS1237_Ready(uint8 chan);
 
 
 #endif /* __CS1237_H */

@@ -79,7 +79,7 @@ extern	void			Wet_Read_Wet(WET_DATA* wt);
 extern	void			Wet_ErrRead(WET_ERR* err);
 extern  void 			Wet_Read_Err(uWET_ERR *wts);
 extern	Std_ReturnType	Wet_StartAvg(INT32U num,WET_AVG_PROC fn);
-
+extern  void	Wet_Process(INT32S adcode,FP32 temp);	
 extern	Std_ReturnType	Wet_Zeroing(void);
 extern	Std_ReturnType	Wet_Taring(void);
 extern	void Wet_Filter_Set(int cal);

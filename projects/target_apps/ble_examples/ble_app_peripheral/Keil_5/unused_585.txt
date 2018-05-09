@@ -1,12 +1,12 @@
-;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Fri May 04 20:13:45 2018
+;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Sun May 06 15:40:59 2018
 ;VERSION 0.2
 ;FILE adc.o
-adc_disable <= USED 0
+;FILE adc_1.o
+adc_config <= USED 0
 ;FILE app.o
 active_conhdl_to_conidx <= USED 0
 active_conidx_to_conhdl <= USED 0
 app_easy_gap_advertise_stop <= USED 0
-app_easy_gap_advertise_with_timeout_stop <= USED 0
 app_easy_gap_dev_config_get_active <= USED 0
 app_easy_gap_directed_advertise_get_active <= USED 0
 app_easy_gap_directed_advertise_start <= USED 0
@@ -28,7 +28,6 @@ app_custs1_val_wr_validate <= USED 0
 ;FILE app_customs_task.o
 ;FILE app_default_handlers.o
 default_advertise_operation <= USED 0
-default_app_generate_static_random_addr <= USED 0
 default_app_on_disconnect <= USED 0
 ;FILE app_diss.o
 ;FILE app_diss_task.o
@@ -61,34 +60,27 @@ arch_last_rwble_evt_get <= USED 0
 arch_restore_sleep_mode <= USED 0
 arch_set_deep_sleep <= USED 0
 ;FILE arch_system.o
-__ARM_common_ll_muluu <= USED 0
 arch_set_pxact_gpio <= USED 0
 arch_wkupct_tweak_deb_time <= USED 0
-calibrate_rcx20 <= USED 0
-lld_sleep_lpcycles_2_us_rcx_func <= USED 0
-lld_sleep_us_2_lpcycles_rcx_func <= USED 0
-read_rcx_freq <= USED 0
 set_xtal16m_trim_value <= USED 0
 ;FILE attm_db_128.o
 ;FILE battery.o
 ;FILE batty.o
 battery_isr <= USED 0
+;FILE blemenu.o
 ;FILE boot_vectors.o
+;FILE calibmenu.o
+;FILE channel.o
+channel_init <= USED 0
 ;FILE cs1237.o
-CS1237_ReadAD <= USED 0
 ;FILE custom_common.o
 custs1_get_att_handle <= USED 0
 ;FILE custs1.o
 ;FILE custs1_task.o
+;FILE dispatcher.o
 ;FILE diss.o
 ;FILE filter_kmedian.o
-FKM_Filter <= USED 0
 FKM_InitFilterList <= USED 0
-FKM_SetFilterGrade <= USED 0
-IsFilterDataStable <= USED 0
-creep_ad_deal <= USED 0
-creep_init <= USED 0
-static_creep_zero_track <= USED 0
 ;FILE gpio.o
 GPIO_ConfigurePinPower <= USED 0
 GPIO_DisablePorPin <= USED 0
@@ -100,7 +92,6 @@ GPIO_RegisterCallback <= USED 0
 GPIO_SetIRQInputLevel <= USED 0
 GPIO_SetPorTime <= USED 0
 ;FILE gui.o
-gui_isr <= USED 0
 ;FILE hardfault_handler.o
 ;FILE hw_otpc.o
 hw_otpc_blank <= USED 0
@@ -131,17 +122,15 @@ i2c_wait_until_eeprom_ready <= USED 0
 ;FILE jump_table.o
 dummyf <= USED 0
 ;FILE key.o
-Delay <= USED 0
-key_init <= USED 0
+;FILE mainmenu.o
 ;FILE nmi_handler.o
 ;FILE nvds.o
 ;FILE oled.o
 Draw_BMP <= USED 0
 LCD_CLS <= USED 0
-LCD_P6x8Str <= USED 0
+LCD_P10x8Ch <= USED 0
+LCD_P16x16Ch <= USED 0
 ;FILE param.o
-param_get <= USED 0
-param_load <= USED 0
 ;FILE patch.o
 ;FILE pll_vcocal_lut.o
 GPADC_init <= USED 0
@@ -167,7 +156,6 @@ prf_unpack_date_time <= USED 0
 ;FILE rf_585.o
 rf_nfm_disable <= USED 0
 rf_nfm_enable <= USED 0
-rf_nfm_is_enabled <= USED 0
 ;FILE rf_calibration.o
 DCoffsetCalibration_580 <= USED 0
 IffCalibration_580 <= USED 0
@@ -178,6 +166,7 @@ set_gauss_modgain <= USED 0
 ;FILE sc5040b.o
 SC50X0B_SDA <= USED 0
 sc5040b_play <= USED 0
+;FILE scaler.o
 ;FILE smpc_util.o
 ;FILE spi.o
 spi_access <= USED 0
@@ -223,7 +212,6 @@ Timer_Delete <= USED 0
 Timer_Disable <= USED 0
 Timer_Enable <= USED 0
 Timer_Init <= USED 0
-Timer_Regist <= USED 0
 Timer_Server <= USED 0
 ;FILE trng.o
 ;FILE uart2.o
@@ -244,23 +232,16 @@ user_svc1_long_val_ntf_cfm_handler <= USED 0
 ;FILE user_periph_setup.o
 ;FILE user_peripheral.o
 ;FILE weighing.o
-AD_CheckNew <= USED 0
-AD_Read <= USED 0
-WetApp_Convert_Data <= USED 0
 Wet_Clear_Err <= USED 0
 Wet_ErrRead <= USED 0
 Wet_Filter_Set <= USED 0
-Wet_Init <= USED 0
 Wet_InitPara <= USED 0
-Wet_InitZero <= USED 0
-Wet_MultiRange_Dela <= USED 0
 Wet_Read <= USED 0
 Wet_Read_Err <= USED 0
 Wet_Read_State <= USED 0
 Wet_Read_Wet <= USED 0
 Wet_StartAvg <= USED 0
 Wet_Taring <= USED 0
-Wet_Working <= USED 0
 Wet_Zeroing <= USED 0
 ;FILE wkupct_quadec.o
 quad_decoder_disable_irq <= USED 0

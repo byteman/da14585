@@ -42,7 +42,7 @@ void GPIO_reservations(void)
 #endif
 
   // RESERVE_GPIO(LED, GPIO_LED_PORT, GPIO_LED_PIN, PID_GPIO);
-	
+#if 1	
 	RESERVE_GPIO(AUDIO,AUDIO_SDA_PORT,AUDIO_SDA_PIN,PID_GPIO);
 	
 	RESERVE_GPIO(ADC,ADC1_CLK_PORT,ADC1_CLK_PIN,PID_GPIO);
@@ -63,9 +63,9 @@ void GPIO_reservations(void)
 	RESERVE_GPIO(LCD,LCD_CLK_PORT,LCD_CLK,PID_GPIO);
 	RESERVE_GPIO(LCD,LCD_SDIN_PORT,LCD_SDIN,PID_GPIO);
 	RESERVE_GPIO(LCD,LCD_RST_PORT,LCD_RST,PID_GPIO);
-	
-	RESERVE_GPIO(KEY,KEY_PWR_PORT,KEY_PWR_PIN,PID_GPIO);
-	RESERVE_GPIO(KEY,KEY_ZERO_PORT,KEY_ZERO_PIN,PID_GPIO);
+#endif	
+	RESERVE_GPIO(KEY1,KEY_PWR_PORT, KEY_PWR_PIN, PID_GPIO);
+	RESERVE_GPIO(KEY2,KEY_ZERO_PORT,KEY_ZERO_PIN,PID_GPIO);
 	
 	RESERVE_GPIO(PWR,PWR_OFF_PORT,PWR_OFF_PIN,PID_GPIO);
 	
@@ -85,7 +85,7 @@ void set_pad_functions(void)        // set gpio port function mode
    // GPIO_ConfigurePin(UART2_TX_GPIO_PORT, UART2_TX_GPIO_PIN, OUTPUT, PID_UART2_TX, false);
    // GPIO_ConfigurePin(UART2_RX_GPIO_PORT, UART2_RX_GPIO_PIN, INPUT, PID_UART2_RX, false);
 #endif
-
+#if 1
 	GPIO_ConfigurePin(AUDIO_SDA_PORT,AUDIO_SDA_PIN,OUTPUT,PID_GPIO,false);
 	
 	GPIO_ConfigurePin(ADC1_CLK_PORT,ADC1_CLK_PIN,OUTPUT,PID_GPIO,false);
@@ -106,26 +106,30 @@ void set_pad_functions(void)        // set gpio port function mode
 	GPIO_ConfigurePin(LCD_CLK_PORT,LCD_CLK,OUTPUT,PID_GPIO,false);
 	GPIO_ConfigurePin(LCD_SDIN_PORT,LCD_SDIN,OUTPUT,PID_GPIO,false);
 	GPIO_ConfigurePin(LCD_RST_PORT,LCD_RST,OUTPUT,PID_GPIO,false);
-	
+#endif	
 //按键是平时高，按下低 ,启用上拉电阻.	
-	GPIO_ConfigurePin(KEY_PWR_PORT,KEY_PWR_PIN,INPUT,PID_GPIO,false);
+	
 	GPIO_ConfigurePin(KEY_ZERO_PORT,KEY_ZERO_PIN,INPUT,PID_GPIO,false);
+	GPIO_ConfigurePin(KEY_PWR_PORT, KEY_PWR_PIN, INPUT,PID_GPIO,true);
 
 //输出高控制关机
 	GPIO_ConfigurePin(PWR_OFF_PORT,PWR_OFF_PIN,OUTPUT,PID_GPIO,false);
 
+//EEPROM at
+  GPIO_ConfigurePin(I2C_GPIO_PORT, I2C_SCL_PIN, INPUT, PID_I2C_SCL, false);
+  GPIO_ConfigurePin(I2C_GPIO_PORT, I2C_SDA_PIN, INPUT, PID_I2C_SDA, false);
 
-	
-  //GPIO_ConfigurePin(GPIO_LED_PORT, GPIO_LED_PIN, OUTPUT, PID_GPIO, false);
+
 }
 
 void periph_init(void)
 {
+	
     // Power up peripherals' power domain
     SetBits16(PMU_CTRL_REG, PERIPH_SLEEP, 0);
     while (!(GetWord16(SYS_STAT_REG) & PER_IS_UP));
 
-    SetBits16(CLK_16M_REG, XTAL16_BIAS_SH_ENABLE, 1);
+    //SetBits16(CLK_16M_REG, XTAL16_BIAS_SH_ENABLE, 1);
 
     //rom patch
     patch_func();
@@ -138,8 +142,8 @@ void periph_init(void)
     // uart_init(UART_BAUDRATE_115K2, UART_FRAC_BAUDRATE_115K2, UART_CHARFORMAT_8);
 
 #ifdef CFG_PRINTF_UART2
-    SetBits16(CLK_PER_REG, UART2_ENABLE, 1);
-    uart2_init(UART_BAUDRATE_115K2, UART_FRAC_BAUDRATE_115K2, UART_CHARFORMAT_8);
+    //SetBits16(CLK_PER_REG, UART2_ENABLE, 1);
+    //uart2_init(UART_BAUDRATE_115K2, UART_FRAC_BAUDRATE_115K2, UART_CHARFORMAT_8);
 #endif
 
    // Enable the pads

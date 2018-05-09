@@ -24,7 +24,7 @@ uint8_t channel_read_all()
     int i = 0;
     for(i = 0; i < ad_chan_nr; i++)
     {
-        if(!adc_ready(i)){
+        if(adc_ready(i)){
             //只要有一路没有准备好就
             return CHAN_ERR_BUSY;
         }

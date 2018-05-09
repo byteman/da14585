@@ -11,4 +11,12 @@ typedef unsigned int uint32_t;
 //typedef int Std_ReturnType;
 #define NULL 0
 
+typedef enum{
+	MSG_BLE_STATE = 1,
+}MSG_ID;
+
+typedef enum{
+	TARGET_MAINMENU = 1,
+}TARGET_ID;
+
 #endif

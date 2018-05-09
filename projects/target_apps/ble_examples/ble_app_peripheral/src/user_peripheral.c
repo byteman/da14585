@@ -34,7 +34,7 @@
 #include "user_custs1_def.h"
 #include "co_bt.h"
 #include "user_app.h"
-
+#include "dispatcher.h"
 /*
  * TYPE DEFINITIONS
  ****************************************************************************************
@@ -218,7 +218,7 @@ void user_app_init(void)
 	 
 		
 }
-
+//当ble协议栈需要广播的时候，会自动调用该函数.
 void user_app_adv_start(void)
 {
     // Schedule the next advertising data update
@@ -253,6 +253,8 @@ void user_app_connection(uint8_t connection_idx, struct gapc_connection_req_ind 
             // Connection params are not these that we expect
             app_param_update_request_timer_used = app_easy_timer(APP_PARAM_UPDATE_REQUEST_TO, param_update_request_timer_cb);
         }
+				dispatch_send_simple_msg(MSG_BLE_STATE, 1);
+				
     }
     else
     {
@@ -284,6 +286,10 @@ void user_app_disconnect(struct gapc_disconnect_ind const *param)
     mnf_data_update();
     // Restart Advertising
     user_app_adv_start();
+		
+	
+		dispatch_send_simple_msg(MSG_BLE_STATE, 0);
+		
 }
 
 void user_catch_rest_hndl(ke_msg_id_t const msgid,

@@ -12,6 +12,12 @@ void LCD_P8x16Str(unsigned char x, unsigned y,unsigned char ch[]);
 /*****************功能描述：显示16*16点阵  显示的坐标（x,y），y为页范围0～7****************************/
 void LCD_P16x16Ch(unsigned char x, unsigned char y,unsigned char  N);
 	
+void LCD_P8x16Ch(unsigned char x, unsigned char y,unsigned char  N);
+
+void LCD_P10x8Ch(unsigned char x, unsigned char y,unsigned char  N);
+void LCD_P16x16bmp(unsigned char x, unsigned char y,unsigned char  N);
+void LCD_P16x32Str(unsigned char x, unsigned y,unsigned char ch[]);
+	
 /***********功能描述：显示显示BMP图片128×64起始点坐标(x,y),x的范围0～127，y为页的范围0～7*****************/
 void Draw_BMP(unsigned char x0, unsigned char y0,unsigned char x1, unsigned char y1,unsigned char BMP[]);
 

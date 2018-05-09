@@ -76,6 +76,8 @@ enum
     CUSTS1_ATT_INFO_REQ,
     /// Inform back that the attribute info request has been processed
     CUSTS1_ATT_INFO_RSP,
+		
+		CUSTS1_KEY_MSG,
 };
 
 /*

@@ -71,11 +71,12 @@ void user_svc1_led_wr_ind_handler(ke_msg_id_t const msgid,
 {
     uint8_t val = 0;
     memcpy(&val, &param->value[0], param->length);
-
+#if 0
     if (val == CUSTS1_LED_ON)
         GPIO_SetActive(GPIO_LED_PORT, GPIO_LED_PIN);
     else if (val == CUSTS1_LED_OFF)
         GPIO_SetInactive(GPIO_LED_PORT, GPIO_LED_PIN);
+		#endif
 }
 
 void user_svc1_long_val_cfg_ind_handler(ke_msg_id_t const msgid,

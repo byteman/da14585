@@ -212,7 +212,6 @@ int8 CS1237_ReadAD(uint8 chan,int32* ad)
 	GPIOConfig* config = &cs1237_gpio_cfg[chan];
   if(read_io(config))
     return 0;
-  // while(IO_Data_AD);
   for(i = 0; i < 24; i++) //发送 24 个 CLK，接收数据
   {
     addat <<= 1;
@@ -229,7 +228,13 @@ int8 CS1237_ReadAD(uint8 chan,int32* ad)
   return 1;
 }
 
-
+uint8 CS1237_Ready(uint8 chan)
+{
+	GPIOConfig* config = &cs1237_gpio_cfg[chan];
+  if(read_io(config))
+    return 0;
+	return 1;
+}
 
 
 
