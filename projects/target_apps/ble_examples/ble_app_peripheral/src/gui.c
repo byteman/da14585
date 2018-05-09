@@ -97,6 +97,7 @@ void gui_show_ble_state(uint8 state)
 {
 	 if(state)
 	 {
+			//param_save();
 			LCD_P16x16bmp(112,5,3);
 	 }
 	 else

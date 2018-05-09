@@ -240,4 +240,7 @@ void set_pad_functions(void);
  */
 void GPIO_reservations(void);
 
+void init_eeprom_pin(void);
+void init_oled_pin(void);
+
 #endif // _USER_PERIPH_SETUP_H_

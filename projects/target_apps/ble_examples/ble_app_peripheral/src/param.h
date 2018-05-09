@@ -79,7 +79,7 @@ typedef struct
     INT8U 	checksum;
 }PARA_OTHER;
 
-typedef struct PARA_USER
+typedef __packed struct PARA_USER
 {
 	INT8U devicename[15+1];	//devicename[15+1];
 	INT8U password[7+1];	//password[7+1];
@@ -119,7 +119,7 @@ typedef struct PARA_USER
 }PARA_USER_T;
 
 //需要持久化保存的设备参数.
-typedef struct _device_param{
+typedef __packed struct _device_param{
     uint8_t sensor_nb; //传感器个数
     float32	corn_k[MAX_CORN_NUM]; //角差系数
 
@@ -175,10 +175,10 @@ typedef struct _device_param{
     INT8U	mSensorNb;//传感器数量
     INT8U     mADSpeed; //ad转换速度
     float		mCorlK[5]; //角差系数
-    INT8U 	checksum;
-
+    
     PARA_TACTORY factory;
     PARA_USER user;
+		INT8U 	checksum;
     //PARA_OTHER other;
 }device_param;
 //从芯片中读取参数
