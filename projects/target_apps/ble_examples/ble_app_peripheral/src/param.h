@@ -103,10 +103,15 @@ typedef __packed struct _device_param{
 		INT8U 	checksum;
     //PARA_OTHER other;
 }device_param;
+
+typedef struct sys_param{
+		device_param* user;
+		PARA_USER_T*  scaler;
+}sys_param_t;
 //从芯片中读取参数
 param_err_t param_init(void);
 //保存参数到芯片中
-param_err_t param_save(void);
+param_err_t param_save(uint8_t type);
 
 
 /**
@@ -116,7 +121,7 @@ param_err_t param_save(void);
  */
 
 param_err_t param_get(device_param** para);
-
+param_err_t param_get_user(PARA_USER_T** para);
 /**
  * @brief 写入参数到内存中.
  * @param 修改指定的参数.

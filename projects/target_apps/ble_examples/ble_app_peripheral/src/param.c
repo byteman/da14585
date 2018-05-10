@@ -3,6 +3,9 @@
 #include "user_peripheral.h"
 #include "user_periph_setup.h"
 
+#define USER_PARA_ADDR 0
+#define DEV_PARA_ADDR  0x400
+
 const PARA_USER_T g_Default_User_Para = {
 
 		0,						//INT8U		FMD;(0 = IIR2,1 = FIR32,2 = IIR8,3 = IIR4FT,4 = FIR64,5 = FIR64+ MA)
@@ -184,7 +187,7 @@ static i2c_error_code _read_data(uint8_t *data, uint32_t address, uint32_t size,
 		return code;
 }
 
-uint8_t byte;
+
 INT8U checksum(INT8U *str,INT32U len)
 {
 	INT32U i;
@@ -199,9 +202,9 @@ INT8U checksum(INT8U *str,INT32U len)
 }
 param_err_t param_init(void)
 {
-    int i = 0;
+   
 		uint32_t bytes_read = 0;
-		i2c_error_code code = _read_data((uint8_t*)&g_param, 0, sizeof(g_param), &bytes_read);
+		i2c_error_code code = _read_data((uint8_t*)&g_param, DEV_PARA_ADDR, sizeof(g_param), &bytes_read);
 		if(code != I2C_NO_ERROR)
 		{
 				memcpy((void*)&g_param, (const void*)&g_Default_Device_Para,sizeof(g_param));
@@ -215,7 +218,7 @@ param_err_t param_init(void)
 				//return PARA_ERR_READ_CRC;
 		}
 		
-		code = _read_data((uint8_t*)&g_user, 0, sizeof(g_user), &bytes_read);
+		code = _read_data((uint8_t*)&g_user, USER_PARA_ADDR, sizeof(g_user), &bytes_read);
 		if(code != I2C_NO_ERROR)
 		{
 			memcpy((void*)&g_user, (void*)&g_Default_User_Para,sizeof(g_user));
@@ -240,13 +243,24 @@ param_err_t param_init(void)
 		
 		return PARA_ERR_NONE;
 }
-param_err_t param_save(void)
-{
-		byte = 0;
-		_write_byte(24, 0x5A);
 
-    // Random Read Byte
-    _read_byte(24, &byte);
+param_err_t param_save(uint8_t t)
+{
+	//uint8_t *data, uint32_t address, uint32_t size, uint32_t *bytes_written
+		uint32_t bytes_written = 0;
+		
+		if(t == 0)
+		{
+				g_param.checksum = checksum((uint8_t*)&g_param, sizeof(g_param) - 1);
+				
+				_write_data((uint8_t*)&g_param, DEV_PARA_ADDR, sizeof(g_param),&bytes_written);
+		}
+		else{
+				g_user.checksum = checksum((uint8_t*)&g_user, sizeof(g_user) - 1);
+				
+				_write_data((uint8_t*)&g_user, USER_PARA_ADDR, sizeof(g_user),&bytes_written);
+		}
+		return PARA_ERR_NONE;
 }
 
 param_err_t param_get(device_param **para)
@@ -256,3 +270,11 @@ param_err_t param_get(device_param **para)
     *para = &g_param;
     return PARA_ERR_NONE;
 }
+param_err_t param_get_user(PARA_USER_T** para)
+{
+		if(!g_init) return PARA_ERR_UNINIT;
+    if(para == 0) return PARA_ERR_INVALID_PARA;
+    *para = &g_user;
+    return PARA_ERR_NONE;
+}
+

@@ -40,7 +40,7 @@ static		FP32	g_UserClb_k;
 static 		FP32	g_LinerClb_k[4];
 static 		FP32	g_LinerCoverWet = 0;
 
-static		FP32	g_corr_link[NP_LIN];	//线性补偿系数 
+//static		FP32	g_corr_link[NP_LIN];	//线性补偿系数 
 
 static	INT32S	g_AvgNum = 0;
 static	INT32S	g_AvgCount = 0;
@@ -77,23 +77,16 @@ Std_ReturnType	Wet_Init(void)
 	
 	g_wet_err.value = 0;
 
-    if(PARA_ERR_NONE != param_get(&g_param))
-    {
-        return 0;
-    }
-#if 0
-    pt = Timer_Regist(LOOP, 2 ,Wet_Working);//定时称重处理  ///g_Para_ICR[g_user->ICR]
-    if(pt == 0)
-    {
-        g_wet_err.state.errWorkTask = 1;
-    }
-    else
-    {
-        g_wet_err.state.errWorkTask = 0;
-    }
-#endif
+	if(PARA_ERR_NONE != param_get(&g_param))
+	{
+			return 0;
+	}
+	if(PARA_ERR_NONE != param_get_user(&g_user))
+	{
+			return 0;
+	}
 
-		pt = Timer_Regist(LOOP,100,Wet_StableWt);		//定时判稳处理		  
+		pt = Timer_Regist(LOOP,100,Wet_StableWt);		//定时判稳处理		 100ms 
 		if(pt == NULL)g_wet_err.state.errStableTask = 1;
 		else	g_wet_err.state.errStableTask = 0;
 
@@ -106,9 +99,9 @@ Std_ReturnType	Wet_Init(void)
     FKM_SetFilterGrade(g_param->mFltLevel ,g_UserClb_DivCod,g_UserClb_DivCod*10);
 
 
-	if(*(INT32U*)&g_wet_err.state != 0)
-		return FALSE;
-	else	return TRUE;	 
+		if(*(INT32U*)&g_wet_err.state != 0)
+			return FALSE;
+		else	return TRUE;	 
 }
 
 void Wet_Filter_Set(int cal)
@@ -139,38 +132,12 @@ Std_ReturnType	Wet_InitPara(void)
 	else
 		g_UserClb_k = 1.0;
 
-#if 0	
-    if(g_user->NOV > 0)
-	{
-		if(g_LinerClb_k[0] < 0.0001)
-            g_UserClb_DivCod =(INT32U)g_user->RSN  ;
-		else
-            g_UserClb_DivCod =(INT32U)((FP32)g_user->RSN  / g_LinerClb_k[0]  );
-	}
-	else
-		g_UserClb_DivCod = 20;	
+
+  g_UserClb_DivCod =(INT32U)g_user->RSN  ;
 	
 	if(g_UserClb_DivCod < 20)
 		g_UserClb_DivCod = 20;
 	
- 
-	g_corr_link[0]     = 1.0;
-	for(i=1;i<NP_LIN-1;i++)
-	{
-        err+= Wet_ParaIsRight(g_user->LICI[i],g_user->LICI[i-1],g_user->LICI[i+1]);
-        err+= Wet_ParaIsRight(g_user->LICD[i],g_user->LICD[i-1],g_user->LICD[i+1]);
-	}
-	if(err == 0)
-	{
-		for(i=1;i<NP_LIN;i++)
-            g_corr_link[i] = (FP32)(g_user->LICD[i]-g_user->LICD[i-1]) / (FP32)(g_user->LICI[i]-g_user->LICI[i-1]);
-	}
-	else
-	{
-		for(i=1;i<NP_LIN;i++)
-			g_corr_link[i] = 1.0;
-	}
-	#endif
 //-----------------------------------------------------------------------------
 	if(err < 0)return FALSE;
 	else	return TRUE;	
