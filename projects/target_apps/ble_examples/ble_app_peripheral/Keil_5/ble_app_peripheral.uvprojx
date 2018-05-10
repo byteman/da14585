@@ -1029,6 +1029,21 @@
               <FileType>1</FileType>
               <FilePath>..\src\WetApp.c</FilePath>
             </File>
+            <File>
+              <FileName>cornfix.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\cornfix.c</FilePath>
+            </File>
+            <File>
+              <FileName>matrix.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\matrix.c</FilePath>
+            </File>
+            <File>
+              <FileName>cornmenu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\cornmenu.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -2055,6 +2070,21 @@
               <FileName>WetApp.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\WetApp.c</FilePath>
+            </File>
+            <File>
+              <FileName>cornfix.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\cornfix.c</FilePath>
+            </File>
+            <File>
+              <FileName>matrix.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\matrix.c</FilePath>
+            </File>
+            <File>
+              <FileName>cornmenu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\cornmenu.c</FilePath>
             </File>
           </Files>
         </Group>

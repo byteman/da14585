@@ -46,7 +46,7 @@ const device_param	g_Default_Device_Para =
 		.mTareRang = 0,//皮重范围
     .mTareEN=0,// 皮重允许
 		.mBLAuto = 0,
-		
+		.mCornCalibWet = 50, //角差标定时的标准重量.
 	#if 0
 		100,			// 	INT32U	mAdjPcsWet;	//计数标定重量
 		50,			// 	INT16U	mAdjPcsCnt;//计数标定片数

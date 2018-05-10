@@ -19,7 +19,7 @@ int8_t channel_init(uint8_t nr)
 }
 
 
-uint8_t channel_read_all()
+uint8_t channel_read_all(void)
 {
     int i = 0;
     for(i = 0; i < ad_chan_nr; i++)

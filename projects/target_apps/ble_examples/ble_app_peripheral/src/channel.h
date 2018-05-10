@@ -43,7 +43,7 @@ ad_channel_t* channel_get(uint8_t chan);
  * @return 0 完成 1 还未转换完成.
  */
 
-uint8_t channel_read_all();
+uint8_t channel_read_all(void);
 
 
 

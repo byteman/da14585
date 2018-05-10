@@ -72,7 +72,7 @@ typedef __packed struct _device_param{
 
     INT16U	mWetUp;		//	重量上限值
     INT16U  mWetDown;	//重量下限值
-
+		INT32S  mCornCalibWet; //角差标定的重量，这里用一个固定的重量.可以通过蓝牙app来配置改重量.
     //INT16U	mBeep;		//蜂鸣模式
 
 

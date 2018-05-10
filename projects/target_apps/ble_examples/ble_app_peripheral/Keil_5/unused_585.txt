@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Thu May 10 12:03:39 2018
+;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Thu May 10 14:58:53 2018
 ;VERSION 0.2
 ;FILE adc.o
 adc_disable <= USED 0
@@ -80,6 +80,10 @@ battery_isr <= USED 0
 ;FILE calibmenu.o
 ;FILE channel.o
 channel_init <= USED 0
+;FILE cornfix.o
+ad_calib_corl_k <= USED 0
+ad_put_corl_adx <= USED 0
+ad_put_corl_bx <= USED 0
 ;FILE cs1237.o
 CS1237_Power <= USED 0
 ;FILE custom_common.o
@@ -129,6 +133,10 @@ i2c_eeprom_write_page <= USED 0
 dummyf <= USED 0
 ;FILE key.o
 ;FILE mainmenu.o
+;FILE matrix.o
+cal_elimination <= USED 0
+cal_substitution <= USED 0
+linear_equation_group <= USED 0
 ;FILE nmi_handler.o
 ;FILE nvds.o
 ;FILE oled.o
