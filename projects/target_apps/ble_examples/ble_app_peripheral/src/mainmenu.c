@@ -6,6 +6,9 @@
 #include "key.h"
 #include "dispatcher.h"
 #include "param.h"
+#include "WetApp.h"
+#include "proclogic.h"
+
 char weight[16];
 
 static void menu_menu_msg_cb(comm_msg_t* msg)
@@ -44,12 +47,16 @@ void main_menu_init_func(uint8 prev)
 	gui_show_ble_state(0);
 	
 }
+
+ 
 void main_menu_gui_func(void)
 {
 	static int i = 100;
 	i++;
 	if(i>999) i  = 100;
 	gui_show_weight(i,1,0);
+	
+	logic_isr();
 	
 	
 }
@@ -59,7 +66,10 @@ void main_menu_key_event(key_msg_t* msg)
 	{
 			if(msg->event == KEY_LONG_PRESSED)
 			{
-					
+					if(msg->event == KEY_ALL)
+					{
+							gui_show(MENI_CAL_CORN);
+					}
 			}
 			else if(msg->event == KEY_RELEASE)
 			{

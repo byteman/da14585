@@ -4,8 +4,9 @@
 #include "types.h"
 
 #define MENU_MAIN 0
-#define MENI_CAL	1
-#define MENU_BLE  2
+#define MENI_CAL_WET	1
+#define MENI_CAL_CORN	2
+#define MENU_BLE  3
 
 void gui_show_history_weight(float* values,uint8 num, uint8 dot);
 

@@ -12,7 +12,7 @@ const PARA_USER_T g_Default_User_Para = {
 		3,						//INT8U		ICR;(0...7, 600\300\150\75\38\19\9\4)
 
 		100000,						//INT32S	NOV;(0...1599999,Nominal Value)
-		1000000,				//INT32S	CWT;(1000000,20%...120%NOV)
+		50,				//INT32S	CWT;(1000000,20%...120%NOV)
 		0,						//INT32S	LDW;(0...+-1599999,zero point)
 		1000000,				//INT32S	LWT;(0...+-1599999,full scale)
 
@@ -249,13 +249,13 @@ param_err_t param_save(uint8_t t)
 	//uint8_t *data, uint32_t address, uint32_t size, uint32_t *bytes_written
 		uint32_t bytes_written = 0;
 		
-		if(t == 0)
+		if(t == USER_PARA_T)
 		{
 				g_param.checksum = checksum((uint8_t*)&g_param, sizeof(g_param) - 1);
 				
 				_write_data((uint8_t*)&g_param, DEV_PARA_ADDR, sizeof(g_param),&bytes_written);
 		}
-		else{
+		else if(t == DEV_PARA_T){
 				g_user.checksum = checksum((uint8_t*)&g_user, sizeof(g_user) - 1);
 				
 				_write_data((uint8_t*)&g_user, USER_PARA_ADDR, sizeof(g_user),&bytes_written);

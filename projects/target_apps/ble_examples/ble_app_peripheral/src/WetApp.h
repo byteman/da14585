@@ -92,8 +92,6 @@ extern INT8U WetApp_Get_StableFlag(void);
 extern void WetApp_Printf_Weighing(void);
 extern void WetApp_Printf_OutPut(void);
 extern INT8U WetApp_Get_AddUp_New(void);
-extern void WetApp_Tolerance_Check_Wet(void);
-extern void WetApp_Tolerance_Check_Pcs(void);
 extern INT8U WetApp_Auto_AddUp_AddWet(void);
 extern void WetApp_Handle_AddUp_AddWet(void);
 extern void WetApp_AddUp_AddWet(void);

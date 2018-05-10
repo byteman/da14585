@@ -108,6 +108,8 @@ typedef struct sys_param{
 		device_param* user;
 		PARA_USER_T*  scaler;
 }sys_param_t;
+#define USER_PARA_T 0
+#define DEV_PARA_T  1
 //从芯片中读取参数
 param_err_t param_init(void);
 //保存参数到芯片中
