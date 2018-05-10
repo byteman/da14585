@@ -733,14 +733,14 @@ void LCD_Set_Pos(unsigned char x, unsigned char y)
 /*********************LCDÈ«ÆÁ************************************/
 void LCD_Fill(unsigned char bmp_dat) 
 {
-	unsigned char y,x;
+	short y,x;
 	for(y=0;y<8;y++)
 	{
 	LCD_WrCmd(0xb0+y);
 	LCD_WrCmd(0x01);
 	LCD_WrCmd(0x10);
 	for(x=0;x<X_WIDTH;x++)
-	LCD_WrDat(bmp_dat);
+		LCD_WrDat(bmp_dat);
 	}
 }
 /*********************LCD¸´Î»************************************/
@@ -797,7 +797,7 @@ void LCD_Init(void)
 	LCD_WrCmd(0xa6);// Disable Inverse Display On (0xa6/a7) 
 	LCD_WrCmd(0xaf);//--turn on oled panel
 	LCD_Fill(0x00);  
-	LCD_Set_Pos(0,0); 	
+	LCD_Set_Pos(-1,0); 	
 } 
 
 void LCD_P6x8Str(unsigned char x, unsigned char y,unsigned char ch[])

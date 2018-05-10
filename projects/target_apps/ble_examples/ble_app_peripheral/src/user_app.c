@@ -33,7 +33,7 @@ void user_app_start()
 			err  = param_init();
 			if(err != PARA_ERR_NONE)
 			{
-					gui_show_error("load param err");
+					//gui_show_error("load param err");
 			}
 			key_init();
 			CS1237_Init(AD_HZ_40);
