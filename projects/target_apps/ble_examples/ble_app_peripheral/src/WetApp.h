@@ -70,10 +70,10 @@ typedef struct {
 	INT8U 	mScaleCheckStatue;		//监测的状态值
 	WET_STATUE 	mScaleStatue;
 	INT32U mScalePCS;		//检数记录
-	INT32S mScaleWet;		//检重记录
+	INT32S mScaleWet;		//检重记录,经过分度值处理后的重量.
 	INT32S mScaleNetWet;	//净重
 	INT32U mScaleWetInter;	//没有分度化的重量值
-	INT32S mScaleConvertWet; //切换后的重量
+	INT32S mScaleConvertWet; //切换后的重量,分度值后的重量 跟mScaleWet一样. 
 	INT32U mScaleTotalWet;	//累积总重
 	INT32U mScaleTotalNum;	//累积总数
 	INT32U mScaleSingleWet; //单次重量

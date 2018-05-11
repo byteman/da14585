@@ -4,6 +4,7 @@
 #include "channel.h"
 #include "scaler.h"
 #include "Filter_KMedian.h"
+#include "WetApp.h"
 static device_param* g_param;
 static scaler_info_t g_sinfo;
 void scaler_init()
@@ -43,6 +44,18 @@ void scaler_run()
     }
 }
 
+scaler_info_t* 		scaler_get_info(void)
+{
+		g_sinfo.stillFlag = gScaleAppData.mScaleStatue.stStable;
+		g_sinfo.zeroFlag = gScaleAppData.mScaleStatue.stZero;
+		g_sinfo.downFlow = gScaleAppData.mScaleStatue.stDownOverLoad;
+		g_sinfo.upFlow = gScaleAppData.mScaleStatue.stUpOverLoad;
+		g_sinfo.adc_soc_err = 0;
+		g_sinfo.div_weight = gScaleAppData.mScaleWet;
+		g_sinfo.org_weight = gScaleAppData.mScaleWetInter;
+		return &g_sinfo;
+	
+}
 int			scaler_get_history_record(float* values, uint8 num)
 {
 	static float nv = 443;
@@ -58,5 +71,5 @@ int			scaler_get_history_record(float* values, uint8 num)
 
 void  scaler_get_display_weight(char* buffer, uint8 size)
 {
-	snprintf(buffer,size,"%0.1f",12.7);
+	snprintf(buffer,size,"%0.1f",gScaleAppData.mScaleWet);
 }

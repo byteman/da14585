@@ -43,30 +43,8 @@ void gui_show(uint8 index)
 		menu_itmes[index].init_func(menu_index);
 		menu_index = index;
 }
-void format_weight(char* buffer, int size, float value, uint8 dot)
-{
-		memset(buffer,0,size);
-		switch(dot)
-			{
 
-					case 1:
-							snprintf(buffer,size,"%0.1f",(float)value/10.0f);
-							break;
-					case 2:
-							snprintf(buffer,size,"%0.2f",(float)value/100.0f);
-							break;
-					case 3:
-							snprintf(buffer,size,"%0.3f",(float)value/1000.0f);
-							break;
-					case 4:
-							snprintf(buffer,size,"%0.4f",(float)value/10000.0f);
-							break;
-					default:
-							snprintf(buffer,size,"%0.1f",value);
-							break;
-			}
-}
-void gui_show_history_weight(float* wf,uint8 num, uint8 dot)
+void gui_show_history_weight(INT32S* wf,uint8 num, uint8 dot)
 {
 	  uint8 i = 0;
 
@@ -97,11 +75,15 @@ void gui_show_ble_state(uint8 state)
 {
 	 if(state)
 	 {
+		 //蓝牙已经连接.
 			//param_save();
+			audio_queue_message("bc");
 			LCD_P16x16bmp(112,5,3);
 	 }
 	 else
 	 {
+		 //蓝牙已经断开.
+		  audio_queue_message("bx");
 			LCD_P16x16bmp(112,5,4);
 	 }
 	
@@ -112,11 +94,20 @@ void gui_show_ble_addr(uint8 *addr, uint8 len)
 	gui_clear_screen();
 	LCD_P6x8Str(1,3,"00:11:33:44:55:66");
 }
-void gui_show_scaler_state(uint8 zero, uint8 still)
+#include "scaler.h"
+#define BMP_SUM 0
+#define BMP_STILL 1
+#define BMP_ZERO 2
+#define BMP_BLE  3
+#define BMP_CLEAR 4
+
+void gui_show_scaler_state(scaler_info_t *sif)
 {
-	LCD_P16x16bmp(32,1,1);
-	LCD_P16x16bmp(32,3,2);
+	
+	LCD_P16x16bmp(32,1,sif->stillFlag?BMP_STILL:BMP_CLEAR);
+	LCD_P16x16bmp(32,3,sif->zeroFlag? BMP_ZERO:BMP_CLEAR);
 	LCD_P16x16bmp(32,5,0);
+
 }
 
 void gui_show_weight(int value, uint8 dot, uint8 unit)
@@ -133,7 +124,7 @@ void gui_clear_screen(void)
 	LCD_Set_Pos(0,0); 
 }
 //定时
-void gui_isr()
+void gui_isr(void)
 {
 		menu_itmes[menu_index].gui_func();
 		
@@ -153,11 +144,11 @@ void gui_show_error(const char* err)
 	gui_clear_screen();
 	LCD_P6x8Str(10,4,(unsigned char*)err);
 }
-uint8 gui_current()
+uint8 gui_current(void)
 {
 	return menu_index;
 }
-void gui_init()
+void gui_init(void)
 {
 		LCD_Init();
 		key_register(key_event);

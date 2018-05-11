@@ -26,7 +26,7 @@ typedef struct key_msg{
 typedef void(*key_event_func_t)(key_msg_t* event);
 
 //关机.
-void  key_power_off();
+void  key_power_off(void);
 //开关键是否持续被按住n秒
 void  is_pwr_key_pressed(uint8 s);
 //清零键是否持续被按住n秒
@@ -36,7 +36,7 @@ void  is_zero_key_clicked(uint8 s);
 
 void  is_zero_key_double_clicked(uint8 s);
 
-void  key_isr();
+void  key_isr(void);
 void  key_register(key_event_func_t cb);
 
 uint8  key_get_msg(key_msg_t* msg);

@@ -1054,6 +1054,11 @@
               <FileType>1</FileType>
               <FilePath>..\src\audio.c</FilePath>
             </File>
+            <File>
+              <FileName>utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\utils.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -2105,6 +2110,11 @@
               <FileName>audio.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\audio.c</FilePath>
+            </File>
+            <File>
+              <FileName>utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\utils.c</FilePath>
             </File>
           </Files>
         </Group>

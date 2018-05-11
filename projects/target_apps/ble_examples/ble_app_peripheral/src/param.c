@@ -3,8 +3,9 @@
 #include "user_peripheral.h"
 #include "user_periph_setup.h"
 
-#define USER_PARA_ADDR 0
-#define DEV_PARA_ADDR  0x400
+#define USER_PARA_ADDR 	0    		//offset 0 		size 512bytes
+#define LOGIC_PARA_ADDR 0x200   //offset 512  size 512bytes
+#define DEV_PARA_ADDR  	0x400		//offset 1024 size 1024bytes
 
 const PARA_USER_T g_Default_User_Para = {
 
@@ -101,8 +102,15 @@ const device_param	g_Default_Device_Para =
 		0,			// 	INT8U 	checksum;		
 		#endif
 };
-static device_param g_param;
-static PARA_USER_T  g_user;
+const logic_param_t	g_logic_default_para = 
+{
+	.history_weight = {0,0,0}, //最近三条历史记录
+	.history_sum = 0, //历史累计和
+	.history_count = 0 //历史累计次数.
+};
+static device_param 	g_param;
+static PARA_USER_T  	g_user;
+static logic_param_t	g_logic;
 static uint8_t g_init =0;
 
 
@@ -232,6 +240,21 @@ param_err_t param_init(void)
 			
 				//return PARA_ERR_READ_CRC;
 		}
+		code = _read_data((uint8_t*)&g_logic, LOGIC_PARA_ADDR, sizeof(g_logic), &bytes_read);
+		if(code != I2C_NO_ERROR)
+		{
+			memcpy((void*)&g_logic, (void*)&g_logic_default_para,sizeof(g_logic));
+				
+				//return PARA_ERR_READ_TIMEOUT;
+		}
+		
+		if((g_logic.checksum) != checksum((uint8_t*)&g_logic,sizeof(g_logic)-1))
+		{
+			memcpy((void*)&g_logic, (void*)&g_logic_default_para,sizeof(g_logic));
+			
+				//return PARA_ERR_READ_CRC;
+		}
+		
 #if 0	
     g_param.sensor_nb = 3;
     for(i = 0; i < g_param.sensor_nb; i++)
@@ -260,6 +283,11 @@ param_err_t param_save(uint8_t t)
 				
 				_write_data((uint8_t*)&g_user, USER_PARA_ADDR, sizeof(g_user),&bytes_written);
 		}
+		else if(t == LOGIC_PARA_T){
+				g_logic.checksum = checksum((uint8_t*)&g_logic, sizeof(g_logic) - 1);
+				
+				_write_data((uint8_t*)&g_logic, LOGIC_PARA_ADDR, sizeof(g_logic),&bytes_written);
+		}
 		return PARA_ERR_NONE;
 }
 
@@ -277,4 +305,10 @@ param_err_t param_get_user(PARA_USER_T** para)
     *para = &g_user;
     return PARA_ERR_NONE;
 }
-
+param_err_t param_get_logic(logic_param_t** para)
+{
+		if(!g_init) return PARA_ERR_UNINIT;
+    if(para == 0) return PARA_ERR_INVALID_PARA;
+    *para = &g_logic;
+    return PARA_ERR_NONE;
+}

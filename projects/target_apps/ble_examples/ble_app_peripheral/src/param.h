@@ -104,12 +104,21 @@ typedef __packed struct _device_param{
     //PARA_OTHER other;
 }device_param;
 
+typedef __packed struct logic_param{
+		#define 			 MAX_HIS_WEIGHT 3
+		INT32S   history_weight[MAX_HIS_WEIGHT]; //最近三条历史记录
+		INT32S   history_sum; //历史累计和
+		INT32S	 history_count; //历史累计次数.
+		INT8U    checksum;
+}logic_param_t;
 typedef struct sys_param{
 		device_param* user;
 		PARA_USER_T*  scaler;
 }sys_param_t;
-#define USER_PARA_T 0
-#define DEV_PARA_T  1
+
+#define USER_PARA_T 	0
+#define DEV_PARA_T  	1
+#define LOGIC_PARA_T  2
 //从芯片中读取参数
 param_err_t param_init(void);
 //保存参数到芯片中
@@ -124,6 +133,7 @@ param_err_t param_save(uint8_t type);
 
 param_err_t param_get(device_param** para);
 param_err_t param_get_user(PARA_USER_T** para);
+param_err_t param_get_logic(logic_param_t** para);
 /**
  * @brief 写入参数到内存中.
  * @param 修改指定的参数.
