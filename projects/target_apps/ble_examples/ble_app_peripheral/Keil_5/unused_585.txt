@@ -1,14 +1,12 @@
-;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Fri May 11 17:48:01 2018
+;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Sat May 12 09:42:39 2018
 ;VERSION 0.2
 ;FILE adc.o
-adc_disable <= USED 0
 ;FILE adc_1.o
 adc_config <= USED 0
 ;FILE app.o
 active_conhdl_to_conidx <= USED 0
 active_conidx_to_conhdl <= USED 0
 app_easy_gap_advertise_stop <= USED 0
-app_easy_gap_advertise_with_timeout_stop <= USED 0
 app_easy_gap_dev_config_get_active <= USED 0
 app_easy_gap_directed_advertise_get_active <= USED 0
 app_easy_gap_directed_advertise_start <= USED 0
@@ -30,7 +28,6 @@ app_custs1_val_wr_validate <= USED 0
 ;FILE app_customs_task.o
 ;FILE app_default_handlers.o
 default_advertise_operation <= USED 0
-default_app_generate_static_random_addr <= USED 0
 default_app_on_disconnect <= USED 0
 ;FILE app_diss.o
 ;FILE app_diss_task.o
@@ -63,20 +60,11 @@ arch_last_rwble_evt_get <= USED 0
 arch_restore_sleep_mode <= USED 0
 arch_set_deep_sleep <= USED 0
 ;FILE arch_system.o
-__ARM_common_ll_muluu <= USED 0
 arch_set_pxact_gpio <= USED 0
 arch_wkupct_tweak_deb_time <= USED 0
-calibrate_rcx20 <= USED 0
-lld_sleep_lpcycles_2_us_rcx_func <= USED 0
-lld_sleep_us_2_lpcycles_rcx_func <= USED 0
-read_rcx_freq <= USED 0
 set_xtal16m_trim_value <= USED 0
 ;FILE attm_db_128.o
 ;FILE audio.o
-audio_get_front <= USED 0
-audio_isr <= USED 0
-audio_pop_front <= USED 0
-audio_queue_empty <= USED 0
 ;FILE battery.o
 ;FILE batty.o
 battery_isr <= USED 0
@@ -86,19 +74,14 @@ battery_isr <= USED 0
 ;FILE channel.o
 channel_init <= USED 0
 ;FILE cornfix.o
-ad_calib_corl_k <= USED 0
-ad_put_corl_adx <= USED 0
-ad_put_corl_bx <= USED 0
 ;FILE cornmenu.o
-corn_menu_gui_func <= USED 0
-corn_menu_init_func <= USED 0
-corn_menu_key_event <= USED 0
 ;FILE cs1237.o
 CS1237_Power <= USED 0
 ;FILE custom_common.o
 custs1_get_att_handle <= USED 0
 ;FILE custs1.o
 ;FILE custs1_task.o
+;FILE debugmenu.o
 ;FILE dispatcher.o
 ;FILE diss.o
 ;FILE filter_kmedian.o
@@ -115,6 +98,7 @@ GPIO_SetIRQInputLevel <= USED 0
 GPIO_SetPorTime <= USED 0
 ;FILE gui.o
 gui_show_error <= USED 0
+gui_show_history_weight <= USED 0
 ;FILE hardfault_handler.o
 ;FILE hw_otpc.o
 hw_otpc_blank <= USED 0
@@ -141,9 +125,6 @@ dummyf <= USED 0
 ;FILE key.o
 ;FILE mainmenu.o
 ;FILE matrix.o
-cal_elimination <= USED 0
-cal_substitution <= USED 0
-linear_equation_group <= USED 0
 ;FILE nmi_handler.o
 ;FILE nvds.o
 ;FILE oled.o
@@ -178,7 +159,6 @@ prf_unpack_date_time <= USED 0
 ;FILE rf_585.o
 rf_nfm_disable <= USED 0
 rf_nfm_enable <= USED 0
-rf_nfm_is_enabled <= USED 0
 ;FILE rf_calibration.o
 DCoffsetCalibration_580 <= USED 0
 IffCalibration_580 <= USED 0

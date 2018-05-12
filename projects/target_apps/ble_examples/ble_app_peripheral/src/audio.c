@@ -57,6 +57,8 @@ void audio_pop_front(void)
 //音频播放逻辑.
 void  audio_isr(void)
 {
+		static uint8 cnt;
+		if(cnt++%5 != 0) return;
 		if(audio_queue_empty())
 		{
 				return;
@@ -72,7 +74,7 @@ void  audio_isr(void)
 						
 						//有可能还在busy,等待下一次机会播放.
 						if(_soc->play!=NULL){
-								int err = sc5040b_play(c);
+								int err = _soc->play(c);
 								if(err == 0)
 								{
 									//播放成功就累加播放指针.

@@ -6,6 +6,7 @@
 #include "channel.h"
 #include "types.h"
 
+#define MAX_CHAN 4
 typedef struct _scaler_info_t{
     int32_t org_ad; //最近一次计算得到的AD码
     int32_t filter_ad; //经过滤波后的AD
@@ -17,6 +18,7 @@ typedef struct _scaler_info_t{
 		uint8   downFlow;
 		int32_t div_weight; //分度值后的毛重
 	  int32_t org_weight; //没有经过分度值处理的重量.	
+		int32_t adArrs[MAX_CHAN];
 }scaler_info_t;
 void    scaler_init();
 void    scaler_run();

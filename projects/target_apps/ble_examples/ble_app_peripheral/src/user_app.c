@@ -22,6 +22,8 @@ void user_app_time_handle()
 		key_isr();
 		gui_isr();
 		scaler_run();
+		audio_isr();
+		logic_isr();
 		user_timer =  app_easy_timer(USER_TIME_INTERVAL, user_app_time_handle);
 	
 }

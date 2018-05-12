@@ -60,7 +60,7 @@
 
 #define DEF_SVC1_CONTROL_POINT_USER_DESC     "Control Point"
 #define DEF_SVC1_LED_STATE_USER_DESC         "LED State"
-#define DEF_SVC1_ADC_VAL_1_USER_DESC         "ADC Value 1"
+#define DEF_SVC1_ADC_VAL_1_USER_DESC         "Weight Value 1"
 #define DEF_SVC1_ADC_VAL_2_USER_DESC         "ADC Value 2"
 #define DEF_SVC1_BUTTON_STATE_USER_DESC      "Button State"
 #define DEF_SVC1_INDICATEABLE_USER_DESC      "Indicateable"

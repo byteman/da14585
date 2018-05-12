@@ -40,7 +40,7 @@ const PARA_USER_T g_Default_User_Para = {
 };
 const device_param	g_Default_Device_Para = 
 {
-		.sensor_nb=3,
+		.sensor_nb=4,
 		.corn_k= {1,1,1,1,1},
 		.mWetUp=0,
 		.mWetDown = 0,

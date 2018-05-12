@@ -28,7 +28,8 @@ void scaler_run()
         for(; i < g_param->sensor_nb; i++)
         {
             ad_channel_t *chan = channel_get(i);
-            ad += g_param->corn_k[i] *chan->value ;
+						g_sinfo.adArrs[i]  = chan->value;
+            ad += g_param->corn_k[i] * chan->value ;
         }
         g_sinfo.org_ad = ad;
         //中值滤波后加上零点跟踪

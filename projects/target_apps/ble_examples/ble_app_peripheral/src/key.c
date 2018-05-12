@@ -65,6 +65,8 @@ void  key_isr()
 								if(GPIO_GetPinStatus(KEY_ZERO_PORT,KEY_ZERO_PIN))
 								{
 										send_key_msg(KEY_ALL, KEY_LONG_PRESSED);
+										key_states[1].state = KEY_LONG_PRESSED; 
+										key_states[1].press_ts = 0;
 								}
 								else
 								{
@@ -98,6 +100,8 @@ void  key_isr()
 								if(GPIO_GetPinStatus(KEY_PWR_PORT,KEY_PWR_PIN))
 								{
 										send_key_msg(KEY_ALL, KEY_LONG_PRESSED);
+										key_states[0].state = KEY_LONG_PRESSED; 
+										key_states[0].press_ts = 0;
 								}
 								else
 								{

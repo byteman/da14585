@@ -114,6 +114,7 @@ uint8 sc5040b_play(char label)
 				SC50X0B_SDA(pos);
 				return 0;
 		 }
+		 pos++;
 	}
 	return 1;
 }

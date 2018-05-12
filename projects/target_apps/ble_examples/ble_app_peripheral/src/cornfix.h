@@ -7,7 +7,7 @@
 #include "param.h"
 
 #define 		CAP_N   10 	
-#define		  CAP_M   3  //三个角差点. 	
+#define		  CAP_M   4  //四个角差点. 	
 
 typedef struct {
 

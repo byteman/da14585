@@ -310,7 +310,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>4</Optim>
+            <Optim>1</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>0</OneElfS>
@@ -1058,6 +1058,11 @@
               <FileName>utils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\utils.c</FilePath>
+            </File>
+            <File>
+              <FileName>debugmenu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\debugmenu.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2115,6 +2120,11 @@
               <FileName>utils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\utils.c</FilePath>
+            </File>
+            <File>
+              <FileName>debugmenu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\debugmenu.c</FilePath>
             </File>
           </Files>
         </Group>

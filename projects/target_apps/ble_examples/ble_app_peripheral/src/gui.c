@@ -4,7 +4,8 @@
 #include "mainmenu.h"
 #include "calibmenu.h"
 #include "blemenu.h"
-
+#include "debugmenu.h"
+#include "cornmenu.h"
 #include "key.h"
 
 typedef void (*menu_func_t)(void);
@@ -18,7 +19,7 @@ typedef struct {
 	key_event_func_t key_func;
 }menu_item;
 	
-static menu_item menu_itmes[3] = {
+static menu_item menu_itmes[] = {
 	{
 		main_menu_init_func,
 		main_menu_gui_func,
@@ -30,13 +31,23 @@ static menu_item menu_itmes[3] = {
 		calib_menu_key_event
 	},
 	{
+		corn_menu_init_func,
+		corn_menu_gui_func,
+		corn_menu_key_event
+	},
+	{
 		ble_menu_init_func,
 		ble_menu_gui_func,
 		ble_menu_key_event
+	},
+	{
+		debug_menu_init_func,
+		debug_menu_gui_func,
+		debug_menu_key_event
 	}
 };
 static uint8 menu_index = 0;
-
+static uint8 bInit = 0;
 //切换当前界面.
 void gui_show(uint8 index)
 {
@@ -82,6 +93,12 @@ void gui_show_ble_state(uint8 state)
 	 }
 	 else
 	 {
+			if(bInit == 0)
+			{
+				audio_queue_message("b");
+				bInit = 1;
+				return;
+			}
 		 //蓝牙已经断开.
 		  audio_queue_message("bx");
 			LCD_P16x16bmp(112,5,4);
@@ -113,7 +130,12 @@ void gui_show_scaler_state(scaler_info_t *sif)
 void gui_show_weight(int value, uint8 dot, uint8 unit)
 {
 	char buf[16]={0,};
+	if(value > 999 || value < 0){
+			LCD_P16x32Str(48,1,"----");
+			return;
+	}
 	format_weight(buf,16,value,dot);
+	
 	LCD_P16x32Str(48,1,buf);
 
 

@@ -85,6 +85,9 @@ Std_ReturnType	Wet_Init(void)
 	{
 			return 0;
 	}
+		rtn = Wet_InitPara();
+		if(rtn == FALSE)g_wet_err.state.errpara = 1;
+		else	g_wet_err.state.errpara = 0;
 
 		pt = Timer_Regist(LOOP,100,Wet_StableWt);		//定时判稳处理		 100ms 
 		if(pt == NULL)g_wet_err.state.errStableTask = 1;
@@ -132,6 +135,7 @@ Std_ReturnType	Wet_InitPara(void)
 	else
 		g_UserClb_k = 1.0;
 
+	g_UserClb_k = 1.0;
 
   g_UserClb_DivCod =(INT32U)g_user->RSN  ;
 	

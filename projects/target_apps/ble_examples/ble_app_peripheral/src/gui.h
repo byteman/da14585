@@ -4,10 +4,11 @@
 #include "types.h"
 #include "scaler.h"
 
-#define MENU_MAIN 0
+#define MENU_MAIN 		0
 #define MENI_CAL_WET	1
 #define MENI_CAL_CORN	2
-#define MENU_BLE  3
+#define MENU_BLE  		3
+#define MENU_DEBUG  	4
 
 void gui_show_history_weight(INT32S* values,uint8 num, uint8 dot);
 

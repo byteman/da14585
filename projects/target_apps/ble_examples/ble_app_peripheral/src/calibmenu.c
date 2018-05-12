@@ -15,8 +15,8 @@ static void corn_menu_show_zero(void)
 	gui_clear_screen();
 	char buf[32] = {0,};
 	
-	LCD_P8x16Str(48,5,"清空称台后点确定");
-	LCD_P8x16Str(48,1,"标定");
+	LCD_P8x16Str(1,5,"clear scaler");
+	LCD_P8x16Str(1,1,"calibrate");
 	
 }
 static void corn_menu_show_weight(void)
@@ -24,8 +24,8 @@ static void corn_menu_show_weight(void)
 	gui_clear_screen();
 	char buf[32] = {0,};
 	
-	LCD_P8x16Str(48,5,"加载砝码后确定");
-	LCD_P8x16Str(48,1,"标定");
+	LCD_P8x16Str(48,5,"load weight");
+	LCD_P8x16Str(48,1,"calibrate");
 	
 }
 void calib_menu_init_func(uint8 prev)
@@ -50,6 +50,7 @@ static void Cal_Zero_Callback(INT32S avg)
 		Wet_InitZero();
 		param_save(USER_PARA_T);
 		step = 1;
+		corn_menu_show_weight();
 	}
 }
 static void	 Cal_Wet_Callback(INT32S avg)
