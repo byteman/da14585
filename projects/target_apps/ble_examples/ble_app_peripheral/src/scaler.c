@@ -13,7 +13,7 @@ void scaler_init()
     {
         return;
     }
-
+		WetApp_Init();
 		creep_init(g_param->mCrpValue);
 		Std_ReturnType rtn = Wet_Init();
 
@@ -41,6 +41,8 @@ void scaler_run()
               g_sinfo.adc_soc_err = 0;
 				Wet_Process(g_sinfo.filter_ad ,20.0f);
 				Wet_Service();		
+				
+				
 		//
     }
 }
@@ -73,4 +75,10 @@ int			scaler_get_history_record(float* values, uint8 num)
 void  scaler_get_display_weight(char* buffer, uint8 size)
 {
 	snprintf(buffer,size,"%0.1f",gScaleAppData.mScaleWet);
+}
+
+uint8		scaler_set_zero()
+{
+		WetApp_SetZero();
+		return 0;
 }

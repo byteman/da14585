@@ -56,10 +56,10 @@ void	Wet_Working(void);
 
 static	INT32S	Wet_Linear(INT32S wt);
 //static	INT32S	Wet_StableAD(INT32S wt);
-static	void	Wet_StableWt(void);
+void	Wet_StableWt(void);
 static	void	Wet_ZeroJudge(FP32	wt);
 static	void	Wet_ZeroPowerUp(void);
-static	void	Wet_ZeroTracking(void);
+void	Wet_ZeroTracking(void);
 static	INT32S	Wet_IncFormat(INT32S wet);
 static 	INT32S	Wet_IncFloatFormat(float wet);
 static	INT32S	Wet_ParaIsRight(INT32S para,INT32S min,INT32S max);
@@ -88,7 +88,7 @@ Std_ReturnType	Wet_Init(void)
 		rtn = Wet_InitPara();
 		if(rtn == FALSE)g_wet_err.state.errpara = 1;
 		else	g_wet_err.state.errpara = 0;
-
+#if 0
 		pt = Timer_Regist(LOOP,100,Wet_StableWt);		//定时判稳处理		 100ms 
 		if(pt == NULL)g_wet_err.state.errStableTask = 1;
 		else	g_wet_err.state.errStableTask = 0;
@@ -98,6 +98,8 @@ Std_ReturnType	Wet_Init(void)
 		else	g_wet_err.state.errZeroTrackTask = 0;	
 		if(rtn == FALSE)g_wet_err.state.errpara = 1;
 		else	g_wet_err.state.errpara = 0;
+	
+#endif
 		Wet_InitZero();
     FKM_SetFilterGrade(g_param->mFltLevel ,g_UserClb_DivCod,g_UserClb_DivCod*10);
 
@@ -127,15 +129,13 @@ Std_ReturnType	Wet_InitPara(void)
 	static INT32S tmpDec = 0;
 
 
-// 	err+= Wet_ParaIsRight(g_user->LDW,-1600000,4600000);
-// 	err+= Wet_ParaIsRight(g_user->LWT,-1600000,4600000);
-// 	err+= Wet_ParaIsRight(g_user->CWT,-1600000,4600000);
+ 	err+= Wet_ParaIsRight(g_user->LDW,-1600000,4600000);
+ 	err+= Wet_ParaIsRight(g_user->LWT,-1600000,4600000);
+ 	err+= Wet_ParaIsRight(g_user->CWT,-1600000,4600000);
 	if(err == 0)
-        g_UserClb_k = (FP32)g_user->CWT /(FP32)(g_user->LWT - g_user->LDW);
+    g_UserClb_k = (FP32)g_user->CWT /(FP32)(g_user->LWT - g_user->LDW);
 	else
 		g_UserClb_k = 1.0;
-
-	g_UserClb_k = 1.0;
 
   g_UserClb_DivCod =(INT32U)g_user->RSN  ;
 	
@@ -279,6 +279,22 @@ int32_t AD_Read()
 {
     return 0;
 }
+void calib_prase_handler(){
+		if(g_AvgCount > 0)
+		{
+			g_AvgSum += g_wet_input;
+			g_AvgCount--;
+			if(g_AvgCount == 0)
+			{
+				g_AvgSum /= g_AvgNum;
+				if(g_AvgBackFn != NULL)g_AvgBackFn(g_AvgSum);
+				g_AvgCount = 0;
+				g_AvgNum = 0;				
+				g_AvgSum = 0;
+				g_AvgBackFn = NULL;	
+			}
+		}					
+}
 /******************************************************************************
   * @brief  称重服务，请在小于 AD 转换周期的时间周期调用该函数
   * @param  None
@@ -298,20 +314,7 @@ void	Wet_Working(void)
 //		temp = TEMP_Read();
 		Wet_Process(adcode,20.0);
 //AVG work----------------------------------------------------------------------
-		if(g_AvgCount > 0)
-		{
-			g_AvgSum += g_wet_input;
-			g_AvgCount--;
-			if(g_AvgCount == 0)
-			{
-				g_AvgSum /= g_AvgNum;
-				if(g_AvgBackFn != NULL)g_AvgBackFn(g_AvgSum);
-				g_AvgCount = 0;
-				g_AvgNum = 0;				
-				g_AvgSum = 0;
-				g_AvgBackFn = NULL;	
-			}
-		}					
+	
 
 	}
     //AD_ErrRead(&aderr);

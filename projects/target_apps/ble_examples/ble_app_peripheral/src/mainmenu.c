@@ -26,6 +26,16 @@ static void menu_menu_msg_cb(comm_msg_t* msg)
 		}
 	}
 }
+static void gui_show_history_weight(void)
+{
+	  uint8 i = 0;
+		for(; i < MAX_HIS_WEIGHT; i++)
+		{
+			char buf[16] = {0,};
+			format_weight(buf,16,g_logic_para->history_weight[i],1);	
+			LCD_P8x16Str(0,1 + i*2,buf);
+		}
+}
 /*
 菜单的更新有以下几种情况
 
@@ -40,9 +50,10 @@ void main_menu_init_func(uint8 prev)
 	param_get_logic(&g_logic_para);
 	
 	dispatch_register_msg(TARGET_MAINMENU,MSG_BLE_STATE,menu_menu_msg_cb);
-	#if 1
-	//gui_show_history_weight((INT32S*)&g_logic_para->history_weight[0],3,1);
 	gui_clear_screen();
+	#if 1
+	gui_show_history_weight();
+	
 	scaler_get_display_weight(weight,16);
 	
 	gui_show_battry_state(battery_get());
@@ -76,7 +87,8 @@ void main_menu_key_event(key_msg_t* msg)
 			
 			if(msg->event == KEY_RELEASE)
 			{
-				gui_show(MENU_DEBUG);
+				//gui_show(MENU_DEBUG);
+					scaler_set_zero();
 			}
 	}
 	else if(msg->key == KEY_PWR)

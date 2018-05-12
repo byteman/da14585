@@ -181,7 +181,7 @@ void WetApp_Work_En(INT8U en)
 
 void WetApp_SetZero(void )
 {
-	if(!gScaleAppData.mNet )
+	//if(!gScaleAppData.mNet )
 	{
 		g_ERR_ZERO_Value = Wet_Zeroing();
 	}
@@ -203,25 +203,13 @@ Std_ReturnType	WetApp_Init(void)
 	float tempadd = 0.0;
 	//gAddTotal = 0.0;
 	//gAddTotalShow  = 0;
-
+	param_get_user(&g_user);
+	param_get(&g_param);
 	gScaleAppData.mWaveOut = 0;
 	gScaleAppData.mScaleTotalWet = 0;
 	gScaleAppData.mScaleTotalNum = 0;	
-
-	//LCD_DispSymbl(UM_OPMODE_EN, SYMI_S17_SCALE_LABLE);
-	//LCD_DispSymbl(UM_OPMODE_EN, SYMI_S18_1_SCALE);
-	//LCD_DispSymbl(UM_OPMODE_EN, SYMI_S12_1_SEC);
-
 	gScaleAppData.mScaleSleepFlag = 0;
-	//g_param->mKeyLock = 0;
-	//g_param->TAV = 0;
-	//WetApp_CheckNet();
-
 	
-	//gAddTotalShow = (INT32U)tempadd;
-	
-	//mWetAppID = Timer_Regist(LOOP,100,WetApp_Working);//定时称重处理  0.1s
-	//WetApp_Work_En(1);
 	
 	return TRUE;
 }
@@ -231,7 +219,8 @@ extern void	Wet_Working(void);
 
 void Wet_Service(void)
 {
-	//AD_Working();
+	Wet_StableWt();
+	Wet_ZeroTracking();
 #if 1	
 	//Wet_Working();
 
@@ -273,6 +262,7 @@ void Wet_Service(void)
 		}
 
 	}
+	calib_prase_handler();
 	#endif
 }
 

@@ -83,6 +83,9 @@ extern  void	Wet_Process(INT32S adcode,FP32 temp);
 extern	Std_ReturnType	Wet_Zeroing(void);
 extern	Std_ReturnType	Wet_Taring(void);
 extern	void Wet_Filter_Set(int cal);
+extern  void	Wet_StableWt(void);
+extern  Std_ReturnType	Wet_Zeroing(void);
+
 //extern	Std_ReturnType	Wet_SetTare(INT32S tare);
 //extern	INT32S			Wet_ReadTare(void);
 //extern	Std_ReturnType	Wet_SetGorN(INT32S gorn);

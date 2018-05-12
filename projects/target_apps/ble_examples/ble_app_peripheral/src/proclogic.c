@@ -67,7 +67,9 @@ void logic_isr(void)
 				
 		}
 		
-		if(sif->zeroFlag && g_flag)
+		if(sif->stillFlag &&  
+			sif->div_weight < g_user->RSN && 
+			(g_flag==1))
 		{
 				
 				g_flag = 0;

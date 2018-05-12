@@ -3,9 +3,10 @@
 #include "user_peripheral.h"
 #include "user_periph_setup.h"
 
+//×Ü¹²256bytes
 #define USER_PARA_ADDR 	0    		//offset 0 		size 512bytes
-#define LOGIC_PARA_ADDR 0x200   //offset 512  size 512bytes
-#define DEV_PARA_ADDR  	0x400		//offset 1024 size 1024bytes
+#define LOGIC_PARA_ADDR 80   //offset 80  size 512bytes
+#define DEV_PARA_ADDR  	128		//offset  size 1024bytes
 
 const PARA_USER_T g_Default_User_Para = {
 
@@ -32,7 +33,7 @@ const PARA_USER_T g_Default_User_Para = {
 		0,						//INT32S	TAV;(Tare value)
 
 		5,						//ZSEHD    //0, 2,4,10,20,50,100 %
-		0.9,
+		0.9,					//CalkValue
 		10000,				//	INT32S		SensorTotalRg;
 		200000,				//INT32S	SensorSen;	
 		0						// checksum;
@@ -171,8 +172,23 @@ static i2c_error_code _read_byte(uint32_t address, uint8_t *byte)
  */
 static i2c_error_code _write_data(uint8_t *data, uint32_t address, uint32_t size, uint32_t *bytes_written)
 {
+		i2c_error_code code;
+		uint32_t index = 0;
+		uint32_t left  = size;
+		uint32_t written = 0;
+		uint32_t total = 0;
 		 _enter();
-    i2c_error_code code = i2c_eeprom_write_data(data, address, size, bytes_written);
+		while(left > 0){
+			code = i2c_eeprom_write_data(data + index, address + index, (left > I2C_EEPROM_PAGE)?I2C_EEPROM_PAGE:left, &written);
+			if(code != I2C_NO_ERROR){
+					return code;
+				
+			}
+			total += written;
+			left -= written;
+			index+=written;
+		}
+		*bytes_written = total;
 		_leave();
 		return code;
 }
@@ -208,10 +224,16 @@ INT8U checksum(INT8U *str,INT32U len)
 	}
 	return chksum;	
 }
+
+void param_test(void)
+{
+
+}
 param_err_t param_init(void)
 {
    
-		uint32_t bytes_read = 0;
+		uint32_t bytes_read = 0,bytes_written = 0;
+	
 		i2c_error_code code = _read_data((uint8_t*)&g_param, DEV_PARA_ADDR, sizeof(g_param), &bytes_read);
 		if(code != I2C_NO_ERROR)
 		{
@@ -237,14 +259,12 @@ param_err_t param_init(void)
 		if((g_user.checksum) != checksum((uint8_t*)&g_user,sizeof(g_user)-1))
 		{
 			memcpy((void*)&g_user, (void*)&g_Default_User_Para,sizeof(g_user));
-			
 				//return PARA_ERR_READ_CRC;
 		}
 		code = _read_data((uint8_t*)&g_logic, LOGIC_PARA_ADDR, sizeof(g_logic), &bytes_read);
 		if(code != I2C_NO_ERROR)
 		{
-			memcpy((void*)&g_logic, (void*)&g_logic_default_para,sizeof(g_logic));
-				
+			memcpy((void*)&g_logic, (void*)&g_logic_default_para,sizeof(g_logic));	
 				//return PARA_ERR_READ_TIMEOUT;
 		}
 		
@@ -270,18 +290,26 @@ param_err_t param_init(void)
 param_err_t param_save(uint8_t t)
 {
 	//uint8_t *data, uint32_t address, uint32_t size, uint32_t *bytes_written
-		uint32_t bytes_written = 0;
+		uint32_t bytes_written = 0,bytes_read = 0;
 		
-		if(t == USER_PARA_T)
+		if(t == DEV_PARA_T)
 		{
 				g_param.checksum = checksum((uint8_t*)&g_param, sizeof(g_param) - 1);
 				
 				_write_data((uint8_t*)&g_param, DEV_PARA_ADDR, sizeof(g_param),&bytes_written);
 		}
-		else if(t == DEV_PARA_T){
+		else if(t ==  USER_PARA_T ){
+				
 				g_user.checksum = checksum((uint8_t*)&g_user, sizeof(g_user) - 1);
 				
 				_write_data((uint8_t*)&g_user, USER_PARA_ADDR, sizeof(g_user),&bytes_written);
+				_read_data((uint8_t*)&g_user, USER_PARA_ADDR, sizeof(g_user), &bytes_read);
+				if((g_user.checksum) != checksum((uint8_t*)&g_user,sizeof(g_user)-1))
+				{
+					memcpy((void*)&g_user, (void*)&g_Default_User_Para,sizeof(g_user));
+					
+						//return PARA_ERR_READ_CRC;
+				}
 		}
 		else if(t == LOGIC_PARA_T){
 				g_logic.checksum = checksum((uint8_t*)&g_logic, sizeof(g_logic) - 1);

@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Sat May 12 09:42:39 2018
+;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Sat May 12 17:30:18 2018
 ;VERSION 0.2
 ;FILE adc.o
 ;FILE adc_1.o
@@ -98,7 +98,6 @@ GPIO_SetIRQInputLevel <= USED 0
 GPIO_SetPorTime <= USED 0
 ;FILE gui.o
 gui_show_error <= USED 0
-gui_show_history_weight <= USED 0
 ;FILE hardfault_handler.o
 ;FILE hw_otpc.o
 hw_otpc_blank <= USED 0
@@ -133,6 +132,7 @@ LCD_CLS <= USED 0
 LCD_P10x8Ch <= USED 0
 LCD_P16x16Ch <= USED 0
 ;FILE param.o
+param_test <= USED 0
 ;FILE patch.o
 ;FILE pll_vcocal_lut.o
 GPADC_init <= USED 0
@@ -214,6 +214,7 @@ Timer_Delete <= USED 0
 Timer_Disable <= USED 0
 Timer_Enable <= USED 0
 Timer_Init <= USED 0
+Timer_Regist <= USED 0
 Timer_Server <= USED 0
 ;FILE trng.o
 ;FILE uart2.o
@@ -244,16 +245,13 @@ Wet_Read_Err <= USED 0
 Wet_Read_State <= USED 0
 Wet_Taring <= USED 0
 Wet_Working <= USED 0
-Wet_Zeroing <= USED 0
 ;FILE wetapp.o
 LED_Flash <= USED 0
 WetApp_Cal_Wet <= USED 0
 WetApp_Cal_Zero <= USED 0
 WetApp_Get_RealPt <= USED 0
 WetApp_Get_StableFlag <= USED 0
-WetApp_Init <= USED 0
 WetApp_Poweroff_Manage <= USED 0
-WetApp_SetZero <= USED 0
 WetApp_Work_En <= USED 0
 com_flash <= USED 0
 wet_set_work_mode <= USED 0

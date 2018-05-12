@@ -25,4 +25,5 @@ void    scaler_run();
 int			scaler_get_history_record(float* values, uint8 num);
 void  	scaler_get_display_weight(char* buffer, uint8 size);
 scaler_info_t* 		scaler_get_info(void);
+uint8		scaler_set_zero();
 #endif

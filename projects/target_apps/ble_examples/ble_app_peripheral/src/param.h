@@ -49,7 +49,6 @@ typedef  __packed struct PARA_USER
     INT8U	ZSE;		//置零范围		ZSE;(0 = deactivated,1 = 2%NOV,2 = 5%,3 = 10%,4 = 20%)
     INT8U	ZTR;		//零点跟住范围		ZTR;(0 = deactivated,1 = 0.5d,2 = 1.0d,3 = 2.0d,4 = 3.0d)
     INT8U	MTD;		//零点跟踪速度		MTD;(0 = deactivated,1 = 0.25d/s, 0.5 , 1 , 2 , 3)
-		INT8U	ZSEHd;		//手动置零范围
 
     //线性修正用的
     //INT32S	LIC[4];		//INT32S	LIC[4];
@@ -58,10 +57,12 @@ typedef  __packed struct PARA_USER
 
     INT8U		TAS;		//毛重/皮重		TAS;(0 = net, 1 = gross)
     INT32S	TAV;		//皮重值	TAV;(Tare value)
+		INT8U	ZSEHd;		//手动置零范围
 
     float		CalkValue;
     INT32S	SensorTotalRg; //传感器总量程
     INT32S	SensorSen; 
+		INT8U pad[7];
     INT8U checksum;		// checksum;
 }PARA_USER_T;
 

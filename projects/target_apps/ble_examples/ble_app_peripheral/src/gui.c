@@ -7,6 +7,8 @@
 #include "debugmenu.h"
 #include "cornmenu.h"
 #include "key.h"
+#include "utils.h"
+#include "audio.h"
 
 typedef void (*menu_func_t)(void);
 typedef void (*init_func_t)(uint8 prev);
@@ -55,20 +57,7 @@ void gui_show(uint8 index)
 		menu_index = index;
 }
 
-void gui_show_history_weight(INT32S* wf,uint8 num, uint8 dot)
-{
-	  uint8 i = 0;
 
-		char buf[16] = {0,};
-		format_weight(buf,16,wf[0],dot);	
-		LCD_P8x16Str(02,1,buf);
-		format_weight(buf,16,wf[1],dot);	
-		LCD_P8x16Str(0,3,buf);
-		format_weight(buf,16,wf[2],dot);	
-		LCD_P8x16Str(0,5,buf);
-		
-		
-}
 
 void gui_show_battry_state(uint8 value)
 {
@@ -134,7 +123,7 @@ void gui_show_weight(int value, uint8 dot, uint8 unit)
 			LCD_P16x32Str(48,1,"----");
 			return;
 	}
-	format_weight(buf,16,value,dot);
+	format_weight((char*)buf,16,value,dot);
 	
 	LCD_P16x32Str(48,1,buf);
 

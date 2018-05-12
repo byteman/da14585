@@ -10,7 +10,6 @@
 #define MENU_BLE  		3
 #define MENU_DEBUG  	4
 
-void gui_show_history_weight(INT32S* values,uint8 num, uint8 dot);
 
 void gui_show_scaler_state(scaler_info_t* sif);
 
