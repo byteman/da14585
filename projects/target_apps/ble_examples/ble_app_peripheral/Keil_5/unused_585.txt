@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Sat May 12 17:30:18 2018
+;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Sun May 13 23:44:05 2018
 ;VERSION 0.2
 ;FILE adc.o
 ;FILE adc_1.o
@@ -97,7 +97,6 @@ GPIO_RegisterCallback <= USED 0
 GPIO_SetIRQInputLevel <= USED 0
 GPIO_SetPorTime <= USED 0
 ;FILE gui.o
-gui_show_error <= USED 0
 ;FILE hardfault_handler.o
 ;FILE hw_otpc.o
 hw_otpc_blank <= USED 0
@@ -131,6 +130,8 @@ Draw_BMP <= USED 0
 LCD_CLS <= USED 0
 LCD_P10x8Ch <= USED 0
 LCD_P16x16Ch <= USED 0
+LCD_P8x8_ZH <= USED 0
+LCD_P8x8_ZH_Arr <= USED 0
 ;FILE param.o
 param_test <= USED 0
 ;FILE patch.o
@@ -155,7 +156,6 @@ write_one_SW_LUT_entry <= USED 0
 ;FILE prf_utils.o
 prf_pack_date_time <= USED 0
 prf_unpack_date_time <= USED 0
-;FILE proclogic.o
 ;FILE rf_585.o
 rf_nfm_disable <= USED 0
 rf_nfm_enable <= USED 0
@@ -233,6 +233,8 @@ user_svc1_indicateable_cfg_ind_handler <= USED 0
 user_svc1_indicateable_ind_cfm_handler <= USED 0
 user_svc1_long_val_ntf_cfm_handler <= USED 0
 ;FILE user_periph_setup.o
+init_eeprom_pin <= USED 0
+init_oled_pin <= USED 0
 ;FILE user_peripheral.o
 ;FILE utils.o
 ;FILE weighing.o

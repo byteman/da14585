@@ -117,14 +117,14 @@ static uint8_t g_init =0;
 
 static void _enter(void)
 {
-		init_eeprom_pin();
+		//init_eeprom_pin();
     i2c_eeprom_init(I2C_SLAVE_ADDRESS, I2C_SPEED_MODE, I2C_ADDRESS_MODE, I2C_ADDRESS_SIZE);
 	
 }
 static void _leave(void)
 {
 		i2c_eeprom_release();
-		init_oled_pin();
+		//init_oled_pin();
 }
 
 /**
@@ -234,6 +234,10 @@ param_err_t param_init(void)
    
 		uint32_t bytes_read = 0,bytes_written = 0;
 	
+	//memcpy((void*)&g_param, (const void*)&g_Default_Device_Para,sizeof(g_param));
+	//memcpy((void*)&g_user, (void*)&g_Default_User_Para,sizeof(g_user));
+			//memcpy((void*)&g_logic, (void*)&g_logic_default_para,sizeof(g_logic));
+			//return I2C_NO_ERROR;
 		i2c_error_code code = _read_data((uint8_t*)&g_param, DEV_PARA_ADDR, sizeof(g_param), &bytes_read);
 		if(code != I2C_NO_ERROR)
 		{

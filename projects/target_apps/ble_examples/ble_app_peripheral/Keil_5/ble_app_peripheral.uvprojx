@@ -1045,11 +1045,6 @@
               <FilePath>..\src\cornmenu.c</FilePath>
             </File>
             <File>
-              <FileName>proclogic.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\proclogic.c</FilePath>
-            </File>
-            <File>
               <FileName>audio.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\audio.c</FilePath>
@@ -2105,11 +2100,6 @@
               <FileName>cornmenu.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\cornmenu.c</FilePath>
-            </File>
-            <File>
-              <FileName>proclogic.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\proclogic.c</FilePath>
             </File>
             <File>
               <FileName>audio.c</FileName>

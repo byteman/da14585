@@ -4,7 +4,7 @@
 #include "types.h"
 #include "key.h"
 
-void logic_isr(void);
+//uint8 logic_isr(void);
 
 #endif
 

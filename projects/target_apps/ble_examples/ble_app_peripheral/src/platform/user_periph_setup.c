@@ -123,11 +123,11 @@ void set_pad_functions(void)        // set gpio port function mode
 	GPIO_ConfigurePin(PWR_OFF_PORT,PWR_OFF_PIN,OUTPUT,PID_GPIO,false);
 
 
-  //GPIO_ConfigurePin(I2C_GPIO_PORT, I2C_SCL_PIN, INPUT, PID_I2C_SCL, false);
-  //GPIO_ConfigurePin(I2C_GPIO_PORT, I2C_SDA_PIN, INPUT, PID_I2C_SDA, false);
-	init_oled_pin();
-	init_eeprom_pin();
-	init_oled_pin();
+  GPIO_ConfigurePin(I2C_GPIO_PORT, I2C_SCL_PIN, INPUT, PID_I2C_SCL, false);
+  GPIO_ConfigurePin(I2C_GPIO_PORT, I2C_SDA_PIN, INPUT, PID_I2C_SDA, false);
+	GPIO_ConfigurePin(LCD_RST_PORT,LCD_RST,OUTPUT,PID_GPIO,true);
+	//init_eeprom_pin();
+	//init_oled_pin();
 }
 
 //≈‰÷√EEPROM

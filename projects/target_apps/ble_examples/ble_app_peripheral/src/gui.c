@@ -67,10 +67,7 @@ void gui_show_battry_state(uint8 value)
 	LCD_P8x16Ch(112,3,level);
 	 
 }
-void gui_show_sum(int value, uint8 dot)
-{
-	LCD_P8x16Str(48,5,"80196.2");
-}
+
 void gui_show_ble_state(uint8 state)
 {
 	 if(state)
