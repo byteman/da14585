@@ -52,7 +52,7 @@ void corn_menu_key_event(key_msg_t* msg)
 							ad_put_corl_adx(step++);
 							if(step == MAX_ANGLE){
 								ad_calib_corl_k(g_para);
-								param_save(USER_PARA_T);
+								param_save(DEV_PARA_T);
 								gui_show(MENI_CAL_WET);
 							}
 							else

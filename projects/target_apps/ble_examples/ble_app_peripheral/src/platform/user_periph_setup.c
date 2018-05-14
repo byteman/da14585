@@ -116,8 +116,9 @@ void set_pad_functions(void)        // set gpio port function mode
 #endif	
 //按键是平时高，按下低 ,启用上拉电阻.	
 	
-	GPIO_ConfigurePin(KEY_ZERO_PORT,KEY_ZERO_PIN,INPUT,PID_GPIO,false);
+	//GPIO_ConfigurePin(KEY_ZERO_PORT,KEY_ZERO_PIN,INPUT,PID_GPIO,false);
 	GPIO_ConfigurePin(KEY_PWR_PORT, KEY_PWR_PIN, INPUT,PID_GPIO,true);
+	GPIO_ConfigurePin(KEY_ZERO_PORT, KEY_ZERO_PIN, INPUT_PULLUP, PID_GPIO, false);
 
 //输出高控制关机
 	GPIO_ConfigurePin(PWR_OFF_PORT,PWR_OFF_PIN,OUTPUT,PID_GPIO,false);

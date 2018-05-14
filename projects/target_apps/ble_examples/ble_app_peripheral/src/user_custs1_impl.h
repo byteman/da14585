@@ -35,8 +35,10 @@
 
 enum
 {
+		
     CUSTS1_CP_ADC_VAL1_DISABLE = 0,
     CUSTS1_CP_ADC_VAL1_ENABLE,
+		CUSTS1_CP_SLEEP
 };
 
 enum

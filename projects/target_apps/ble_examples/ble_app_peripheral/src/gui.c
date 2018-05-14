@@ -98,20 +98,7 @@ void gui_show_ble_addr(uint8 *addr, uint8 len)
 	LCD_P6x8Str(1,3,"00:11:33:44:55:66");
 }
 #include "scaler.h"
-#define BMP_SUM 0
-#define BMP_STILL 1
-#define BMP_ZERO 2
-#define BMP_BLE  3
-#define BMP_CLEAR 4
 
-void gui_show_scaler_state(scaler_info_t *sif)
-{
-	
-	LCD_P16x16bmp(32,1,sif->stillFlag?BMP_STILL:BMP_CLEAR);
-	LCD_P16x16bmp(32,3,sif->zeroFlag? BMP_ZERO:BMP_CLEAR);
-	LCD_P16x16bmp(32,5,0);
-
-}
 
 void gui_show_weight(int value, uint8 dot, uint8 unit)
 {

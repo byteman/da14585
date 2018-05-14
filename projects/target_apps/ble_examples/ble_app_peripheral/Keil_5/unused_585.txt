@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Sun May 13 23:44:05 2018
+;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Mon May 14 18:29:49 2018
 ;VERSION 0.2
 ;FILE adc.o
 ;FILE adc_1.o
@@ -169,6 +169,7 @@ set_gauss_modgain <= USED 0
 ;FILE sc5040b.o
 ;FILE scaler.o
 scaler_get_history_record <= USED 0
+scaler_reset_history <= USED 0
 ;FILE smpc_util.o
 ;FILE spi.o
 spi_access <= USED 0
@@ -208,12 +209,14 @@ spi_read_flash_unique_id <= USED 0
 syscntl_set_dcdc_vbat3v_level <= USED 0
 ;FILE system_armcm0.o
 SystemCoreClockUpdate <= USED 0
+;FILE systick.o
+systick_stop <= USED 0
+systick_value <= USED 0
+systick_wait <= USED 0
 ;FILE timer.o
-SysTick_Event <= USED 0
 Timer_Delete <= USED 0
 Timer_Disable <= USED 0
 Timer_Enable <= USED 0
-Timer_Init <= USED 0
 Timer_Regist <= USED 0
 Timer_Server <= USED 0
 ;FILE trng.o
@@ -267,6 +270,4 @@ quad_decoder_init <= USED 0
 quad_decoder_register_callback <= USED 0
 quad_decoder_release <= USED 0
 wkupct_disable_irq <= USED 0
-wkupct_enable_irq <= USED 0
 wkupct_quad_disable_IRQ <= USED 0
-wkupct_register_callback <= USED 0

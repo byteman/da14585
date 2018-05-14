@@ -6,12 +6,13 @@
 #include "common.h"
 #include "param.h"
 
+#if 0
 #define 		CAP_N   10 	
 #define		  CAP_M   4  //ËÄ¸ö½Ç²îµã. 	
 
 typedef struct {
 
-	INT32S	m_Value[CAP_N+1]; //??????????
+	INT32S	m_Value[CAP_N+1]; 
 	INT32S 	data_sum;
 	INT32S  	m_index;	
 	INT8U	m_ad_err;
@@ -19,7 +20,7 @@ typedef struct {
 	
 
 }__CHANNEL_VALUE;
-
+#endif
 
 #define		MAX_SNSR_NUM				6
 typedef struct {

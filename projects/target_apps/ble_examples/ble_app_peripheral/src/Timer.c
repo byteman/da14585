@@ -20,25 +20,27 @@ static TIME_OUT_PROC Timer6_fn = NULL;
 static	INT32U	g_Flg_T6inited = FALSE;
 /* Private functions ---------------------------------------------------------*/
 //static void Timer_SysTickConfig(void);
+#define SYSTICK_PERIOD_US   1000000     // period for systick timer in us, so 1000000ticks = 1second
+#define SYSTICK_EXCEPTION   1           // generate systick exceptions
+void SysTick_Event(void);
+void systick_isr(void)
+{
+		SysTick_Event();
+}
 
 /******************************************************************************
   * @brief  配置 SysTick 为 1 毫秒定时中断.
   * @param  None
   * @retval None
 ******************************************************************************/
-//void Timer_SysTickConfig(void)
-//{
-//	RCC_ClocksTypeDef RCC_Clocks;
-  
-//	RCC_GetClocksFreq(&RCC_Clocks);
-//	/* Setup SysTick Timer for 1 ms interrupts  */
-//	if (SysTick_Config(RCC_Clocks.SYSCLK_Frequency / 1000))
-//	{
-//		return;
-//	}
-//	/* Configure the SysTick handler priority */
-//	NVIC_SetPriority(SysTick_IRQn, 0x0);
-//}
+void Timer_SysTickConfig(void)
+{
+	 systick_register_callback(systick_isr);
+    // Systick will be initialized to use a reference clock frequency of 1 MHz
+   systick_start(SYSTICK_PERIOD_US, SYSTICK_EXCEPTION);
+}
+
+
 /******************************************************************************
   * @brief  初始化定时器模块
   * @param  None
@@ -58,7 +60,7 @@ Std_ReturnType Timer_Init(void)
 		p->fn = NULL;
 	}
 
-    //Timer_SysTickConfig();
+  Timer_SysTickConfig();
 	return TRUE;
 }
 /******************************************************************************
@@ -89,6 +91,7 @@ void SysTick_Event(void)
 		}
 	}
 }
+
 /******************************************************************************
   * @brief	定时器服务调用，请在主循环中调用该函数，从而执行所有定时器事件  
   * @param  None

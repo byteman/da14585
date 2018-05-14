@@ -4,6 +4,10 @@
 
 #include "types.h"
 
+#include "channel.h"
+
+
+
 typedef enum{
 	AD_HZ_40= 0,
 }AD_HZ;

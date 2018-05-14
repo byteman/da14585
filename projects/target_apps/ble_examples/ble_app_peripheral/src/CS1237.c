@@ -3,6 +3,7 @@
 #include "gpio.h"
 #include "user_peripheral.h"
 #include "user_periph_setup.h"
+#include "common.h"
 //#include "hal_drivers.h"
 //#include "ioCC2541.h"
 
@@ -199,6 +200,32 @@ void CS1237_Init(AD_HZ hz)
   
 }
 
+
+static 	__CHANNEL_VALUE ad_value[CAP_M];  
+INT32S			AD_filter[CAP_M];
+
+static INT32S cs1237_filter_ad(int index ,INT32S  cap)
+{
+
+	int ch = index;
+	int in = 0;
+	
+	ad_value[ch].m_index +=1;  
+	if(ad_value[ch].m_index >= CAP_N ) 
+		ad_value[ch].m_index = 0;	
+	in = ad_value[ch].m_index;
+	
+	ad_value[ch].data_sum -= ad_value[ch].m_Value[in];
+	ad_value[ch].m_Value[in]= cap;
+	ad_value[ch].data_sum += ad_value[ch].m_Value[in] ;
+	ad_value[ch].m_ad_err = 0;
+	ad_value[ch].m_ad_ready = 1;
+	return cap;
+
+
+}
+
+
 /******************************************************************************
   * @brief  .
   * @param  None
@@ -222,8 +249,10 @@ int8 CS1237_ReadAD(uint8 chan,int32* ad)
   CS1237_Clock(config);
   CS1237_Clock(config);
   CS1237_Clock(config); //CLK27£¬À­¸ß DRDY
-  addat <<= 8;
-  addat >>= 14;
+  addat <<= 8;          
+	addat >>= 8;         //
+	addat = addat >> 2;
+	//addat = cs1237_filter_ad(chan,addat);
   *ad = addat;
   return 1;
 }

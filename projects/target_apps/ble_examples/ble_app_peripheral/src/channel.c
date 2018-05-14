@@ -1,6 +1,8 @@
 #include "channel.h"
 #include "adc.h"
 #define MAX_AD_CHAN 8
+
+
 static ad_channel_t g_ad_chan[MAX_AD_CHAN];
 static uint8_t ad_chan_nr = 4;
 
@@ -36,6 +38,8 @@ uint8_t channel_read_all(void)
         {
             return CHAN_ERR_BUSY;
         }
+				
+				
     }
 
     return CHAN_ERR_NONE;

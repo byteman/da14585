@@ -68,7 +68,7 @@ typedef  __packed struct PARA_USER
 
 //需要持久化保存的设备参数.
 typedef __packed struct _device_param{
-    uint8_t sensor_nb; //传感器个数
+    //uint8_t sensor_nb; //传感器个数
     float32	corn_k[MAX_CORN_NUM]; //角差系数
 
     INT16U	mWetUp;		//	重量上限值
@@ -77,8 +77,8 @@ typedef __packed struct _device_param{
     //INT16U	mBeep;		//蜂鸣模式
 
 
-    INT8U	mTareRang;//皮重范围
-    INT8U   	mTareEN;// 皮重允许
+    INT8U  mTareRang;//皮重范围
+    INT8U  mTareEN;// 皮重允许
     //INT8U	mBLEN;	//背光开关设置
     INT8U	mBLAuto;//自动关机管理
     //INT32S  mLinerPt[6]; //线性标定的点

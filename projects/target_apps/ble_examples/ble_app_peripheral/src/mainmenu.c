@@ -15,7 +15,12 @@ static logic_param_t* g_logic = NULL;
 static device_param* g_param;
 static PARA_USER_T*  g_user;
 static uint8_t g_flag = 0;
+static uint32_t g_tick_count = 0; //主称重界面的定时器. 3分钟未计重进入休眠状态. 10分钟未计重进入关机状态. 未计重的意思，重量一直未超过称重阈值??
 
+/*
+1.休眠模式下无重量显示 OLED关闭/关闭蓝牙信号/无语音播报.
+2.休眠模式下可按置零键唤醒.
+*/
 static void menu_menu_msg_cb(comm_msg_t* msg)
 {
 	switch(msg->cmd)
@@ -132,12 +137,30 @@ uint8 main_logic_isr(scaler_info_t * sif)
 		return 0;
 }
  
+#define BMP_SUM 0
+#define BMP_STILL 1
+#define BMP_ZERO 2
+#define BMP_BLE  3
+#define BMP_CLEAR 4
+
+//稳定和零位显示.
+//可以设置一个标志,重量或者零位标志，稳定标志有其中一个有变化,就可以刷新.
+static void gui_show_scaler_state(scaler_info_t *sif)
+{
+	
+	LCD_P16x16bmp(32,1,sif->stillFlag?BMP_STILL:BMP_CLEAR);
+	LCD_P16x16bmp(32,3,sif->zeroFlag? BMP_ZERO:BMP_CLEAR);
+	LCD_P16x16bmp(32,5,0);
+
+}
+
 void main_menu_gui_func(void)
 {
 
 	scaler_info_t * sif = scaler_get_info();
 	if(sif != NULL){
 			gui_show_weight(sif->div_weight,1,0);
+			gui_show_scaler_state(sif);
 			if(main_logic_isr(sif))
 			{
 					gui_show_history_weight();
@@ -147,6 +170,13 @@ void main_menu_gui_func(void)
 	}
 
 	
+}
+//清零历史重量.
+static void		scaler_reset_history(void)
+{
+		g_logic->history_sum = 0;
+		param_save(LOGIC_PARA_T);	
+		gui_show_sum(g_logic->history_sum,1);
 }
 void main_menu_key_event(key_msg_t* msg)
 {
@@ -158,10 +188,19 @@ void main_menu_key_event(key_msg_t* msg)
 				//gui_show(MENU_DEBUG);
 					scaler_set_zero();
 			}
+			else 	if(msg->event == KEY_RELEASE)
+			{
+					scaler_reset_history();
+			}
 	}
 	else if(msg->key == KEY_PWR)
 	{
-			gui_show(MENU_BLE);
+			if(msg->event == KEY_RELEASE){
+					gui_show(MENU_BLE);
+			}else if(msg->event == KEY_LONG_PRESSED){
+					key_power_off();
+			}
+			
 	}
 	else if(msg->key == KEY_ALL)
 	{

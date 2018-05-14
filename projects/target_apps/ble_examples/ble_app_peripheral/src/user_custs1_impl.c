@@ -50,10 +50,13 @@ void user_svc1_ctrl_wr_ind_handler(ke_msg_id_t const msgid,
     uint8_t val = 0;
     memcpy(&val, &param->value[0], param->length);
 
-    if (val != CUSTS1_CP_ADC_VAL1_DISABLE)
+    if (val == CUSTS1_CP_ADC_VAL1_ENABLE)
     {
         timer_used = app_easy_timer(APP_PERIPHERAL_CTRL_TIMER_DELAY, app_adcval1_timer_cb_handler);
     }
+		else if(val == CUSTS1_CP_SLEEP){
+				 //arch_set_extended_sleep(false);
+		}
     else
     {
         if (timer_used != EASY_TIMER_INVALID_TIMER)
@@ -204,7 +207,7 @@ void user_svc1_rest_att_info_req_handler(ke_msg_id_t const msgid,
 
     ke_msg_send(rsp);
 }
-
+#include "scaler.h"
 void app_adcval1_timer_cb_handler()
 {
     struct custs1_val_ntf_ind_req *req = KE_MSG_ALLOC_DYN(CUSTS1_VAL_NTF_REQ,
@@ -214,20 +217,25 @@ void app_adcval1_timer_cb_handler()
                                                           DEF_SVC1_ADC_VAL_1_CHAR_LEN);
 
     // ADC value to be sampled
-    static uint16_t sample;
-    sample = (sample <= 0xffff) ? (sample + 1) : 0;
+    int16_t sample;
+    //sample = (sample <= 0xffff) ? (sample + 1) : 0;
+		scaler_info_t* sif = scaler_get_info();
+		if(sif!=NULL)
+		{
+			 //req->conhdl = app_env->conhdl;
+			req->handle = SVC1_IDX_ADC_VAL_1_VAL;
+			req->length = DEF_SVC1_ADC_VAL_1_CHAR_LEN;
+			req->notification = true;
+			sample = sif->div_weight;
+			memcpy(req->value, &sample, DEF_SVC1_ADC_VAL_1_CHAR_LEN);
 
-    //req->conhdl = app_env->conhdl;
-    req->handle = SVC1_IDX_ADC_VAL_1_VAL;
-    req->length = DEF_SVC1_ADC_VAL_1_CHAR_LEN;
-    req->notification = true;
-    memcpy(req->value, &sample, DEF_SVC1_ADC_VAL_1_CHAR_LEN);
+			ke_msg_send(req);
 
-    ke_msg_send(req);
-
-    if (ke_state_get(TASK_APP) == APP_CONNECTED)
-    {
-        // Set it once again until Stop command is received in Control Characteristic
-        timer_used = app_easy_timer(APP_PERIPHERAL_CTRL_TIMER_DELAY, app_adcval1_timer_cb_handler);
-    }
+			if (ke_state_get(TASK_APP) == APP_CONNECTED)
+			{
+					// Set it once again until Stop command is received in Control Characteristic
+					timer_used = app_easy_timer(APP_PERIPHERAL_CTRL_TIMER_DELAY, app_adcval1_timer_cb_handler);
+			}
+		}
+   
 }

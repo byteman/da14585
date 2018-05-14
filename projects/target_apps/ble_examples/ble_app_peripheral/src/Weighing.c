@@ -434,7 +434,7 @@ void	Wet_Process(INT32S adcode,FP32 temp)
 
 void	Wet_StableWt(void)
 {
-	g_wet_state.stable = IsFilterDataStable();	
+	g_wet_state.stable = IsFilterDataStable();	 //KM滤波中可以获取稳定
 }
 /******************************************************************************
   * @brief  判断示值是否稳定(0.1秒处理一次，处理长度1秒)

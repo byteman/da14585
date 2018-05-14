@@ -5,8 +5,8 @@
 #include "user_periph_setup.h"
 #include "matrix.h"
 #include "channel.h"
-static 	__CHANNEL_VALUE ad_value[CAP_M];  
-INT32S			AD_filter[CAP_M];
+//static 	__CHANNEL_VALUE ad_value[CAP_M];  
+//INT32S			AD_filter[CAP_M];
 CORL_DEF		corl_ad;
 
 

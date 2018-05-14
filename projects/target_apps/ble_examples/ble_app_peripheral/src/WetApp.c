@@ -29,6 +29,7 @@
 #include "param.h"
 #include "Weighing.h"
 #include "WetApp.h"
+//#include "UnitSwitch.h"
 
 TID		mWetAppID;
 
@@ -126,9 +127,28 @@ INT32S	WetApp_IncFormat(float wet)
 
 INT32S WetApp_Convert_Data(float inwet)
 {
-	INT32S CvtWet  = 0;
+		INT32S CvtWet  = 0;
+#if 0
+	static float wet = 0;
+	INT8U  mdiv = 0;
+	INT8U  i = 0;
+	
+	wet = Unit_Convert_UnitData(inwet,2);
+	CvtWet  = (INT32S)wet ;	
+	CvtWet = WetApp_IncFormat(CvtWet);
+
+	
+	mdiv   = Unit_Get_DivCnt();
+	for(i = 0;i < mdiv ;i++)
+	{
+		CvtWet /= 10;
+	}
+
+#else
 	CvtWet = WetApp_IncFormat(inwet);
+#endif	
 	return CvtWet;
+	
 }
 
 INT8U WetApp_Get_RealPt(void)

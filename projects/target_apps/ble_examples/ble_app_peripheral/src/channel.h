@@ -4,6 +4,20 @@
 #include "common.h"
 #include "state.h"
 
+
+#define 		CAP_N   10 	
+#define		  CAP_M   4  //四个角差点. 	
+
+typedef struct {
+
+	INT32S	m_Value[CAP_N+1]; 
+	INT32S 	data_sum;
+	INT32S  m_index;	
+	INT8U		m_ad_err;
+	INT8U		m_ad_ready;
+	
+
+}__CHANNEL_VALUE;
 typedef struct {
     uint8_t nr; //通道号
     uint8_t ready; //是否转换完成

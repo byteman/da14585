@@ -25,7 +25,7 @@ void scaler_run()
     if(!channel_read_all()){
         int i = 0;
         int32_t ad = 0;
-        for(; i < g_param->sensor_nb; i++)
+        for(; i < MAX_CHAN; i++)
         {
             ad_channel_t *chan = channel_get(i);
 						g_sinfo.adArrs[i]  = chan->value;
@@ -81,4 +81,8 @@ uint8		scaler_set_zero()
 {
 		WetApp_SetZero();
 		return 0;
+}
+void		scaler_reset_history(void)
+{
+		
 }

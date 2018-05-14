@@ -41,7 +41,7 @@ const PARA_USER_T g_Default_User_Para = {
 };
 const device_param	g_Default_Device_Para = 
 {
-		.sensor_nb=4,
+		//.sensor_nb=4,
 		.corn_k= {1,1,1,1,1},
 		.mWetUp=0,
 		.mWetDown = 0,
@@ -49,6 +49,7 @@ const device_param	g_Default_Device_Para =
     .mTareEN=0,// 皮重允许
 		.mBLAuto = 0,
 		.mCornCalibWet = 50, //角差标定时的标准重量.
+		.mFltLevel = 3,				//INT8U	mFltLevel; //滤波等级
 	#if 0
 		100,			// 	INT32U	mAdjPcsWet;	//计数标定重量
 		50,			// 	INT16U	mAdjPcsCnt;//计数标定片数
@@ -279,13 +280,6 @@ param_err_t param_init(void)
 				//return PARA_ERR_READ_CRC;
 		}
 		
-#if 0	
-    g_param.sensor_nb = 3;
-    for(i = 0; i < g_param.sensor_nb; i++)
-    {
-        g_param.corn_k[i] = 1.0;
-    }
-#endif
 		g_init = 1;
 		
 		return PARA_ERR_NONE;

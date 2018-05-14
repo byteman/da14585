@@ -126,3 +126,8 @@ void  key_isr()
 	#endif
 		
 }
+void key_power_off(void)
+{
+		GPIO_SetActive(PWR_OFF_PORT,PWR_OFF_PIN);
+		while(1);
+}
