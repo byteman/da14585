@@ -15,6 +15,7 @@ static logic_param_t* g_logic = NULL;
 static device_param* g_param;
 static PARA_USER_T*  g_user;
 static uint8_t g_flag = 0;
+static uint8_t g_still_count = 0;
 static uint32_t g_tick_count = 0; //主称重界面的定时器. 3分钟未计重进入休眠状态. 10分钟未计重进入关机状态. 未计重的意思，重量一直未超过称重阈值??
 
 /*
@@ -108,6 +109,9 @@ uint8 main_logic_isr(scaler_info_t * sif)
 			(g_flag==0)
 		)
 		{
+				if(g_still_count++ < 10){
+						return 0;
+				}
 				char buf[16] = {0,};
 			
 			
@@ -128,7 +132,7 @@ uint8 main_logic_isr(scaler_info_t * sif)
 		}
 		
 		if(sif->stillFlag &&  
-			sif->div_weight < g_user->RSN && 
+			sif->div_weight < 2*g_user->RSN && 
 			(g_flag==1))
 		{
 				
@@ -153,13 +157,26 @@ static void gui_show_scaler_state(scaler_info_t *sif)
 	LCD_P16x16bmp(32,5,0);
 
 }
+static void gui_show_weight(scaler_info_t * sif)
+{
+	char buf[16]={0,};
+	
+	if(sif->upFlow || sif->downFlow){
+			LCD_P16x32Str(48,1,"----");
+			return;
+	}
+	format_weight((char*)buf,16,sif->div_weight,1);
+	buf[4] = 0;
+	LCD_P16x32Str(48,1,buf);
 
+
+}
 void main_menu_gui_func(void)
 {
 
 	scaler_info_t * sif = scaler_get_info();
 	if(sif != NULL){
-			gui_show_weight(sif->div_weight,1,0);
+			gui_show_weight(sif);
 			gui_show_scaler_state(sif);
 			if(main_logic_isr(sif))
 			{

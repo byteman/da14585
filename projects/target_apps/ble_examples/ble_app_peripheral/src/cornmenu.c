@@ -10,11 +10,11 @@ static device_param* g_para;
 static void corn_menu_show_angle(uint8 num)
 {
 	uint8 arr[] = {0,1,2,3};
-	uint8 arr2[] = {4,5,7,8,20,9,16,17,10,11};
+	uint8 arr2[] = {4,18,7,8,num+20-1,9,16,17,10,11};
 	gui_clear_screen();
 	char buf[32] = {0,};
 	
-	snprintf(buf,32,"%d",num);
+	//snprintf(buf,32,"%d",num);
 	//LCD_P8x16Str(48,1,"corn");
 	//LCD_P16x16_ZH(0,1,1);
 	

@@ -22,6 +22,7 @@ typedef struct {
     uint8_t nr; //通道号
     uint8_t ready; //是否转换完成
     int32_t value; //值.
+		//int32_t filter; //滤波后的值.
     adc_err_state_t state; //当前的芯片状态.
 }ad_channel_t;
 
@@ -51,6 +52,8 @@ int8_t  channel_read(uint8_t chan,ad_channel_t* info);
  * @return 通道信息.
  */
 ad_channel_t* channel_get(uint8_t chan);
+
+INT32S channel_get_filter_ad(uint8_t chan);
 
 /**
  * @brief 读取全部通道的AD

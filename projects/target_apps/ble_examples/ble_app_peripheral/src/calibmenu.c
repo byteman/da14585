@@ -13,24 +13,37 @@ static uint8 step = 0;
 static void calib_menu_show_zero(void)
 {
 	gui_clear_screen();
-	char buf[32] = {0,};
+	char title[4] = {12,13,2,3};
+	char text[5] = {4,14,15,16,17};
 	
-	LCD_P8x16Str(1,5,"clear scaler");
-	LCD_P8x16Str(1,1,"calibrate");
+
+	LCD_P16x16_ZH_Arr(1,0,title,4);
+	LCD_P16x16_ZH_Arr(1,3,text,5);
+
 	
 }
 static void calib_menu_show_weight(void)
 {
-	gui_clear_screen();
+	/*
 	
-	LCD_P8x16Str(1,5,"load weight");
-	LCD_P8x16Str(1,1,"calibrate");
+	*/
+	gui_clear_screen();
+	char title[4] = {12,13,10,11}; //标定重量
+	char text[5] = {4,6,7,10,11};
+	
+
+	LCD_P16x16_ZH_Arr(1,0,title,4);
+	LCD_P16x16_ZH_Arr(1,3,text,5);
+
 	
 }
 static void calib_state_show()
 {
 	gui_clear_screen();
-	LCD_P8x16Str(1,5,"please wait");
+	//char title[4] = {12,13,10,11}; //标定重量
+	char text[5] = {4,26,27}; 
+	//LCD_P16x16_ZH_Arr(1,0,title,4);
+	LCD_P16x16_ZH_Arr(20,3,text,3);
 }
 
 void calib_menu_init_func(uint8 prev)

@@ -26,9 +26,7 @@ void ad_put_corl_adx(char index)
 	char i = 0;
 	for(i =0;i< CAP_M;i++)
 	{
-		ad_channel_t *chan = channel_get(i);
-		if(chan!=NULL)
-			corl_ad.Adx[index][i] = chan->value;
+			corl_ad.Adx[index][i] = channel_get_filter_ad(i);
 	}
 }
 //角差标点，计算标定结果
@@ -38,7 +36,8 @@ void ad_calib_corl_k(device_param* parm)
 	float res[MAX_SNSR_NUM];
 	float min_k = 0;
 	//ad_put_corl_bx( parm->mLinerNov[1]) ;
-	ad_put_corl_bx(parm->mCornCalibWet);
+	//ad_put_corl_bx(parm->mCornCalibWet);
+	ad_put_corl_bx(50);
 	linear_equation_group(0, corl_ad.Adx, corl_ad.Bx,CAP_M, res);	
 
 	for(i =0;i< CAP_M;i++)
@@ -46,7 +45,7 @@ void ad_calib_corl_k(device_param* parm)
 		parm->corn_k[i] = res[i] /res[0] ; 
 		if(parm->corn_k[i]  < 0.8f || parm->corn_k[i]  > 1.2f)
 		{
-			parm->corn_k[i]  = 1.0;
+			//parm->corn_k[i]  = 1.0;
 		}
 	}	
 }

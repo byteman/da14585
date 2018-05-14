@@ -95,6 +95,8 @@ void  key_isr()
 		if(GPIO_GetPinStatus(KEY_ZERO_PORT,KEY_ZERO_PIN))
 		{
 					key_states[1].press_ts++;
+					key_states[1].releas_ts=20;
+			
 					if(key_states[1].press_ts > (PRESS_KEY_TIME/TIMER_INT) )
 					{
 								if(GPIO_GetPinStatus(KEY_PWR_PORT,KEY_PWR_PIN))
@@ -114,6 +116,10 @@ void  key_isr()
 		}
 		else
 		{
+					if(key_states[1].releas_ts > 0){
+							key_states[1].releas_ts--;
+							return;
+					}
 			//LOW LEVEL °´¼ü±»ÊÍ·Å.
 					if(key_states[1].press_ts > KEY_PRESS_TIME && key_states[1].state != KEY_LONG_PRESSED)
 					{

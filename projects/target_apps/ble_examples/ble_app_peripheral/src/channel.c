@@ -45,10 +45,34 @@ uint8_t channel_read_all(void)
     return CHAN_ERR_NONE;
 }
 
+static 	__CHANNEL_VALUE ad_value[CAP_M];  
+INT32S			AD_filter[CAP_M];
+
+
+static INT32S cs1237_filter_ad(int index ,INT32S  cap)
+{
+
+	int ch = index;
+	int in = 0;
+	
+	ad_value[ch].m_index +=1;  
+	if(ad_value[ch].m_index >= CAP_N ) 
+		ad_value[ch].m_index = 0;	
+	in = ad_value[ch].m_index;
+	
+	ad_value[ch].data_sum -= ad_value[ch].m_Value[in];
+	ad_value[ch].m_Value[in]= cap;
+	ad_value[ch].data_sum += ad_value[ch].m_Value[in] ;
+	ad_value[ch].m_ad_err = 0;
+	ad_value[ch].m_ad_ready = 1;
+	return cap;
+
+
+}
 
 static int32_t channel_filter(uint8_t chan,int32_t ad)
 {
-    return ad;
+		return cs1237_filter_ad(chan,ad);
 }
 
 int8_t channel_read(uint8_t chan, ad_channel_t *info)
@@ -70,4 +94,9 @@ ad_channel_t *channel_get(uint8_t chan)
 {
     return &g_ad_chan[chan];
 }
-
+INT32S channel_get_filter_ad(uint8_t chan)
+{
+		int rt_v = 0;
+		rt_v = ad_value[chan].data_sum/CAP_N;
+		return rt_v;
+}

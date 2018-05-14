@@ -100,19 +100,7 @@ void gui_show_ble_addr(uint8 *addr, uint8 len)
 #include "scaler.h"
 
 
-void gui_show_weight(int value, uint8 dot, uint8 unit)
-{
-	char buf[16]={0,};
-	if(value > 999 || value < 0){
-			LCD_P16x32Str(48,1,"----");
-			return;
-	}
-	format_weight((char*)buf,16,value,dot);
-	
-	LCD_P16x32Str(48,1,buf);
 
-
-}
 void gui_clear_screen(void)
 {
 	LCD_Fill(0x00);  //³õÊ¼ÇåÆÁ
