@@ -3,10 +3,22 @@
 #include "blemenu.h"
 
 #include "key.h"
+#include "scaler.h"
 
+static void gui_show_ble_addr(const char* addr)
+{
+	
+	
+}
 void ble_menu_init_func(uint8 prev)
 {
-		gui_show_ble_addr("00:11:22:33:44:55",17);
+		gui_clear_screen();
+		char title[4] = {12,13,10,11}; //标定重量
+	
+		const char* addr = scaler_get_ble_addr();
+		LCD_P16x16_ZH_Arr(1,0,title,4);
+		LCD_P6x8Str(1,13,addr); //128 - 102 = 26/2
+
 }
 
 void ble_menu_gui_func(void)

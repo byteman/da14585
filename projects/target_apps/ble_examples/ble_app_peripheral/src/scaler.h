@@ -23,6 +23,8 @@ typedef struct _scaler_info_t{
 }scaler_info_t;
 void    scaler_init();
 void    scaler_run();
+void		scaler_set_ble_addr(char* addr);
+const char* scaler_get_ble_addr(void);
 int			scaler_get_history_record(float* values, uint8 num);
 void  	scaler_get_display_weight(char* buffer, uint8 size);
 scaler_info_t* 		scaler_get_info(void);

@@ -17,7 +17,7 @@ void gui_show_sum(int value, uint8 dot);
 
 void gui_show_ble_state(uint8 state);
 
-void gui_show_ble_addr(uint8 *addr, uint8 len);
+//void gui_show_ble_addr(uint8 *addr, uint8 len);
 
 
 void gui_show_battry_state(uint8 value);
