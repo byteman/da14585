@@ -157,6 +157,14 @@ static void gui_show_scaler_state(scaler_info_t *sif)
 	LCD_P16x16bmp(32,5,0);
 
 }
+//1.最多只能显示4位 包括小数点
+//2.最后一位数字 按 8x16 字符显示
+//3.小数点按只显示4x4像素.
+static void lcd_show_weight(char* buf)
+{
+	buf[4] = 0; //超过4位了就截取.
+	LCD_P16x32Str(48,1,buf);
+}
 static void gui_show_weight(scaler_info_t * sif)
 {
 	char buf[16]={0,};
@@ -166,8 +174,7 @@ static void gui_show_weight(scaler_info_t * sif)
 			return;
 	}
 	format_weight((char*)buf,16,sif->div_weight,1);
-	buf[4] = 0;
-	LCD_P16x32Str(48,1,buf);
+	lcd_show_weight(buf);
 
 
 }

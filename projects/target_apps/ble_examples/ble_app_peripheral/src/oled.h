@@ -17,6 +17,7 @@ void LCD_P8x16Ch(unsigned char x, unsigned char y,unsigned char  N);
 void LCD_P10x8Ch(unsigned char x, unsigned char y,unsigned char  N);
 void LCD_P16x16bmp(unsigned char x, unsigned char y,unsigned char  N);
 void LCD_P16x32Str(unsigned char x, unsigned y,unsigned char ch[]);
+
 void LCD_P16x16_ZH(unsigned char x, unsigned char y,unsigned char  N);
 void LCD_P16x16_ZH_Arr(unsigned char x, unsigned char y,unsigned char  N[],unsigned char nr);
 void LCD_P8x8_ZH_Arr(unsigned char x, unsigned char y,unsigned char  N[],unsigned char nr);

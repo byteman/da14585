@@ -292,6 +292,10 @@ unsigned char F16x16_bmp[][16] = {
 	{0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},
 	{0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}, //clear
 };
+
+const unsigned char  Fdot[] = {
+	0xFF,0xF9,0xF9,0xFF
+};
 /************************************6*8???************************************/
 const unsigned char  F6x8[][6] =		
 {
@@ -1008,12 +1012,28 @@ void LCD_P8x16Str(unsigned char x, unsigned y,unsigned char ch[])
 void LCD_P16x32Str(unsigned char x, unsigned y,unsigned char ch[])
 {
 	unsigned char c=0,i=0,j=0;
+	int nr = strlen(ch);
 	while (ch[j]!='\0')
 	{    
 		c =(ch[j]-0x2B)*4;
 		if(x>120){x=0;y++;}
 		
 		LCD_Set_Pos(x,y);    
+		
+		if(ch[j] == '.')
+		{
+				//小数点只显示4x4个像素的宽度.
+				LCD_Set_Pos(x,y+3);    
+				for(i=0;i<4;i++)     
+					LCD_WrDat(Fdot[i]);  
+				x+=4;
+				continue;
+		}else if(j == nr-1){
+				//最后一个字符按8x16分辨率显示
+				//放到最后两行
+				LCD_P8x16Str(x,y+2,ch + j);
+				continue;
+		}
 		for(i=0;i<16;i++)     
 			LCD_WrDat(F16x32[c][i]);
 		
