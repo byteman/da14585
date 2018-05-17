@@ -92,11 +92,7 @@ void gui_show_ble_state(uint8 state)
 	
 }
 
-void gui_show_ble_addr(uint8 *addr, uint8 len)
-{
-	gui_clear_screen();
-	LCD_P6x8Str(1,3,"00:11:33:44:55:66");
-}
+
 #include "scaler.h"
 
 

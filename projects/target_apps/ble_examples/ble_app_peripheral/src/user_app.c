@@ -13,7 +13,7 @@
 #include "wkupct_quadec.h"
 static timer_hnd user_timer;
 
-#define USER_TIME_INTERVAL 10
+#define USER_TIME_INTERVAL 10 //100ms
 
 static  uint8 init = 0;
 void user_app_time_handle()
@@ -73,7 +73,6 @@ void user_app_start()
 			err  = param_init();
 			if(err != PARA_ERR_NONE)
 			{
-					
 					gui_show_error("load param err");
 			}
 			key_init();

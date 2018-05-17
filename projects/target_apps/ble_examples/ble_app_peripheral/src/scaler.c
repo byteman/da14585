@@ -7,6 +7,24 @@
 #include "WetApp.h"
 static device_param* g_param;
 static scaler_info_t g_sinfo;
+static char g_addr[32] = {0,};
+static uint8_t default_addr[6] = CFG_NVDS_TAG_BD_ADDRESS;
+void		scaler_set_ble_addr(char* addr)
+{
+	memset(g_addr,0,32);
+	strcpy(g_addr,addr);
+}
+const char* scaler_get_ble_addr(void)
+{
+	if(g_addr[0] == 0){
+		int i = 0; 
+		for(i = 0; i < 6; i++)
+		{
+			snprintf(g_addr,32,"%02x:%02x:%02x:%02x:%02x:%02x",default_addr[i]);
+		}
+	}
+	return g_addr;
+}
 void scaler_init()
 {
     if(PARA_ERR_NONE != param_get(&g_param))
