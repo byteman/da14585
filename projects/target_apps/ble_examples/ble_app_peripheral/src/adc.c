@@ -5,10 +5,10 @@
 static adc_config_t adc_configs[MAX_CHAN_NR];
 
 
-adc_err_t adc_read(uint8_t chan, int32_t *value)
+adc_err_t adc_read(uint8_t chan, ad_channel_t *info)
 {
     
-		if(CS1237_ReadAD(chan,value) == 0)
+		if(CS1237_ReadAD(chan,info) == 0)
 		{
 			 return ADC_ERR_BUSY;
 		}

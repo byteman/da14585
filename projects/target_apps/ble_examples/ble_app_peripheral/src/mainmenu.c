@@ -49,9 +49,20 @@ static void gui_show_history_weight(void)
 static void gui_show_sum(int value, uint8 dot)
 {
 	char buff[16]={0,};
+	
 	format_weight(buff,16,value,dot);
 	LCD_P8x16Str(48,5,buff);
-	LCD_P6x8Str(112,1,"kg");
+	
+	
+	//LCD_P6x8Str(112,1,kg,2);
+}
+static void gui_show_unit(void)
+{
+		uint8_t kg[3] = {24,25,0};
+		LCD_P8x16Ch(110,0,14);
+		LCD_P8x16Ch(118,0,15);
+		
+		//LCD_P8x8_ZH_Arr(110,0,kg,2);
 }
 /*
 菜单的更新有以下几种情况
@@ -62,7 +73,7 @@ static void gui_show_sum(int value, uint8 dot)
 */
 void main_menu_init_func(uint8 prev)
 {
-	float values[3];
+	
 	scaler_info_t* sif;
 	param_get_logic(&g_logic);
 	param_get(&g_param);
@@ -80,6 +91,7 @@ void main_menu_init_func(uint8 prev)
 	
 	gui_show_scaler_state(sif);
 	gui_show_sum(g_logic->history_sum,1);
+	gui_show_unit();
 //	gui_show_ble_state(0);
 	#endif
 }
@@ -158,6 +170,17 @@ static void gui_show_scaler_state(scaler_info_t *sif)
 	LCD_P16x16bmp(32,5,0);
 
 }
+static void gui_show_poweroff(void)
+{	
+		char text[5] = {32,33,34,35};
+	
+
+		
+		gui_clear_screen();
+		
+		LCD_P16x16_ZH_Arr(1,3,text,4);
+		
+}
 //1.最多只能显示4位 包括小数点
 //2.最后一位数字 按 8x16 字符显示
 //3.小数点按只显示4x4像素.
@@ -201,6 +224,10 @@ void main_menu_gui_func(void)
 			}
 		
 	}
+	if((g_tick_count++ % 50) == 0){
+			gui_show_battry_state(battery_get());
+	}
+	
 
 	
 }
@@ -221,7 +248,7 @@ void main_menu_key_event(key_msg_t* msg)
 				//gui_show(MENU_DEBUG);
 					scaler_set_zero();
 			}
-			else 	if(msg->event == KEY_RELEASE)
+			else 	if(msg->event == KEY_LONG_PRESSED)
 			{
 					scaler_reset_history();
 			}
@@ -231,6 +258,7 @@ void main_menu_key_event(key_msg_t* msg)
 			if(msg->event == KEY_RELEASE){
 					gui_show(MENU_BLE);
 			}else if(msg->event == KEY_LONG_PRESSED){
+					gui_show_poweroff();
 					key_power_off();
 			}
 			

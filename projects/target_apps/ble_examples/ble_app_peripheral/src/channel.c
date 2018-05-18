@@ -20,7 +20,18 @@ int8_t channel_init(uint8_t nr)
 
 }
 
-
+uint8_t channel_read_all_tst(void)
+{
+		int i = 3;
+		if(adc_ready(i)){
+            //只要有一路没有准备好就
+            return CHAN_ERR_BUSY;
+        }
+		if(CHAN_ERR_NONE!=channel_read(i, &g_ad_chan[i]))
+        {
+            return CHAN_ERR_BUSY;
+        }
+}
 uint8_t channel_read_all(void)
 {
     int i = 0;
@@ -78,12 +89,16 @@ static int32_t channel_filter(uint8_t chan,int32_t ad)
 int8_t channel_read(uint8_t chan, ad_channel_t *info)
 {
     int32_t ad = 0;
-    adc_err_t  err = adc_read(chan,&ad);
+    adc_err_t  err = adc_read(chan,info);
     if(err == ADC_ERR_NONE)
     {
+				int32_t diff = 0;
         info->nr = chan;
         info->ready = 1;
-        info->value = channel_filter(chan,ad);
+				
+				info->value = channel_filter(chan,info->value);
+				
+      
         return CHAN_ERR_NONE;
     }
     return CHAN_ERR_BUSY;

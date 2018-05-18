@@ -21,6 +21,7 @@ typedef struct {
 typedef struct {
     uint8_t nr; //通道号
     uint8_t ready; //是否转换完成
+		int32_t org; //未移动前原始ad
     int32_t value; //值.
 		//int32_t filter; //滤波后的值.
     adc_err_state_t state; //当前的芯片状态.

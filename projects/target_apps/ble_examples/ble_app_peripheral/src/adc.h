@@ -2,7 +2,7 @@
 #define ADC_H
 
 #include "common.h"
-
+#include "channel.h"
 typedef enum {
     ADC_CHIP_CS1237=0,
 }adc_chip_type_t;
@@ -18,7 +18,7 @@ typedef struct _adc_config{
 
 }adc_config_t;
 //读取某一路通道的AD值
-adc_err_t adc_read(uint8_t chan,int32_t *value);
+adc_err_t adc_read(uint8_t chan,ad_channel_t *info);
 adc_err_t adc_config(uint8_t chan,adc_config_t* config);
 
 /**

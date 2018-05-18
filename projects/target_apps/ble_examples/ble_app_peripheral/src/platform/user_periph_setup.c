@@ -94,7 +94,7 @@ void set_pad_functions(void)        // set gpio port function mode
 #endif
 #if 1
 	GPIO_ConfigurePin(AUDIO_SDA_PORT,AUDIO_SDA_PIN,OUTPUT,PID_GPIO,false);
-	
+#if 1 
 	GPIO_ConfigurePin(ADC1_CLK_PORT,ADC1_CLK_PIN,OUTPUT,PID_GPIO,false);
 	GPIO_ConfigurePin(ADC1_DO_PORT,ADC1_DO_PIN,INPUT,PID_GPIO,true);
 	
@@ -103,7 +103,7 @@ void set_pad_functions(void)        // set gpio port function mode
 
 	GPIO_ConfigurePin(ADC3_CLK_PORT,ADC3_CLK_PIN,OUTPUT,PID_GPIO,false);
 	GPIO_ConfigurePin(ADC3_DO_PORT,ADC3_DO_PIN,INPUT,PID_GPIO,true);
-
+#endif
 	
 	GPIO_ConfigurePin(ADC4_CLK_PORT,ADC4_CLK_PIN,OUTPUT,PID_GPIO,false);
 	GPIO_ConfigurePin(ADC4_DO_PORT,ADC4_DO_PIN,INPUT,PID_GPIO,true);

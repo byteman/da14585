@@ -207,12 +207,13 @@ void CS1237_Init(AD_HZ hz)
   * @param  None
   * @retval 
 ******************************************************************************/
-int8 CS1237_ReadAD(uint8 chan,int32* ad)
+int8 CS1237_ReadAD(uint8 chan,ad_channel_t *info)
 {
   uint8 i;
   int32 addat = 0;
-  
+  int32 diff = 0;
 	GPIOConfig* config = &cs1237_gpio_cfg[chan];
+	data_high(config);
   if(read_io(config))
     return 0;
   for(i = 0; i < 24; i++) //发送 24 个 CLK，接收数据
@@ -225,11 +226,18 @@ int8 CS1237_ReadAD(uint8 chan,int32* ad)
   CS1237_Clock(config);
   CS1237_Clock(config);
   CS1237_Clock(config); //CLK27，拉高 DRDY
+	
+	diff = abs(addat - info->org);
+	if(diff > 1000)
+	{
+			info->ready = 0;
+	}
+	info->org = addat;
   addat <<= 8;          
 	addat >>= 10;         // >>8
 	//addat = addat >> 2;
 	//addat = cs1237_filter_ad(chan,addat);
-  *ad = addat;
+  info->value = addat;
   return 1;
 }
 

@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Fri May 18 00:58:51 2018
+;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Fri May 18 15:40:25 2018
 ;VERSION 0.2
 ;FILE adc.o
 ;FILE adc_1.o
@@ -73,6 +73,7 @@ battery_isr <= USED 0
 ;FILE calibmenu.o
 ;FILE channel.o
 channel_init <= USED 0
+channel_read_all_tst <= USED 0
 ;FILE cornfix.o
 ;FILE cornmenu.o
 ;FILE cs1237.o
