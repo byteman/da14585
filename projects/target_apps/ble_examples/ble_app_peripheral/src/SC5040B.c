@@ -116,7 +116,7 @@ uint8 sc5040b_play(char label)
 		 }
 		 pos++;
 	}
-	return 1;
+	return 0;
 }
 static audio_soc_t _sc5040;
 

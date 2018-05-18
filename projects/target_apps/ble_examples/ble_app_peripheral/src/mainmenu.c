@@ -43,7 +43,7 @@ static void gui_show_history_weight(void)
 		{
 			char buf[16] = {0,};
 			format_weight(buf,16,g_logic->history_weight[i],1);	
-			LCD_P8x16Str(0,1 + i*2,buf);
+			LCD_P8x16Str(-5,1 + i*2,buf);
 		}
 }
 static void gui_show_sum(int value, uint8 dot)
@@ -51,6 +51,7 @@ static void gui_show_sum(int value, uint8 dot)
 	char buff[16]={0,};
 	format_weight(buff,16,value,dot);
 	LCD_P8x16Str(48,5,buff);
+	LCD_P6x8Str(112,1,"kg");
 }
 /*
 菜单的更新有以下几种情况
@@ -167,11 +168,19 @@ static void lcd_show_weight(char* buf)
 }
 static void gui_show_weight(scaler_info_t * sif)
 {
+	static uint8 clear = 0;
 	char buf[16]={0,};
 	
 	if(sif->upFlow || sif->downFlow){
 			LCD_P16x32Str(48,1,"----");
+			clear = 0;
 			return;
+	}
+	//if(sif->div_weight < 0 ) sif->div_weight = 0;
+	if(clear == 0){
+			LCD_P16x32Str(48,1,"    ");
+			//LCD_P16x32Str(48,5,"    ");
+			clear = 1; 
 	}
 	format_weight((char*)buf,16,sif->div_weight,1);
 	lcd_show_weight(buf);
