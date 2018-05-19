@@ -10,6 +10,7 @@
 #define MENU_BLE  		3
 #define MENU_DEBUG  	4
 
+#define DEV_STATE_OFFSET 104
 
 void gui_show_scaler_state(scaler_info_t* sif);
 

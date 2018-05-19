@@ -64,7 +64,7 @@ void gui_show_battry_state(uint8 value)
 		//14 level
 	uint8 level = (value / 18)%14;
 	
-	LCD_P8x16Ch(112,3,level);
+	LCD_P8x16Ch(108,2,level);
 	 
 }
 

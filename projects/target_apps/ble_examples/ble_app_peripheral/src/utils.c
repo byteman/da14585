@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 //固定位数为4位，包括小数点.
-void format_weight(char* buffer, int size, INT32S value, uint8 dot)
+void format_weight(char* buffer, int size, INT32S value, uint8 dot,uint8 max)
 {
 		memset(buffer,0,size);
 		switch(dot)
@@ -24,4 +24,6 @@ void format_weight(char* buffer, int size, INT32S value, uint8 dot)
 							snprintf(buffer,size,"%4.1f",value);
 							break;
 			}
+		
+			buffer[max] = 0;
 }

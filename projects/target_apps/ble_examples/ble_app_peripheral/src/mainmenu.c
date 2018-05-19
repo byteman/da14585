@@ -42,15 +42,15 @@ static void gui_show_history_weight(void)
 		for(; i < MAX_HIS_WEIGHT; i++)
 		{
 			char buf[16] = {0,};
-			format_weight(buf,16,g_logic->history_weight[i],1);	
-			LCD_P8x16Str(-5,1 + i*2,buf);
+			format_weight(buf,16,g_logic->history_weight[i],1,4);	
+			LCD_P8x16Str(0,1 + i*2,buf);
 		}
 }
 static void gui_show_sum(int value, uint8 dot)
 {
 	char buff[16]={0,};
 	
-	format_weight(buff,16,value,dot);
+	format_weight(buff,16,value,dot,8);
 	LCD_P8x16Str(48,5,buff);
 	
 	
@@ -59,8 +59,8 @@ static void gui_show_sum(int value, uint8 dot)
 static void gui_show_unit(void)
 {
 		uint8_t kg[3] = {24,25,0};
-		LCD_P8x16Ch(110,0,14);
-		LCD_P8x16Ch(118,0,15);
+		LCD_P8x16Ch(104,0,14);
+		LCD_P8x16Ch(112,0,15);
 		
 		//LCD_P8x8_ZH_Arr(110,0,kg,2);
 }
@@ -116,6 +116,9 @@ static void logic_push_weight(INT32S value)
 
 uint8 main_logic_isr(scaler_info_t * sif)
 {
+		if(abs(sif->div_weight >= 1000)){
+			return 0;
+		}
 		if(
 			sif->stillFlag &&  
 			sif->div_weight > g_user->RSN && 
@@ -132,7 +135,7 @@ uint8 main_logic_isr(scaler_info_t * sif)
 				
 				//记录历史重量.
 				logic_push_weight(sif->div_weight);
-				format_weight(buf,16,sif->div_weight,1);	
+				format_weight(buf,16,sif->div_weight,1,8);	
 				strcat(buf,"k");
 				//播报重量语言.
 				audio_queue_message(buf);
@@ -194,18 +197,21 @@ static void gui_show_weight(scaler_info_t * sif)
 	static uint8 clear = 0;
 	char buf[16]={0,};
 	
-	if(sif->upFlow || sif->downFlow){
+	if(sif->upFlow || sif->downFlow || sif->div_weight>=1000){
 			LCD_P16x32Str(48,1,"----");
 			clear = 0;
 			return;
 	}
 	//if(sif->div_weight < 0 ) sif->div_weight = 0;
 	if(clear == 0){
-			LCD_P16x32Str(48,1,"    ");
+			LCD_P16x32Str(48,1,"   ");
 			//LCD_P16x32Str(48,5,"    ");
 			clear = 1; 
 	}
-	format_weight((char*)buf,16,sif->div_weight,1);
+	format_weight((char*)buf,16,sif->div_weight,1,4);
+	if(sif->div_weight >= 100){
+			//clear = 0;
+	}
 	lcd_show_weight(buf);
 
 

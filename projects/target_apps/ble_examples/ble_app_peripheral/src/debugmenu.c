@@ -23,7 +23,7 @@ static void gui_show_ad(scaler_info_t *sif)
 			char buf[16] = {'a','d','0',':'};
 			buf[2]=0x31 + i;
 			
-			format_weight(buf+4,16,sif->adArrs[i],1);
+			format_weight(buf+4,16,sif->adArrs[i],1,8);
 			LCD_P6x8Str(10,i*2 + 1,buf);
 	}
 	
