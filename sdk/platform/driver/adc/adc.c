@@ -126,7 +126,7 @@ uint32_t adc_get_vbat_sample(bool sample_vbat1v)
     if (sample_vbat1v)
         adc_enable_channel(ADC_CHANNEL_VBAT1V);
     else
-        adc_enable_channel(ADC_CHANNEL_VBAT3V);
+        adc_enable_channel(ADC_CHANNEL_P01);
 
     adc_sample = adc_get_sample();
     adc_usDelay(1);
@@ -135,7 +135,7 @@ uint32_t adc_get_vbat_sample(bool sample_vbat1v)
     if (sample_vbat1v)
         adc_enable_channel(ADC_CHANNEL_VBAT1V);
     else
-        adc_enable_channel(ADC_CHANNEL_VBAT3V);
+        adc_enable_channel(ADC_CHANNEL_P01);
 
     adc_sample2 = adc_get_sample();
     //We have to divide the following result by 2 if

@@ -103,9 +103,9 @@ uint8_t batt_cal_aaa(uint16_t adc_sample)
     else
     {
         //Buck mode
-        if(adc_sample >= BATTERY_MEASUREMENT_BUCK_AT_2V4)
-            batt_lvl = (adc_sample - BATTERY_MEASUREMENT_BUCK_AT_2V4)*100/
-                        (BATTERY_MEASUREMENT_BUCK_AT_3V0-BATTERY_MEASUREMENT_BUCK_AT_2V4);
+        if(adc_sample >= BATTERY_MEASUREMENT_BUCK_AT_1V8)
+            batt_lvl = (adc_sample - BATTERY_MEASUREMENT_BUCK_AT_1V8)*100/
+                        (BATTERY_MEASUREMENT_BUCK_AT_3V0-BATTERY_MEASUREMENT_BUCK_AT_1V8);
         else
             batt_lvl = 0;
     }

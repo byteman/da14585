@@ -62,9 +62,22 @@ void gui_show(uint8 index)
 void gui_show_battry_state(uint8 value)
 {
 		//14 level
-	uint8 level = (value / 18)%14;
-	
-	LCD_P8x16Ch(108,2,level);
+	// 100/14
+	// 90
+	static uint8 blink = 1;
+	uint8 level = (value*3 / 100);
+	if(level > 3 ) level = 3;
+	if(level == 0){
+		if(blink){
+				level = 1;
+			
+		}else{
+				level = 0;
+		}
+		blink=!blink;
+	}
+	LCD_Batty(108,3, level);
+	//LCD_P8x16Ch(108,3,level);
 	 
 }
 
@@ -75,7 +88,8 @@ void gui_show_ble_state(uint8 state)
 		 //蓝牙已经连接.
 			//param_save();
 			audio_queue_message("bc");
-			LCD_P16x16bmp(112,5,3);
+			LCD_BLE(108,5,1);
+			//LCD_P16x16bmp(112,5,3);
 	 }
 	 else
 	 {
@@ -87,7 +101,8 @@ void gui_show_ble_state(uint8 state)
 			}
 		 //蓝牙已经断开.
 		  audio_queue_message("bx");
-			LCD_P16x16bmp(112,5,4);
+			//LCD_P16x16bmp(112,5,4);
+			LCD_BLE(108,5,0);
 	 }
 	
 }

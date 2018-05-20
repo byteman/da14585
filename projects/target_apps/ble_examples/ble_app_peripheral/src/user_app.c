@@ -16,11 +16,22 @@ static timer_hnd user_timer;
 #define USER_TIME_INTERVAL 10 //100ms
 
 static  uint8 init = 0;
-void user_app_time_handle()
+static  uint8 mode = 0; 
+static  uint8 time1s = 0;
+void user_app_sleep_handle(void)
+{
+		if(time1s++%10 == 0){
+				
+		}
+}
+void user_app_time_handle(void)
 {
 	  int i = 0;
 	  int32 ad = 0;
-
+		if(mode == 1){
+				user_app_sleep_handle();
+				return;
+		}
 		key_isr();
 		gui_isr();
 		scaler_run();
@@ -60,6 +71,14 @@ static void user_app_set_button_event(uint8_t next_event)
                       10); // debouncing time = 10 ms
 
 }
+void user_sleep(void)
+{
+	
+}
+void user_wakeup(void)
+{
+
+}
 void user_app_start()
 {
 		if(!init)
@@ -87,3 +106,8 @@ void user_app_start()
 		}
 	
 }	
+
+void goto_sleep(void)
+{
+
+}

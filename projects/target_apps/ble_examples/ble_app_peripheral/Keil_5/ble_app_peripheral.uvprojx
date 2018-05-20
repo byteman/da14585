@@ -1064,6 +1064,11 @@
               <FileType>1</FileType>
               <FilePath>..\src\debugmenu.c</FilePath>
             </File>
+            <File>
+              <FileName>power.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\power.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -2125,6 +2130,11 @@
               <FileName>debugmenu.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\debugmenu.c</FilePath>
+            </File>
+            <File>
+              <FileName>power.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\power.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -43,7 +43,7 @@
 #define BATTERY_MEASUREMENT_BUCK_AT_2V8     (0x640)
 #define BATTERY_MEASUREMENT_BUCK_AT_2V6     (0x5D0)
 #define BATTERY_MEASUREMENT_BUCK_AT_2V4     (0x550)
-
+#define BATTERY_MEASUREMENT_BUCK_AT_1V8     (0x370)
 /*
  * FUNCTION DECLARATIONS
  ****************************************************************************************

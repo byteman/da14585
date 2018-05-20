@@ -17,7 +17,7 @@ static PARA_USER_T*  g_user;
 static uint8_t g_flag = 0;
 static uint8_t g_still_count = 0;
 static uint32_t g_tick_count = 0; //主称重界面的定时器. 3分钟未计重进入休眠状态. 10分钟未计重进入关机状态. 未计重的意思，重量一直未超过称重阈值??
-
+static uint32_t g_sleep_count= 0;
 /*
 1.休眠模式下无重量显示 OLED关闭/关闭蓝牙信号/无语音播报.
 2.休眠模式下可按置零键唤醒.
@@ -50,17 +50,19 @@ static void gui_show_sum(int value, uint8 dot)
 {
 	char buff[16]={0,};
 	
-	format_weight(buff,16,value,dot,8);
-	LCD_P8x16Str(48,5,buff);
+	format_total(buff,16,value,dot,8);
+	LCD_P8x16Str(43,5,buff);
 	
 	
 	//LCD_P6x8Str(112,1,kg,2);
 }
 static void gui_show_unit(void)
 {
-		uint8_t kg[3] = {24,25,0};
-		LCD_P8x16Ch(104,0,14);
-		LCD_P8x16Ch(112,0,15);
+		//uint8_t kg[3] = {24,25,0};
+		
+		LCD_KG(100,1);
+		//LCD_P8x16Ch(104,0,14);
+		//LCD_P8x16Ch(112,0,15);
 		
 		//LCD_P8x8_ZH_Arr(110,0,kg,2);
 }
@@ -92,6 +94,7 @@ void main_menu_init_func(uint8 prev)
 	gui_show_scaler_state(sif);
 	gui_show_sum(g_logic->history_sum,1);
 	gui_show_unit();
+	g_sleep_count  = 0;
 //	gui_show_ble_state(0);
 	#endif
 }
@@ -152,8 +155,9 @@ uint8 main_logic_isr(scaler_info_t * sif)
 			(g_flag==1))
 		{
 				
-				g_flag = 0;
+				g_sleep_count = 0;
 		}
+		
 		return 0;
 }
  
@@ -170,7 +174,8 @@ static void gui_show_scaler_state(scaler_info_t *sif)
 	
 	LCD_P16x16bmp(32,1,sif->stillFlag?BMP_STILL:BMP_CLEAR);
 	LCD_P16x16bmp(32,3,sif->zeroFlag? BMP_ZERO:BMP_CLEAR);
-	LCD_P16x16bmp(32,5,0);
+	//LCD_P16x16bmp(27,5,0);
+	LCD_SUM(32,5);
 
 }
 static void gui_show_poweroff(void)
@@ -181,7 +186,7 @@ static void gui_show_poweroff(void)
 		
 		gui_clear_screen();
 		
-		LCD_P16x16_ZH_Arr(1,3,text,4);
+		LCD_P16x16_ZH_Arr(1,32,text,4);
 		
 }
 //1.最多只能显示4位 包括小数点
@@ -198,7 +203,7 @@ static void gui_show_weight(scaler_info_t * sif)
 	char buf[16]={0,};
 	
 	if(sif->upFlow || sif->downFlow || sif->div_weight>=1000){
-			LCD_P16x32Str(48,1,"----");
+			LCD_P16x32Str(48,1,"--- ");
 			clear = 0;
 			return;
 	}
@@ -216,6 +221,31 @@ static void gui_show_weight(scaler_info_t * sif)
 
 
 }
+
+//1.关闭全部ad
+//2.关闭lcd屏幕
+//3.关闭蓝牙.
+//4.禁用称重流程.进入定时唤醒流程
+static void goto_sleep(void)
+{
+
+}
+void main_sleep_handle(scaler_info_t * sif)
+{
+		static uint8 cnt = 3;
+		//180 sleep
+		if(sif->zeroFlag){
+			cnt = 3;
+			//零位状态进行计数，在零位超过3分钟，进入休眠状态
+			if(g_sleep_count++ >= 1800){
+					goto_sleep();
+					
+			}
+		}else{
+				g_sleep_count  = 0;
+		}
+		
+}
 void main_menu_gui_func(void)
 {
 
@@ -230,7 +260,8 @@ void main_menu_gui_func(void)
 			}
 		
 	}
-	if((g_tick_count++ % 50) == 0){
+	if((g_tick_count++ % 5) == 0){
+		
 			gui_show_battry_state(battery_get());
 	}
 	

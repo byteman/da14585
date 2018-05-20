@@ -2,7 +2,11 @@
 #define OLED_H
 
 void LCD_Init(void);
+void LCD_UnInit(void);
 
+void LCD_KG(unsigned x, unsigned y);
+void LCD_BLE(unsigned x, unsigned y,char state);
+void LCD_SUM(unsigned x, unsigned y);
 /***************功能描述：显示6*8一组标准ASCII字符串	显示的坐标（x,y），y为页范围0～7****************/
 void LCD_P6x8Str(unsigned char x, unsigned char y,unsigned char ch[]);
 

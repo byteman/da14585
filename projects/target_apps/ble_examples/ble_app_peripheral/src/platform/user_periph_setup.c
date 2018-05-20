@@ -76,6 +76,7 @@ void GPIO_reservations(void)
 	RESERVE_GPIO(EEPROM,I2C_GPIO_PORT,I2C_SCL_PIN,PID_I2C_SCL);
 	RESERVE_GPIO(EEPROM,I2C_GPIO_PORT,I2C_SDA_PIN,PID_I2C_SDA);
 	
+	RESERVE_GPIO(ADC_PWR,ADC_PORT,ADC_PIN,PID_ADC);
 	
 	
 }
@@ -127,6 +128,11 @@ void set_pad_functions(void)        // set gpio port function mode
   GPIO_ConfigurePin(I2C_GPIO_PORT, I2C_SCL_PIN, INPUT, PID_I2C_SCL, false);
   GPIO_ConfigurePin(I2C_GPIO_PORT, I2C_SDA_PIN, INPUT, PID_I2C_SDA, false);
 	GPIO_ConfigurePin(LCD_RST_PORT,LCD_RST,OUTPUT,PID_GPIO,true);
+	
+	
+	//adc
+	GPIO_ConfigurePin(ADC_PORT, ADC_PIN, INPUT, PID_ADC, true);
+
 	//init_eeprom_pin();
 	//init_oled_pin();
 }

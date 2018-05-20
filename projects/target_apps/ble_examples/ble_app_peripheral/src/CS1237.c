@@ -76,9 +76,9 @@ static uint8 read_io(GPIOConfig* config)
 static void CS1237_Clock(GPIOConfig* config)
 {
     clk_high(config);
-    Delay(6);
+    //Delay(10);
     clk_low(config);
-    Delay(6);
+    //Delay(10);
 }
 
 /******************************************************************************
@@ -248,28 +248,28 @@ uint8 CS1237_Ready(uint8 chan)
     return 0;
 	return 1;
 }
-
+//pn 0 关机
+//pn 1 开机
 void CS1237_Power(uint8 chan, uint8 pn)
 {
-	#if 0
+	
 	int i = 0;
-	for(i = 0;i<4;i++)
-	{
-		cs1237_set_channel(i);
-		Delay(100);
-		Pin_CS1237_Set(ADSCLK, PinLogic_Low);
-		Delay(100);
+	
+	GPIOConfig* config = &cs1237_gpio_cfg[chan];
+	Delay(100);
+	clk_low(config);
+	Delay(100);
 
-		if(pn == 0)
-		{
-			Pin_CS1237_Set(ADSCLK, PinLogic_High);
-			Delay(100000);
-			Delay(100000);
-			Delay(100000);
-		}
-	}	
-  	g_cs1237_power = pn;
-	#endif
+	if(pn == 0)
+	{
+		clk_high(config);
+		Delay(100000);
+		Delay(100000);
+		Delay(100000);
+	}
+	
+  	//g_cs1237_power = pn;
+	
 }
 
 
