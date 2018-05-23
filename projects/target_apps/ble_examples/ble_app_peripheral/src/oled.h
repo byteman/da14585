@@ -3,7 +3,7 @@
 
 void LCD_Init(void);
 void LCD_UnInit(void);
-
+void LCD_OverLoad(unsigned char x, unsigned y);
 void LCD_KG(unsigned x, unsigned y);
 void LCD_BLE(unsigned x, unsigned y,char state);
 void LCD_SUM(unsigned x, unsigned y);

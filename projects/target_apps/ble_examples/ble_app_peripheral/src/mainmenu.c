@@ -51,7 +51,7 @@ static void gui_show_sum(int value, uint8 dot)
 	char buff[16]={0,};
 	
 	format_total(buff,16,value,dot,8);
-	LCD_P8x16Str(43,5,buff);
+	LCD_P8x16Str(48,5,buff);
 	
 	
 	//LCD_P6x8Str(112,1,kg,2);
@@ -154,8 +154,8 @@ uint8 main_logic_isr(scaler_info_t * sif)
 			sif->div_weight < 2*g_user->RSN && 
 			(g_flag==1))
 		{
+				g_flag = 0;
 				
-				g_sleep_count = 0;
 		}
 		
 		return 0;
@@ -172,10 +172,9 @@ uint8 main_logic_isr(scaler_info_t * sif)
 static void gui_show_scaler_state(scaler_info_t *sif)
 {
 	
-	LCD_P16x16bmp(32,1,sif->stillFlag?BMP_STILL:BMP_CLEAR);
-	LCD_P16x16bmp(32,3,sif->zeroFlag? BMP_ZERO:BMP_CLEAR);
-	//LCD_P16x16bmp(27,5,0);
-	LCD_SUM(32,5);
+	LCD_P16x16bmp(W_STATE,1,sif->stillFlag?BMP_STILL:BMP_CLEAR);
+	LCD_P16x16bmp(W_STATE,3,sif->zeroFlag? BMP_ZERO:BMP_CLEAR);
+	LCD_SUM(W_STATE,5);
 
 }
 static void gui_show_poweroff(void)
@@ -194,8 +193,8 @@ static void gui_show_poweroff(void)
 //3.小数点按只显示4x4像素.
 static void lcd_show_weight(char* buf)
 {
-	buf[4] = 0; //超过4位了就截取.
-	LCD_P16x32Str(48,1,buf);
+	//buf[4] = 0; //超过4位了就截取.
+	LCD_P16x32Str(W_VALUE,1,buf);
 }
 static void gui_show_weight(scaler_info_t * sif)
 {
@@ -203,34 +202,35 @@ static void gui_show_weight(scaler_info_t * sif)
 	char buf[16]={0,};
 	
 	if(sif->upFlow || sif->downFlow || sif->div_weight>=1000){
-			LCD_P16x32Str(48,1,"--- ");
+			//LCD_P16x32Str(W_VALUE,1,"--.1");
+			//LCD_OverLoad(W_VALUE,1);
 			clear = 0;
 			return;
 	}
 	//if(sif->div_weight < 0 ) sif->div_weight = 0;
 	if(clear == 0){
-			LCD_P16x32Str(48,1,"   ");
+			//LCD_P16x32Str(W_VALUE,1,"   ");
 			//LCD_P16x32Str(48,5,"    ");
 			clear = 1; 
 	}
 	format_weight((char*)buf,16,sif->div_weight,1,4);
-	if(sif->div_weight >= 100){
+	if(sif->div_weight >= 1000){
 			//clear = 0;
 	}
 	lcd_show_weight(buf);
 
 
 }
-
+#include "power.h"
 //1.关闭全部ad
 //2.关闭lcd屏幕
 //3.关闭蓝牙.
 //4.禁用称重流程.进入定时唤醒流程
 static void goto_sleep(void)
 {
-
+	 power_ctrl(PWR_SLEEP);
 }
-void main_sleep_handle(scaler_info_t * sif)
+static void main_sleep_handle(scaler_info_t * sif)
 {
 		static uint8 cnt = 3;
 		//180 sleep
@@ -296,7 +296,9 @@ void main_menu_key_event(key_msg_t* msg)
 					gui_show(MENU_BLE);
 			}else if(msg->event == KEY_LONG_PRESSED){
 					gui_show_poweroff();
-					key_power_off();
+					if(key_power_off() == 0){
+							gui_show(MENU_MAIN);
+					}
 			}
 			
 	}

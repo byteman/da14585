@@ -1,8 +1,9 @@
-;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Sun May 20 23:37:12 2018
+;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Wed May 23 00:49:36 2018
 ;VERSION 0.2
 ;FILE adc.o
 ;FILE adc_1.o
 adc_config <= USED 0
+adc_power <= USED 0
 ;FILE app.o
 active_conhdl_to_conidx <= USED 0
 active_conidx_to_conhdl <= USED 0
@@ -72,8 +73,9 @@ battery_isr <= USED 0
 ;FILE boot_vectors.o
 ;FILE calibmenu.o
 ;FILE channel.o
+channel_all_power <= USED 0
 channel_init <= USED 0
-channel_read_all_tst <= USED 0
+channel_power <= USED 0
 ;FILE cornfix.o
 ;FILE cornmenu.o
 ;FILE cs1237.o
@@ -123,7 +125,6 @@ i2c_eeprom_write_byte <= USED 0
 dummyf <= USED 0
 ;FILE key.o
 ;FILE mainmenu.o
-main_sleep_handle <= USED 0
 ;FILE matrix.o
 ;FILE nmi_handler.o
 ;FILE nvds.o
@@ -131,6 +132,9 @@ main_sleep_handle <= USED 0
 Draw_BMP <= USED 0
 LCD_16x16_Char <= USED 0
 LCD_CLS <= USED 0
+LCD_Dot2 <= USED 0
+LCD_Init2 <= USED 0
+LCD_OverLoad <= USED 0
 LCD_P10x8Ch <= USED 0
 LCD_P16x16Ch <= USED 0
 LCD_P8x16Ch <= USED 0
@@ -161,8 +165,6 @@ write_one_SW_LUT_entry <= USED 0
 power_ctrl <= USED 0
 power_enable <= USED 0
 power_feed <= USED 0
-power_isr <= USED 0
-power_state <= USED 0
 ;FILE prf.o
 ;FILE prf_utils.o
 prf_pack_date_time <= USED 0

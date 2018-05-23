@@ -19,8 +19,8 @@ int8_t channel_init(uint8_t nr)
     }
 
 }
-
-uint8_t channel_read_all_tst(void)
+#if 0
+uint8_t channel_read_all(void)
 {
 		int i = 3;
 		if(adc_ready(i)){
@@ -32,6 +32,7 @@ uint8_t channel_read_all_tst(void)
             return CHAN_ERR_BUSY;
         }
 }
+#else
 uint8_t channel_read_all(void)
 {
     int i = 0;
@@ -55,7 +56,7 @@ uint8_t channel_read_all(void)
 
     return CHAN_ERR_NONE;
 }
-
+#endif
 static 	__CHANNEL_VALUE ad_value[CAP_M];  
 INT32S			AD_filter[CAP_M];
 
@@ -89,15 +90,20 @@ static int32_t channel_filter(uint8_t chan,int32_t ad)
 int8_t channel_read(uint8_t chan, ad_channel_t *info)
 {
     int32_t ad = 0;
+		//static int32_t old = 0;
     adc_err_t  err = adc_read(chan,info);
     if(err == ADC_ERR_NONE)
     {
 				int32_t diff = 0;
         info->nr = chan;
         info->ready = 1;
+				diff = abs(info->filter - info->value);
+				if(diff > 100){
+					diff++;
+				}
 				
 				info->value = channel_filter(chan,info->value);
-				
+				info->filter = info->value;
       
         return CHAN_ERR_NONE;
     }
@@ -114,4 +120,18 @@ INT32S channel_get_filter_ad(uint8_t chan)
 		int rt_v = 0;
 		rt_v = ad_value[chan].data_sum/CAP_N;
 		return rt_v;
+}
+uint8_t channel_all_power(uint8_t en)
+{
+		int i = 0;
+		for(; i < 4; i++)
+		{
+				adc_power(i,en);
+		}
+		return 0;
+}
+
+uint8_t channel_power(uint8_t chan, uint8_t en)
+{
+	return adc_power(chan,en);
 }

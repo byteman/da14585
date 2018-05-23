@@ -15,8 +15,10 @@
 #define HIS_W_Y  9 //历史重量开始处
 
 #define HIS_W_W				8 //历史重量宽度
-
-
+#define HIS_DOT				24 
+#define W_STATE				36
+#define W_VALUE				56
+#define D_STATE				110
 #define DEV_STATE_OFFSET 104
 
 void gui_show_scaler_state(scaler_info_t* sif);

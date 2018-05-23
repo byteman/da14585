@@ -31,3 +31,8 @@ adc_err_t adc_ready(uint8_t chan)
 		}
     return ADC_ERR_BUSY;
 }
+adc_err_t adc_power(uint8_t chan, uint8_t en)
+{
+		CS1237_Power(chan,en);
+		return ADC_ERR_NONE;
+}

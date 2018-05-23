@@ -15,13 +15,13 @@ typedef struct {
 }key_state;
 
 #define MAX_KEY_NUM 2
-#define KEY_PRESS_TIME 6
+#define KEY_PRESS_TIME 3
 #define TIMER_INT 100
 #define PRESS_KEY_TIME 2000
 
 static key_state key_states[MAX_KEY_NUM];
 
-
+static uint8 key_pressed = 0;
 static key_event_func_t key_cb = 0;
 void  key_register(key_event_func_t cb)
 {
@@ -56,8 +56,10 @@ void  key_isr()
 {
 		int i = 0;
 	 #if 1
-		if(GPIO_GetPinStatus(KEY_PWR_PORT,KEY_PWR_PIN))
+		
+		if(GPIO_GetPinStatus(KEY_PWR_PORT,KEY_PWR_PIN) )
 		{
+					if(key_pressed < 30) return;
 					key_states[0].press_ts++;
 					//key_states[0].state = KEY_PRESSED;
 					if(key_states[0].press_ts > (PRESS_KEY_TIME/TIMER_INT) )
@@ -82,6 +84,9 @@ void  key_isr()
 		}
 		else
 		{
+					if(key_pressed < 30)
+						key_pressed++;
+				
 					//LOW LEVEL 按键被释放.
 					if(key_states[0].press_ts > KEY_PRESS_TIME && key_states[0].state != KEY_LONG_PRESSED)
 					{
@@ -90,6 +95,7 @@ void  key_isr()
 					}
 					key_states[0].state = KEY_RELEASE;
 				  key_states[0].press_ts = 0;
+					
 		}
 		
 		if(GPIO_GetPinStatus(KEY_ZERO_PORT,KEY_ZERO_PIN))
@@ -116,6 +122,7 @@ void  key_isr()
 		}
 		else
 		{
+					//释放后需要等待2秒才发送按键被释放命令.
 					if(key_states[1].releas_ts > 0){
 							key_states[1].releas_ts--;
 							return;
@@ -132,8 +139,16 @@ void  key_isr()
 	#endif
 		
 }
-void key_power_off(void)
+uint8 key_power_off(void)
 {
-		GPIO_SetActive(PWR_OFF_PORT,PWR_OFF_PIN);
+	//
+		util_delay(20000);
+		if(	GPIO_GetPinStatus(KEY_PWR_PORT,KEY_PWR_PIN) == 0)
+		{
+				return 0;
+		}
+		GPIO_SetInactive(PWR_OFF_PORT,PWR_OFF_PIN);
+		//GPIO_SetInactive(PWR_OFF_PORT,PWR_OFF_PIN);
 		while(1);
+		
 }

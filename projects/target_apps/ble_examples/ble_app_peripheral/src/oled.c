@@ -2,7 +2,7 @@
 #include "gpio.h"
 #include "user_peripheral.h"
 #include "user_periph_setup.h"
-#define X_WIDTH 128
+#define X_WIDTH 130
 #define Y_WIDTH 64
 
  
@@ -864,17 +864,7 @@ const unsigned char  F8X16[]=
 
 
 /*********************LCD ÑÓÊ±1ms************************************/
-void LCD_DLY_ms(unsigned int ms)
-{                         
-	unsigned int a;
-	while(ms)
-	{
-	a=1800;
-	while(a--);
-	ms--;
-	}
-	return;
-}
+
 #define SIM_I2C 1
 #ifdef OLED_SPI
 /*********************LCDÐ´Êý¾Ý************************************/ 
@@ -1161,7 +1151,7 @@ void LCD_Init(void)
 	//LCD_CLK=1;
 	GPIO_SetInactive(LCD_RST_PORT,LCD_RST);
 	//LCD_RST=0;
-	LCD_DLY_ms(1000);
+	util_delay(1000);
 	GPIO_SetActive(LCD_RST_PORT,LCD_RST);
 	//LCD_RST=1;       //
 	LCD_WrCmd(0xae);//--turn off oled panel
@@ -1194,6 +1184,67 @@ void LCD_Init(void)
 	LCD_WrCmd(0xa6);// Disable Inverse Display On (0xa6/a7) 
 	LCD_WrCmd(0xaf);//--turn on oled panel
 	LCD_Fill(0x00);  
+	LCD_Set_Pos(0,0); 	
+	
+	
+} 
+void LCD_Init2(void)     
+{  
+	
+	//GPIO_SetActive(LCD_CLK_PORT,LCD_CLK);
+	//LCD_CLK=1;
+	GPIO_SetInactive(LCD_RST_PORT,LCD_RST);
+	//LCD_RST=0;
+	util_delay(1000);
+	GPIO_SetActive(LCD_RST_PORT,LCD_RST);
+	//LCD_RST=1;       //
+	LCD_WrCmd(0xae);		//(display off)
+
+	LCD_WrCmd(0xd5);
+	LCD_WrCmd(0x10);
+
+	LCD_WrCmd(0xa8);
+	LCD_WrCmd(0x1f);
+
+	LCD_WrCmd(0xd3);
+	LCD_WrCmd(0x00);
+
+	LCD_WrCmd(0x40);
+
+	LCD_WrCmd(0xad);
+	LCD_WrCmd(0x8e);
+
+	LCD_WrCmd(0xd8);
+	LCD_WrCmd(0x05);
+
+	LCD_WrCmd(0xa1);
+
+	LCD_WrCmd(0xc8);
+
+	LCD_WrCmd(0xda);
+	LCD_WrCmd(0x12);
+
+	LCD_WrCmd(0x91);
+	LCD_WrCmd(0x3f);
+	LCD_WrCmd(0x3f);
+	LCD_WrCmd(0x3f);
+	LCD_WrCmd(0x3f);
+
+	LCD_WrCmd(0x81);		//对比度
+	LCD_WrCmd(0xff);
+
+	LCD_WrCmd(0xd9);
+	LCD_WrCmd(0xd2);
+
+	LCD_WrCmd(0xd8);
+	LCD_WrCmd(0x08);
+
+	LCD_WrCmd(0xa4);
+
+	LCD_WrCmd(0xa6);
+
+	LCD_WrCmd(0xaf);//(display on)
+LCD_Fill(0x00);  
 	LCD_Set_Pos(0,0); 	
 	
 	
@@ -1256,7 +1307,56 @@ void LCD_SUM(unsigned x, unsigned y)
 			LCD_WrDat(sum_arr[wm+10]);	
 		}      		
 }
+//2x16
+unsigned char dot_arr[] = {
+0x0,0,0x30,0x30,/*"C:\works\DA14585\source\lcd字体\2x16_dot.BMP.BMP",0*/
+//0x60,0x60,0x00,0x00
 
+};
+unsigned char dot_arr2[] = {
+0x00,0x00,0x00,0x00,0x00,0x00,0x30,0x30/*"未命名文件",0*/
+
+};
+
+void LCD_Dot(unsigned char x, unsigned y)
+{
+		unsigned char wm=0;
+		LCD_Set_Pos(x , y);
+		for(wm = 0;wm < 2;wm++)  //             
+		{
+			LCD_WrDat(dot_arr[wm]);	
+		}     
+		LCD_Set_Pos(x , y+1);
+		for(wm = 0;wm < 2;wm++)  //             
+		{
+			LCD_WrDat(dot_arr[wm+2]);	
+		}     
+}
+void LCD_Dot2(unsigned char x, unsigned y)
+{
+		unsigned char wm=0;
+	
+		LCD_Set_Pos(x , y);
+		for(wm = 0;wm < 2;wm++)  //             
+		{
+			LCD_WrDat(dot_arr2[wm]);	
+		}     
+		LCD_Set_Pos(x , y+1);
+		for(wm = 0;wm < 2;wm++)  //             
+		{
+			LCD_WrDat(dot_arr2[wm+2]);	
+		}   
+		LCD_Set_Pos(x , y+2);
+		for(wm = 0;wm < 2;wm++)  //             
+		{
+			LCD_WrDat(dot_arr2[wm+4]);	
+		}    
+		LCD_Set_Pos(x , y+3);
+		for(wm = 0;wm < 2;wm++)  //             
+		{
+			LCD_WrDat(dot_arr2[wm+6]);	
+		}    		
+}
 /*******************功能描述：显示8*16一组标准ASCII字符串	 显示的坐标（x,y），y为页范围0～7****************/
 void LCD_P8x16Str(unsigned char x, unsigned y,unsigned char ch[])
 {
@@ -1264,10 +1364,18 @@ void LCD_P8x16Str(unsigned char x, unsigned y,unsigned char ch[])
 	while (ch[j]!='\0')
 	{    
 		c =ch[j]-32;
-		if(ch[j] == '.' || ((ch[j]== '-') && (ch[j+1]==0)))
+		if(ch[j] == '.' ){
+				LCD_Dot(x,y);
+				x+=2;
+				j++;
+				
+				continue;
+		}
+		else if(((ch[j]== '-') && (ch[j+1]==0)))
 		{
 				nr = 4;
-		}else{
+		} 
+		else{
 				nr = 8;
 		}
 		if(x>120){x=0;y++;}
@@ -1323,9 +1431,61 @@ void LCD_KG(unsigned x, unsigned y)
 			LCD_WrDat(kg_arr[wm+18]);	
 		}      		
 }
+//34x32
+unsigned char over_arr[] = {
+	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+	0x00,0x00,0x00,0x00,0x18,0x18,0x18,0x18,0x18,0x18,0x18,0x18,0x18,0x18,0x18,0x18,
+	0x18,0x18,0x18,0x18,0x18,0x18,0x18,0x18,0x18,0x18,0x18,0x18,0x18,0x18,0x18,0x18,
+	0x18,0x18,0x18,0x18,0x18,0x18,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,/*"未命名文件",0*/
+
+};
+unsigned char blank_arr[] = {
+0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,/*"未命名文件",0*/
+
+};
+void LCD_OverLoad(unsigned char x, unsigned y)
+{
+		unsigned char wm=0;
+		LCD_Set_Pos(x , y);
+		for(wm = 0;wm < 18;wm++)  //             
+		{
+			LCD_WrDat(over_arr[wm]);	
+		}     
+		LCD_Set_Pos(x , y+1);
+		for(wm = 0;wm < 18;wm++)  //             
+		{
+			LCD_WrDat(over_arr[wm+18]);	
+		}    
+		LCD_Set_Pos(x , y+2);
+		for(wm = 0;wm < 18;wm++)  //             
+		{
+			LCD_WrDat(over_arr[wm+36]);	
+		}     
+		LCD_Set_Pos(x , y+3);
+		for(wm = 0;wm < 18;wm++)  //             
+		{
+			LCD_WrDat(over_arr[wm+54]);	
+		}  
+		LCD_Set_Pos(x+34 , y+2);
+		for(wm = 0;wm < 16;wm++)  //             
+		{
+			LCD_WrDat(blank_arr[wm]);	
+		} 
+		LCD_Set_Pos(x+34 , y+3);
+		for(wm = 0;wm < 16;wm++)  //             
+		{
+			LCD_WrDat(blank_arr[wm+16]);	
+		}  		
+}
 void LCD_P16x32Str(unsigned char x, unsigned y,unsigned char ch[])
 {
-	unsigned char c=0,i=0,j=0;
+	unsigned char c=0,i=0,j=0,k=255;
 	//strlen(ch);
 	//int sz = strlen(ch);
 	while (ch[j]!='\0')
@@ -1338,15 +1498,23 @@ void LCD_P16x32Str(unsigned char x, unsigned y,unsigned char ch[])
 		//显示----的时候最后一个-只显示半个
 		if(ch[j] == '.' )
 		{
-				nr = 8;
+				LCD_Dot(x,y+2);
+				x+=2;
+				k = j;
+				j++;
+				
+				continue;
+				//nr = 8;
 			
 		}
-		else if(ch[j+1]==0 && (ch[j] >= '0' && ch[j] <= '9') || ((ch[j]== ' ') && (ch[j+1]==0))){
+		else if(j > k && ((ch[j] >= '0' && ch[j] <= '9') || ch[j]== ' ')){
 			//最后一个数字显示半个
 				
 				LCD_P8x16Str(x,y+2,ch+j);
+				x+=8;
+				j++;
 			  //LCD_16x16_Char(x,y+1,ch[j]-0x30);
-				return;
+				continue;
 		}
 		LCD_Set_Pos(x,y);    
 		for(i=0;i<nr;i++)     

@@ -26,4 +26,5 @@ adc_err_t adc_config(uint8_t chan,adc_config_t* config);
  * @return
  */
 adc_err_t adc_ready(uint8_t chan);
+adc_err_t adc_power(uint8_t chan, uint8_t en);
 #endif

@@ -23,7 +23,7 @@ typedef struct {
     uint8_t ready; //是否转换完成
 		int32_t org; //未移动前原始ad
     int32_t value; //值.
-		//int32_t filter; //滤波后的值.
+		int32_t filter; //滤波后的值.
     adc_err_state_t state; //当前的芯片状态.
 }ad_channel_t;
 
@@ -63,6 +63,8 @@ INT32S channel_get_filter_ad(uint8_t chan);
 
 uint8_t channel_read_all(void);
 
+uint8_t channel_all_power(uint8_t en);
 
+uint8_t channel_power(uint8_t chan, uint8_t en);
 
 #endif

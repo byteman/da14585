@@ -11,6 +11,8 @@
 #include "gpio.h"
 #include "user_periph_setup.h"
 #include "wkupct_quadec.h"
+#include "power.h"
+
 static timer_hnd user_timer;
 
 #define USER_TIME_INTERVAL 10 //100ms
@@ -18,18 +20,15 @@ static timer_hnd user_timer;
 static  uint8 init = 0;
 static  uint8 mode = 0; 
 static  uint8 time1s = 0;
-void user_app_sleep_handle(void)
-{
-		if(time1s++%10 == 0){
-				
-		}
-}
+
 void user_app_time_handle(void)
 {
 	  int i = 0;
 	  int32 ad = 0;
-		if(mode == 1){
-				user_app_sleep_handle();
+		if(power_state() == PWR_SLEEP){
+			//睡眠模式就不响应按键,gui,称重
+			
+				power_isr();
 				return;
 		}
 		key_isr();
@@ -84,7 +83,7 @@ void user_app_start()
 		if(!init)
 		{
 			param_err_t err = PARA_ERR_NONE;
-			user_app_button_press_cb();
+			//user_app_button_press_cb();
 			
 			Timer_Init();
 			sc5040b_init(); //音频播放初始化

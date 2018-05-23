@@ -128,7 +128,7 @@ Std_ReturnType	Wet_InitPara(void)
 	INT32S	err = 0;
 	static INT32S tmpDec = 0;
 
-
+	g_user->CWT = 200;
  	err+= Wet_ParaIsRight(g_user->LDW,-1600000,4600000);
  	err+= Wet_ParaIsRight(g_user->LWT,-1600000,4600000);
  	err+= Wet_ParaIsRight(g_user->CWT,-1600000,4600000);
