@@ -82,7 +82,7 @@ void custom_GPIO_reservations(void)
 }
 #endif // CFG_DEVELOPMENT_DEBUG
 
-void my_set_pad_functions(void)        // set gpio port function mode
+void custom_set_pad_functions(void)        // set gpio port function mode
 {
 
 

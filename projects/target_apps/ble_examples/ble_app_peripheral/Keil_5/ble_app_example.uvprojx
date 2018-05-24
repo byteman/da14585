@@ -128,7 +128,7 @@
         </DebugOption>
         <Utilities>
           <Flash1>
-            <UseTargetDll>0</UseTargetDll>
+            <UseTargetDll>1</UseTargetDll>
             <UseExternalTool>1</UseExternalTool>
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
@@ -924,11 +924,11 @@
               <FileType>1</FileType>
               <FilePath>..\src\platform\user_periph_setup.c</FilePath>
             </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>user_app</GroupName>
-          <Files>
+            <File>
+              <FileName>ble_app_peripheral_585.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>.\out_585\ble_app_peripheral_585.lib</FilePath>
+            </File>
             <File>
               <FileName>user_custs1_impl.c</FileName>
               <FileType>1</FileType>
@@ -938,146 +938,6 @@
               <FileName>user_peripheral.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\user_peripheral.c</FilePath>
-            </File>
-            <File>
-              <FileName>adc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\adc.c</FilePath>
-            </File>
-            <File>
-              <FileName>batty.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\batty.c</FilePath>
-            </File>
-            <File>
-              <FileName>CS1237.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\CS1237.c</FilePath>
-            </File>
-            <File>
-              <FileName>Filter_KMedian.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\Filter_KMedian.c</FilePath>
-            </File>
-            <File>
-              <FileName>gui.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\gui.c</FilePath>
-            </File>
-            <File>
-              <FileName>key.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\key.c</FilePath>
-            </File>
-            <File>
-              <FileName>oled.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\oled.c</FilePath>
-            </File>
-            <File>
-              <FileName>param.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\param.c</FilePath>
-            </File>
-            <File>
-              <FileName>SC5040B.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\SC5040B.c</FilePath>
-            </File>
-            <File>
-              <FileName>Timer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\Timer.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\user_app.c</FilePath>
-            </File>
-            <File>
-              <FileName>mainmenu.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\mainmenu.c</FilePath>
-            </File>
-            <File>
-              <FileName>calibmenu.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\calibmenu.c</FilePath>
-            </File>
-            <File>
-              <FileName>scaler.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\scaler.c</FilePath>
-            </File>
-            <File>
-              <FileName>channel.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\channel.c</FilePath>
-            </File>
-            <File>
-              <FileName>blemenu.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\blemenu.c</FilePath>
-            </File>
-            <File>
-              <FileName>dispatcher.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\dispatcher.c</FilePath>
-            </File>
-            <File>
-              <FileName>Weighing.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\Weighing.c</FilePath>
-            </File>
-            <File>
-              <FileName>WetApp.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\WetApp.c</FilePath>
-            </File>
-            <File>
-              <FileName>cornfix.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\cornfix.c</FilePath>
-            </File>
-            <File>
-              <FileName>matrix.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\matrix.c</FilePath>
-            </File>
-            <File>
-              <FileName>cornmenu.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\cornmenu.c</FilePath>
-            </File>
-            <File>
-              <FileName>audio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\audio.c</FilePath>
-            </File>
-            <File>
-              <FileName>utils.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\utils.c</FilePath>
-            </File>
-            <File>
-              <FileName>debugmenu.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\debugmenu.c</FilePath>
-            </File>
-            <File>
-              <FileName>power.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\power.c</FilePath>
-            </File>
-            <File>
-              <FileName>blescaler.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\blescaler.c</FilePath>
-            </File>
-            <File>
-              <FileName>my_periph_setup.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\my_periph_setup.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2001,11 +1861,11 @@
               <FileType>1</FileType>
               <FilePath>..\src\platform\user_periph_setup.c</FilePath>
             </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>user_app</GroupName>
-          <Files>
+            <File>
+              <FileName>ble_app_peripheral_585.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>.\out_585\ble_app_peripheral_585.lib</FilePath>
+            </File>
             <File>
               <FileName>user_custs1_impl.c</FileName>
               <FileType>1</FileType>
@@ -2015,146 +1875,6 @@
               <FileName>user_peripheral.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\user_peripheral.c</FilePath>
-            </File>
-            <File>
-              <FileName>adc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\adc.c</FilePath>
-            </File>
-            <File>
-              <FileName>batty.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\batty.c</FilePath>
-            </File>
-            <File>
-              <FileName>CS1237.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\CS1237.c</FilePath>
-            </File>
-            <File>
-              <FileName>Filter_KMedian.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\Filter_KMedian.c</FilePath>
-            </File>
-            <File>
-              <FileName>gui.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\gui.c</FilePath>
-            </File>
-            <File>
-              <FileName>key.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\key.c</FilePath>
-            </File>
-            <File>
-              <FileName>oled.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\oled.c</FilePath>
-            </File>
-            <File>
-              <FileName>param.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\param.c</FilePath>
-            </File>
-            <File>
-              <FileName>SC5040B.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\SC5040B.c</FilePath>
-            </File>
-            <File>
-              <FileName>Timer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\Timer.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\user_app.c</FilePath>
-            </File>
-            <File>
-              <FileName>mainmenu.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\mainmenu.c</FilePath>
-            </File>
-            <File>
-              <FileName>calibmenu.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\calibmenu.c</FilePath>
-            </File>
-            <File>
-              <FileName>scaler.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\scaler.c</FilePath>
-            </File>
-            <File>
-              <FileName>channel.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\channel.c</FilePath>
-            </File>
-            <File>
-              <FileName>blemenu.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\blemenu.c</FilePath>
-            </File>
-            <File>
-              <FileName>dispatcher.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\dispatcher.c</FilePath>
-            </File>
-            <File>
-              <FileName>Weighing.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\Weighing.c</FilePath>
-            </File>
-            <File>
-              <FileName>WetApp.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\WetApp.c</FilePath>
-            </File>
-            <File>
-              <FileName>cornfix.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\cornfix.c</FilePath>
-            </File>
-            <File>
-              <FileName>matrix.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\matrix.c</FilePath>
-            </File>
-            <File>
-              <FileName>cornmenu.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\cornmenu.c</FilePath>
-            </File>
-            <File>
-              <FileName>audio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\audio.c</FilePath>
-            </File>
-            <File>
-              <FileName>utils.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\utils.c</FilePath>
-            </File>
-            <File>
-              <FileName>debugmenu.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\debugmenu.c</FilePath>
-            </File>
-            <File>
-              <FileName>power.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\power.c</FilePath>
-            </File>
-            <File>
-              <FileName>blescaler.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\blescaler.c</FilePath>
-            </File>
-            <File>
-              <FileName>my_periph_setup.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\my_periph_setup.c</FilePath>
             </File>
           </Files>
         </Group>

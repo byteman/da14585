@@ -231,7 +231,8 @@ void user_app_adv_start(void)
     app_add_ad_struct(cmd, &mnf_data, sizeof(struct mnf_specific_data_ad_structure), 1);
 
     app_easy_gap_undirected_advertise_start();
-		user_app_start();
+		//user_app_start();
+		ble_scaler_init(NULL);
 }
 
 void user_app_connection(uint8_t connection_idx, struct gapc_connection_req_ind const *param)
@@ -253,8 +254,9 @@ void user_app_connection(uint8_t connection_idx, struct gapc_connection_req_ind 
             // Connection params are not these that we expect
             app_param_update_request_timer_used = app_easy_timer(APP_PARAM_UPDATE_REQUEST_TO, param_update_request_timer_cb);
         }
-				dispatch_send_simple_msg(MSG_BLE_STATE, 1);
 				
+				ble_scaler_ble_connected(1);
+		
     }
     else
     {
@@ -287,8 +289,7 @@ void user_app_disconnect(struct gapc_disconnect_ind const *param)
     // Restart Advertising
     user_app_adv_start();
 		
-	
-		dispatch_send_simple_msg(MSG_BLE_STATE, 0);
+		ble_scaler_ble_connected(0);
 		
 }
 

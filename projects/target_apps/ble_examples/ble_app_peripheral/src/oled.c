@@ -2,7 +2,7 @@
 #include "gpio.h"
 #include "user_peripheral.h"
 #include "user_periph_setup.h"
-#define X_WIDTH 130
+#define X_WIDTH 128
 #define Y_WIDTH 64
 
  
@@ -1120,7 +1120,7 @@ void LCD_Fill(unsigned char bmp_dat)
 	for(y=0;y<8;y++)
 	{
 		LCD_WrCmd(0xb0+y);
-		LCD_WrCmd(0x01);
+		LCD_WrCmd(0x00);
 		LCD_WrCmd(0x10);
 		for(x=0;x<X_WIDTH;x++)
 			LCD_WrDat(bmp_dat);
@@ -1133,7 +1133,8 @@ void LCD_CLS(void)
 	for(y=0;y<8;y++)
 	{
 	LCD_WrCmd(0xb0+y);
-	LCD_WrCmd(0x01);
+		//这一行很重要，如果为1，就在最左边有一1像素的根竖线.
+	LCD_WrCmd(0x00);
 	LCD_WrCmd(0x10); 
 	for(x=0;x<X_WIDTH;x++)
 	LCD_WrDat(0);
@@ -1175,7 +1176,7 @@ void LCD_Init(void)
 	LCD_WrCmd(0xda);//--set com pins hardware configuration
 	LCD_WrCmd(0x12);
 	LCD_WrCmd(0xdb);//--set vcomh
-	LCD_WrCmd(0x30);//Set VCOM Deselect Level
+	LCD_WrCmd(0x40);//Set VCOM Deselect Level
 	LCD_WrCmd(0x20);//-Set Page Addressing Mode (0x00/0x01/0x02)
 	LCD_WrCmd(0x02);//
 	LCD_WrCmd(0x8d);//--set Charge Pump enable/disable

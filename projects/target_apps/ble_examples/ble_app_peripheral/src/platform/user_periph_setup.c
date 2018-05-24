@@ -36,6 +36,7 @@
 
 void GPIO_reservations(void)
 {
+	#if 0
 	RESERVE_GPIO(AUDIO,AUDIO_SDA_PORT,AUDIO_SDA_PIN,PID_GPIO);
 	
 	RESERVE_GPIO(ADC,ADC1_CLK_PORT,ADC1_CLK_PIN,PID_GPIO);
@@ -67,6 +68,7 @@ void GPIO_reservations(void)
 	RESERVE_GPIO(EEPROM,I2C_GPIO_PORT,I2C_SDA_PIN,PID_I2C_SDA);
 	
 	RESERVE_GPIO(ADC_PWR,ADC_PORT,ADC_PIN,PID_ADC);
+	#endif
 	
 }
 #endif // CFG_DEVELOPMENT_DEBUG
@@ -82,9 +84,9 @@ void set_pad_functions(void)        // set gpio port function mode
    // GPIO_ConfigurePin(UART2_TX_GPIO_PORT, UART2_TX_GPIO_PIN, OUTPUT, PID_UART2_TX, false);
    // GPIO_ConfigurePin(UART2_RX_GPIO_PORT, UART2_RX_GPIO_PIN, INPUT, PID_UART2_RX, false);
 #endif
-#if 1
+#if 0
 	GPIO_ConfigurePin(AUDIO_SDA_PORT,AUDIO_SDA_PIN,OUTPUT,PID_GPIO,false);
-#if 1 
+
 	GPIO_ConfigurePin(ADC1_CLK_PORT,ADC1_CLK_PIN,OUTPUT,PID_GPIO,false);
 	GPIO_ConfigurePin(ADC1_DO_PORT,ADC1_DO_PIN,INPUT,PID_GPIO,true);
 	
@@ -93,17 +95,11 @@ void set_pad_functions(void)        // set gpio port function mode
 
 	GPIO_ConfigurePin(ADC3_CLK_PORT,ADC3_CLK_PIN,OUTPUT,PID_GPIO,false);
 	GPIO_ConfigurePin(ADC3_DO_PORT,ADC3_DO_PIN,INPUT,PID_GPIO,true);
-#endif
+
 	
 	GPIO_ConfigurePin(ADC4_CLK_PORT,ADC4_CLK_PIN,OUTPUT,PID_GPIO,false);
 	GPIO_ConfigurePin(ADC4_DO_PORT,ADC4_DO_PIN,INPUT,PID_GPIO,true);
 
-	
-	
-	//GPIO_ConfigurePin(LCD_CLK_PORT,LCD_CLK,OUTPUT,PID_GPIO,false);
-	//GPIO_ConfigurePin(LCD_SDIN_PORT,LCD_SDIN,OUTPUT,PID_GPIO,false);
-	
-#endif	
 //按键是平时高，按下低 ,启用上拉电阻.	
 	
 	//GPIO_ConfigurePin(KEY_ZERO_PORT,KEY_ZERO_PIN,INPUT,PID_GPIO,false);
@@ -123,29 +119,10 @@ void set_pad_functions(void)        // set gpio port function mode
 	//adc
 	GPIO_ConfigurePin(ADC_PORT, ADC_PIN, INPUT, PID_ADC, true);
 
-	//init_eeprom_pin();
-	//init_oled_pin();
-}
-
-//配置EEPROM
-void init_eeprom_pin(void)
-{
-	GPIO_ConfigurePin(I2C_GPIO_PORT, I2C_SCL_PIN, INPUT, PID_I2C_SCL, false);
-  GPIO_ConfigurePin(I2C_GPIO_PORT, I2C_SDA_PIN, INPUT, PID_I2C_SDA, false);
-
-}
-void init_oled_pin(void)
-{
-#if 1
-	GPIO_ConfigurePin(LCD_CLK_PORT,LCD_CLK,OUTPUT,PID_GPIO,true);
-	GPIO_ConfigurePin(LCD_SDIN_PORT,LCD_SDIN,OUTPUT,PID_GPIO,true);
-	GPIO_ConfigurePin(LCD_RST_PORT,LCD_RST,OUTPUT,PID_GPIO,true);
-#else
-	GPIO_ConfigurePin(LCD_CLK_PORT,LCD_CLK,OUTPUT,PID_GPIO,false);
-	GPIO_ConfigurePin(LCD_SDIN_PORT,LCD_SDIN,OUTPUT,PID_GPIO,false);
-	GPIO_ConfigurePin(LCD_RST_PORT,LCD_RST,OUTPUT,PID_GPIO,false);
 #endif
+
 }
+
 
 void periph_init(void)
 {

@@ -189,11 +189,11 @@ void WetApp_Work_En(INT8U en)
 {
 	if(en )
 	{
-		Timer_Enable(mWetAppID);
+		//Timer_Enable(mWetAppID);
 	}
 	else
 	{
-		Timer_Disable(mWetAppID);
+		//Timer_Disable(mWetAppID);
 	}
 }
 

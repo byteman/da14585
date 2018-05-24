@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Wed May 23 00:49:36 2018
+;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Thu May 24 19:33:08 2018
 ;VERSION 0.2
 ;FILE adc.o
 ;FILE adc_1.o
@@ -70,6 +70,12 @@ set_xtal16m_trim_value <= USED 0
 ;FILE batty.o
 battery_isr <= USED 0
 ;FILE blemenu.o
+;FILE blescaler.o
+ble_scaler_exec_cmd <= USED 0
+ble_scaler_get_info <= USED 0
+ble_scaler_register_event <= USED 0
+ble_scaler_run <= USED 0
+ble_scaler_set_ble_info <= USED 0
 ;FILE boot_vectors.o
 ;FILE calibmenu.o
 ;FILE channel.o
@@ -126,6 +132,9 @@ dummyf <= USED 0
 ;FILE key.o
 ;FILE mainmenu.o
 ;FILE matrix.o
+;FILE my_periph_setup.o
+init_eeprom_pin <= USED 0
+init_oled_pin <= USED 0
 ;FILE nmi_handler.o
 ;FILE nvds.o
 ;FILE oled.o
@@ -224,15 +233,21 @@ syscntl_set_dcdc_vbat3v_level <= USED 0
 ;FILE system_armcm0.o
 SystemCoreClockUpdate <= USED 0
 ;FILE systick.o
+systick_register_callback <= USED 0
+systick_start <= USED 0
 systick_stop <= USED 0
 systick_value <= USED 0
 systick_wait <= USED 0
 ;FILE timer.o
+SysTick_Event <= USED 0
 Timer_Delete <= USED 0
 Timer_Disable <= USED 0
 Timer_Enable <= USED 0
+Timer_Init <= USED 0
 Timer_Regist <= USED 0
 Timer_Server <= USED 0
+Timer_SysTickConfig <= USED 0
+systick_isr <= USED 0
 ;FILE trng.o
 ;FILE uart2.o
 uart2_finish_transfers <= USED 0
@@ -253,8 +268,6 @@ user_svc1_indicateable_cfg_ind_handler <= USED 0
 user_svc1_indicateable_ind_cfm_handler <= USED 0
 user_svc1_long_val_ntf_cfm_handler <= USED 0
 ;FILE user_periph_setup.o
-init_eeprom_pin <= USED 0
-init_oled_pin <= USED 0
 ;FILE user_peripheral.o
 ;FILE utils.o
 ;FILE weighing.o
