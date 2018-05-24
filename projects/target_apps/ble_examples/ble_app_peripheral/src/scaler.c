@@ -80,6 +80,7 @@ scaler_info_t* 		scaler_get_info(void)
 		g_sinfo.adc_soc_err = 0;
 		g_sinfo.div_weight = gScaleAppData.mScaleWet;
 		g_sinfo.org_weight = gScaleAppData.mScaleWetInter;
+		g_sinfo.ready = gScaleAppData.mScaleStatue.stReady;
 		return &g_sinfo;
 	
 }

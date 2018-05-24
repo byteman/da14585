@@ -9,7 +9,7 @@
 #define MENI_CAL_CORN	2
 #define MENU_BLE  		3
 #define MENU_DEBUG  	4
-
+#define MENU_LOGO    	5
 
 #define HIS_W_X  9 //历史重量开始处
 #define HIS_W_Y  9 //历史重量开始处
@@ -21,7 +21,7 @@
 #define D_STATE				110
 #define DEV_STATE_OFFSET 104
 
-void gui_show_scaler_state(scaler_info_t* sif);
+//void gui_show_scaler_state(scaler_info_t* sif);
 
 void gui_show_sum(int value, uint8 dot);
 

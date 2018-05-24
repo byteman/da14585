@@ -266,7 +266,7 @@ void Wet_Service(void)
 		}	
 		gScaleAppData.mScaleWet 	= gScaleAppData.mScaleConvertWet;   //Ã«ÖØ
 		gScaleAppData.mScaleWetInter	= gWetData.mWet_Stable;
-
+		gScaleAppData.mScaleStatue.stReady = gWetStatue.wetready;
 		//¸üÐÂ³Ó×´Ì¬
 		gScaleAppData.mScaleStatue.stStable = gWetStatue.stable;
 		gScaleAppData.mScaleStatue.stZero = gWetStatue.zero;

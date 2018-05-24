@@ -1,13 +1,14 @@
-;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Thu May 24 19:33:08 2018
+;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Thu May 24 23:37:25 2018
 ;VERSION 0.2
 ;FILE adc.o
+adc_disable <= USED 0
 ;FILE adc_1.o
 adc_config <= USED 0
-adc_power <= USED 0
 ;FILE app.o
 active_conhdl_to_conidx <= USED 0
 active_conidx_to_conhdl <= USED 0
 app_easy_gap_advertise_stop <= USED 0
+app_easy_gap_advertise_with_timeout_stop <= USED 0
 app_easy_gap_dev_config_get_active <= USED 0
 app_easy_gap_directed_advertise_get_active <= USED 0
 app_easy_gap_directed_advertise_start <= USED 0
@@ -29,6 +30,7 @@ app_custs1_val_wr_validate <= USED 0
 ;FILE app_customs_task.o
 ;FILE app_default_handlers.o
 default_advertise_operation <= USED 0
+default_app_generate_static_random_addr <= USED 0
 default_app_on_disconnect <= USED 0
 ;FILE app_diss.o
 ;FILE app_diss_task.o
@@ -61,8 +63,13 @@ arch_last_rwble_evt_get <= USED 0
 arch_restore_sleep_mode <= USED 0
 arch_set_deep_sleep <= USED 0
 ;FILE arch_system.o
+__ARM_common_ll_muluu <= USED 0
 arch_set_pxact_gpio <= USED 0
 arch_wkupct_tweak_deb_time <= USED 0
+calibrate_rcx20 <= USED 0
+lld_sleep_lpcycles_2_us_rcx_func <= USED 0
+lld_sleep_us_2_lpcycles_rcx_func <= USED 0
+read_rcx_freq <= USED 0
 set_xtal16m_trim_value <= USED 0
 ;FILE attm_db_128.o
 ;FILE audio.o
@@ -79,13 +86,11 @@ ble_scaler_set_ble_info <= USED 0
 ;FILE boot_vectors.o
 ;FILE calibmenu.o
 ;FILE channel.o
-channel_all_power <= USED 0
 channel_init <= USED 0
 channel_power <= USED 0
 ;FILE cornfix.o
 ;FILE cornmenu.o
 ;FILE cs1237.o
-CS1237_Power <= USED 0
 ;FILE custom_common.o
 custs1_get_att_handle <= USED 0
 ;FILE custs1.o
@@ -126,13 +131,18 @@ hw_otpc_twr <= USED 0
 hw_otpc_write_rr <= USED 0
 ;FILE i2c_eeprom.o
 i2c_eeprom_read_byte <= USED 0
+i2c_eeprom_release <= USED 0
 i2c_eeprom_write_byte <= USED 0
 ;FILE jump_table.o
 dummyf <= USED 0
 ;FILE key.o
+;FILE logomenu.o
 ;FILE mainmenu.o
+main_menu_debug <= USED 0
 ;FILE matrix.o
 ;FILE my_periph_setup.o
+custom_GPIO_reservations <= USED 0
+custom_set_pad_functions <= USED 0
 init_eeprom_pin <= USED 0
 init_oled_pin <= USED 0
 ;FILE nmi_handler.o
@@ -143,13 +153,11 @@ LCD_16x16_Char <= USED 0
 LCD_CLS <= USED 0
 LCD_Dot2 <= USED 0
 LCD_Init2 <= USED 0
-LCD_OverLoad <= USED 0
 LCD_P10x8Ch <= USED 0
 LCD_P16x16Ch <= USED 0
 LCD_P8x16Ch <= USED 0
 LCD_P8x8_ZH <= USED 0
 LCD_P8x8_ZH_Arr <= USED 0
-LCD_UnInit <= USED 0
 ;FILE param.o
 param_test <= USED 0
 ;FILE patch.o
@@ -171,7 +179,6 @@ update_calcap_ranges <= USED 0
 write_HW_LUT <= USED 0
 write_one_SW_LUT_entry <= USED 0
 ;FILE power.o
-power_ctrl <= USED 0
 power_enable <= USED 0
 power_feed <= USED 0
 ;FILE prf.o
@@ -181,6 +188,7 @@ prf_unpack_date_time <= USED 0
 ;FILE rf_585.o
 rf_nfm_disable <= USED 0
 rf_nfm_enable <= USED 0
+rf_nfm_is_enabled <= USED 0
 ;FILE rf_calibration.o
 DCoffsetCalibration_580 <= USED 0
 IffCalibration_580 <= USED 0
@@ -300,4 +308,6 @@ quad_decoder_init <= USED 0
 quad_decoder_register_callback <= USED 0
 quad_decoder_release <= USED 0
 wkupct_disable_irq <= USED 0
+wkupct_enable_irq <= USED 0
 wkupct_quad_disable_IRQ <= USED 0
+wkupct_register_callback <= USED 0

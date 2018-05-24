@@ -310,7 +310,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>1</Optim>
+            <Optim>3</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>0</OneElfS>
@@ -1078,6 +1078,11 @@
               <FileName>my_periph_setup.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\my_periph_setup.c</FilePath>
+            </File>
+            <File>
+              <FileName>logomenu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\logomenu.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2155,6 +2160,11 @@
               <FileName>my_periph_setup.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\my_periph_setup.c</FilePath>
+            </File>
+            <File>
+              <FileName>logomenu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\logomenu.c</FilePath>
             </File>
           </Files>
         </Group>

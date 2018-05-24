@@ -118,14 +118,14 @@ static uint8_t g_init =0;
 
 static void _enter(void)
 {
-		//init_eeprom_pin();
+		
     i2c_eeprom_init(I2C_SLAVE_ADDRESS, I2C_SPEED_MODE, I2C_ADDRESS_MODE, I2C_ADDRESS_SIZE);
 	
 }
 static void _leave(void)
 {
-		i2c_eeprom_release();
-		//init_oled_pin();
+		//i2c_eeprom_release();
+	
 }
 
 /**

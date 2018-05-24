@@ -17,6 +17,7 @@ typedef struct _scaler_info_t{
 		uint8		stillFlag;
 		uint8		upFlow;
 		uint8   downFlow;
+		uint8		ready; //开机后重量可以用吗.
 		int32_t div_weight; //分度值后的毛重
 	  int32_t org_weight; //没有经过分度值处理的重量.	
 		int32_t adArrs[MAX_CHAN]; //ad数据.

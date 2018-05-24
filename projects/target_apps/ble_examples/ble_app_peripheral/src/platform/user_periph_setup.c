@@ -36,7 +36,7 @@
 
 void GPIO_reservations(void)
 {
-	#if 0
+	#if 1
 	RESERVE_GPIO(AUDIO,AUDIO_SDA_PORT,AUDIO_SDA_PIN,PID_GPIO);
 	
 	RESERVE_GPIO(ADC,ADC1_CLK_PORT,ADC1_CLK_PIN,PID_GPIO);
@@ -75,16 +75,8 @@ void GPIO_reservations(void)
 
 void set_pad_functions(void)        // set gpio port function mode
 {
-#ifdef __DA14586__
-    // disallow spontaneous flash wake-up
-    //GPIO_ConfigurePin(SPI_EN_GPIO_PORT, SPI_EN_GPIO_PIN, OUTPUT, PID_GPIO, true);x
-#endif
 
-#ifdef CFG_PRINTF_UART2
-   // GPIO_ConfigurePin(UART2_TX_GPIO_PORT, UART2_TX_GPIO_PIN, OUTPUT, PID_UART2_TX, false);
-   // GPIO_ConfigurePin(UART2_RX_GPIO_PORT, UART2_RX_GPIO_PIN, INPUT, PID_UART2_RX, false);
-#endif
-#if 0
+#if 1
 	GPIO_ConfigurePin(AUDIO_SDA_PORT,AUDIO_SDA_PIN,OUTPUT,PID_GPIO,false);
 
 	GPIO_ConfigurePin(ADC1_CLK_PORT,ADC1_CLK_PIN,OUTPUT,PID_GPIO,false);

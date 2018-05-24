@@ -52,7 +52,7 @@ typedef struct
 	INT16U			stUnit_KG:1;//kg
 	INT16U			stUnit_g:1;//g
 	INT16U			stUnit_lb:1;//lb
-	
+	INT16U			stReady:1;	
 }WET_STATUE;
 typedef union 
 {

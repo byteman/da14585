@@ -18,6 +18,8 @@ typedef struct {
 #define KEY_PRESS_TIME 3
 #define TIMER_INT 100
 #define PRESS_KEY_TIME 2000
+#define PWR_DELAY_NUM 10
+#define ZERO_RLEASE_DELAY_NUM 20
 
 static key_state key_states[MAX_KEY_NUM];
 
@@ -59,7 +61,7 @@ void  key_isr()
 		
 		if(GPIO_GetPinStatus(KEY_PWR_PORT,KEY_PWR_PIN) )
 		{
-					if(key_pressed < 30) return;
+					if(key_pressed < PWR_DELAY_NUM) return;
 					key_states[0].press_ts++;
 					//key_states[0].state = KEY_PRESSED;
 					if(key_states[0].press_ts > (PRESS_KEY_TIME/TIMER_INT) )
@@ -84,7 +86,7 @@ void  key_isr()
 		}
 		else
 		{
-					if(key_pressed < 30)
+					if(key_pressed < PWR_DELAY_NUM)
 						key_pressed++;
 				
 					//LOW LEVEL °´¼ü±»ÊÍ·Å.
@@ -101,7 +103,7 @@ void  key_isr()
 		if(GPIO_GetPinStatus(KEY_ZERO_PORT,KEY_ZERO_PIN))
 		{
 					key_states[1].press_ts++;
-					key_states[1].releas_ts=20;
+					key_states[1].releas_ts=ZERO_RLEASE_DELAY_NUM;
 			
 					if(key_states[1].press_ts > (PRESS_KEY_TIME/TIMER_INT) )
 					{

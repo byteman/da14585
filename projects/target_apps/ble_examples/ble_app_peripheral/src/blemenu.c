@@ -17,7 +17,9 @@ void ble_menu_init_func(uint8 prev)
 	
 		const char* addr = scaler_get_ble_addr();
 		LCD_P16x16_ZH_Arr(1,0,title,4);
-		LCD_P6x8Str(1,13,addr); //128 - 102 = 26/2
+		
+		//LCD_P8x16Str(1,10,addr);
+		LCD_P6x8Str(3,13,addr); //128 - 102 = 26/2
 
 }
 

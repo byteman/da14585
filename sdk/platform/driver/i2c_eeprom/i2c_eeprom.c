@@ -54,6 +54,9 @@ static uint8_t i2c_dev_address;     // Device address
 
 void i2c_eeprom_init(uint16_t dev_address, uint8_t speed, uint8_t address_mode, uint8_t address_size)
 {
+		static uint16_t address = 0;
+		if(dev_address == address) return;
+		address = dev_address;
     mem_address_size = address_size;
     SetBits16(CLK_PER_REG, I2C_ENABLE, 1);                                        // enable  clock for I2C
     SetWord16(I2C_ENABLE_REG, 0x0);                                               // Disable the I2C controller

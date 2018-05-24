@@ -9,6 +9,7 @@
 static uint8 g_pwr_state = PWR_ON;
 static uint8 g_enable = 0;
 static int32_t g_sleep_count = 0;
+static int32_t g_old_ad = 0;
 static void delay_ms(unsigned int z)
 {
 unsigned int x,y;
@@ -48,7 +49,7 @@ uint8  power_isr(void)
 	}
 	//每隔1s唤醒一次，读取ad值.
 	if(0==(g_sleep_count++ % 10)){
-	
+			
 	}
 	return 1;
 }
@@ -62,9 +63,11 @@ static void power_on(void)
 static void powe_sleep(void)
 {
 		uint8 i = 0;
+		g_old_ad = channel_get_filter_ad(0);
 		LCD_UnInit();
 		channel_all_power(1);
 		g_sleep_count = 0;
+		
 }
 void  power_ctrl(uint8 state)
 {

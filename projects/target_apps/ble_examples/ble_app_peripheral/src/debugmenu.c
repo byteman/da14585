@@ -8,7 +8,7 @@
 #include "param.h"
 #include "audio.h"
 
-
+static uint32 tick = 0;
 void debug_menu_init_func(uint8 prev)
 {
 		gui_clear_screen();
@@ -33,7 +33,14 @@ void debug_menu_gui_func(void)
 
 	scaler_info_t * sif = scaler_get_info();
 	if(sif != NULL){
-			gui_show_ad(sif);
+			//gui_show_ad(sif);
+	}
+	tick++;
+	if(tick % 10 == 0)
+	{
+			char buf[16] = {0,};
+			snprintf(buf,16,"%4d",tick);
+			LCD_P6x8Str(1,1,buf);
 	}
 
 	

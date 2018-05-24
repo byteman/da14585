@@ -3,8 +3,8 @@
 //称重库初始化，只需要调用一次.
 int ble_scaler_init(scaler_config_t* config)
 {
-		custom_GPIO_reservations();
-		custom_set_pad_functions();
+		//custom_GPIO_reservations();
+		//custom_set_pad_functions();
 		user_app_start();
 }
 

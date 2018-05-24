@@ -25,6 +25,7 @@ void user_app_time_handle(void)
 {
 	  int i = 0;
 	  int32 ad = 0;
+		//time1s++;
 		if(power_state() == PWR_SLEEP){
 			//睡眠模式就不响应按键,gui,称重
 			

@@ -6,6 +6,7 @@
 #include "blemenu.h"
 #include "debugmenu.h"
 #include "cornmenu.h"
+#include "logomenu.h"
 #include "key.h"
 #include "utils.h"
 #include "audio.h"
@@ -46,6 +47,11 @@ static menu_item menu_itmes[] = {
 		debug_menu_init_func,
 		debug_menu_gui_func,
 		debug_menu_key_event
+	},
+	{
+		logo_menu_init_func,
+		logo_menu_gui_func,
+		logo_menu_key_event
 	}
 };
 static uint8 menu_index = 0;
@@ -146,7 +152,7 @@ void gui_init(void)
 {
 		LCD_Init();
 		key_register(key_event);
-		gui_show(MENU_MAIN);
-	
+		gui_show(MENU_LOGO);
+		//gui_show(MENU_DEBUG);
 }
 

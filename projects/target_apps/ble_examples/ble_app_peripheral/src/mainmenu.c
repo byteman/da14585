@@ -18,6 +18,9 @@ static uint8_t g_flag = 0;
 static uint8_t g_still_count = 0;
 static uint32_t g_tick_count = 0; //主称重界面的定时器. 3分钟未计重进入休眠状态. 10分钟未计重进入关机状态. 未计重的意思，重量一直未超过称重阈值??
 static uint32_t g_sleep_count= 0;
+
+static void gui_show_scaler_state(scaler_info_t *sif,uint8 update);
+static void gui_show_weight(scaler_info_t * sif,uint8 update);
 /*
 1.休眠模式下无重量显示 OLED关闭/关闭蓝牙信号/无语音播报.
 2.休眠模式下可按置零键唤醒.
@@ -38,6 +41,7 @@ static void menu_menu_msg_cb(comm_msg_t* msg)
 }
 static void gui_show_history_weight(void)
 {
+		
 	  uint8 i = 0;
 		for(; i < MAX_HIS_WEIGHT; i++)
 		{
@@ -58,13 +62,7 @@ static void gui_show_sum(int value, uint8 dot)
 }
 static void gui_show_unit(void)
 {
-		//uint8_t kg[3] = {24,25,0};
-		
 		LCD_KG(100,1);
-		//LCD_P8x16Ch(104,0,14);
-		//LCD_P8x16Ch(112,0,15);
-		
-		//LCD_P8x8_ZH_Arr(110,0,kg,2);
 }
 /*
 菜单的更新有以下几种情况
@@ -91,9 +89,14 @@ void main_menu_init_func(uint8 prev)
 	
 	sif = scaler_get_info();
 	
-	gui_show_scaler_state(sif);
+	gui_show_scaler_state(sif,1);
+	
+	gui_show_weight(sif,1);
+
 	gui_show_sum(g_logic->history_sum,1);
 	gui_show_unit();
+	LCD_SUM(W_STATE,5);
+	
 	g_sleep_count  = 0;
 //	gui_show_ble_state(0);
 	#endif
@@ -169,13 +172,20 @@ uint8 main_logic_isr(scaler_info_t * sif)
 
 //稳定和零位显示.
 //可以设置一个标志,重量或者零位标志，稳定标志有其中一个有变化,就可以刷新.
-static void gui_show_scaler_state(scaler_info_t *sif)
+static void gui_show_scaler_state(scaler_info_t *sif,uint8 update)
 {
-	
+	static uint8 old_still = 255;
+	static uint8 old_zero  = 255;
+	if(0 == update)
+	{
+		if(old_still == sif->stillFlag) return;
+		if(old_zero  == sif->zeroFlag ) return;
+	}
+	old_still = sif->stillFlag;
+	old_zero  = sif->zeroFlag;
 	LCD_P16x16bmp(W_STATE,1,sif->stillFlag?BMP_STILL:BMP_CLEAR);
 	LCD_P16x16bmp(W_STATE,3,sif->zeroFlag? BMP_ZERO:BMP_CLEAR);
-	LCD_SUM(W_STATE,5);
-
+	
 }
 static void gui_show_poweroff(void)
 {	
@@ -196,27 +206,27 @@ static void lcd_show_weight(char* buf)
 	//buf[4] = 0; //超过4位了就截取.
 	LCD_P16x32Str(W_VALUE,1,buf);
 }
-static void gui_show_weight(scaler_info_t * sif)
+static void gui_show_weight(scaler_info_t * sif,uint8 update)
 {
 	static uint8 clear = 0;
-	char buf[16]={0,};
+	static int32_t old_value = 12345678;
 	
+	char buf[16]={0,};
+	if(!update)
+	{
+		if(sif->div_weight == old_value)
+		{
+				return;
+		}
+	}
+
+	old_value = sif->div_weight;
 	if(sif->upFlow || sif->downFlow || sif->div_weight>=1000){
-			//LCD_P16x32Str(W_VALUE,1,"--.1");
-			//LCD_OverLoad(W_VALUE,1);
-			clear = 0;
+			LCD_OverLoad(W_VALUE,1);
 			return;
 	}
-	//if(sif->div_weight < 0 ) sif->div_weight = 0;
-	if(clear == 0){
-			//LCD_P16x32Str(W_VALUE,1,"   ");
-			//LCD_P16x32Str(48,5,"    ");
-			clear = 1; 
-	}
 	format_weight((char*)buf,16,sif->div_weight,1,4);
-	if(sif->div_weight >= 1000){
-			//clear = 0;
-	}
+
 	lcd_show_weight(buf);
 
 
@@ -232,38 +242,66 @@ static void goto_sleep(void)
 }
 static void main_sleep_handle(scaler_info_t * sif)
 {
-		static uint8 cnt = 3;
+	#define ZERO_DELAY_CNT 5
+		static int8 cnt = ZERO_DELAY_CNT;
 		//180 sleep
 		if(sif->zeroFlag){
-			cnt = 3;
+			cnt = ZERO_DELAY_CNT;
 			//零位状态进行计数，在零位超过3分钟，进入休眠状态
 			if(g_sleep_count++ >= 1800){
 					goto_sleep();
+					g_sleep_count = 0;
 					
 			}
 		}else{
+				if(cnt-- > 0)
+				{
+						return;
+				}
+				cnt = ZERO_DELAY_CNT;
 				g_sleep_count  = 0;
 		}
 		
 }
+void main_menu_debug()
+{
+	char buf[16] = {0,};
+	if(g_tick_count % 10 == 0)
+	{
+		snprintf(buf,16,"%8d",g_tick_count/10);
+		LCD_P8x16Str(48,5,buf);
+
+	}
+	
+}
 void main_menu_gui_func(void)
 {
 
+		
 	scaler_info_t * sif = scaler_get_info();
 	if(sif != NULL){
-			gui_show_weight(sif);
-			gui_show_scaler_state(sif);
+			if(!sif->ready)
+			{
+					
+			
+					return;
+			}
+			gui_show_weight(sif, 0);
+			gui_show_scaler_state(sif,0);
 			if(main_logic_isr(sif))
 			{
 					gui_show_history_weight();
 					gui_show_sum(g_logic->history_sum,1);
 			}
+			main_sleep_handle(sif);
+			//main_menu_debug();
 		
 	}
 	if((g_tick_count++ % 5) == 0){
 		
 			gui_show_battry_state(battery_get());
 	}
+	
 	
 
 	
@@ -282,8 +320,9 @@ void main_menu_key_event(key_msg_t* msg)
 			
 			if(msg->event == KEY_RELEASE)
 			{
-				//gui_show(MENU_DEBUG);
+				
 					scaler_set_zero();
+					g_tick_count = 0;
 			}
 			else 	if(msg->event == KEY_LONG_PRESSED)
 			{
