@@ -18,9 +18,9 @@ static void corn_menu_show_angle(uint8 num)
 	//LCD_P8x16Str(48,1,"corn");
 	//LCD_P16x16_ZH(0,1,1);
 	
-	LCD_P16x16_ZH_Arr(1,0,arr,4);
-	LCD_P16x16_ZH_Arr(1,3,arr2,5);
-	LCD_P16x16_ZH_Arr(1,5,arr2+5,5);
+	LCD_P16x16_ZH_Arr(28,0,arr,4);
+	LCD_P16x16_ZH_Arr(9,3,arr2,6);
+	LCD_P16x16_ZH_Arr(20,5,arr2+6,4);
 }
 static void corn_menu_show_complete()
 {
@@ -62,10 +62,30 @@ void corn_menu_key_event(key_msg_t* msg)
 							
 					}
 			}
+			else if(msg->event == KEY_PRESSED)
+			{
+					LCD_P16x16bmp(110,0,5); //按钮被按下
+			}
+			else if(msg->event == KEY_PRESS_RLEASED)
+			{
+					LCD_P16x16bmp(110,0,4); //按钮被释放
+			}
 	}
 	else if(msg->key == KEY_PWR)
 	{
-			gui_show(MENU_MAIN);
+			if(msg->event == KEY_RELEASE)
+			{
+				gui_show(MENU_MAIN);
+			}	
+			else if(msg->event == KEY_PRESSED)
+			{
+					LCD_P16x16bmp(2,0,5); //按钮被按下
+			}
+			else if(msg->event == KEY_PRESS_RLEASED)
+			{
+					LCD_P16x16bmp(2,0,4); //按钮被释放
+			}
+			
 	}
 	
 }

@@ -82,3 +82,4 @@ typedef struct ble_info{
 */
 int ble_scaler_set_ble_info(ble_info_t* ble);
 int ble_scaler_bel_connected(uint8 state);
+uint8 ble_scaler_get_ble_state(void);

@@ -178,11 +178,22 @@ static void gui_show_scaler_state(scaler_info_t *sif,uint8 update)
 	static uint8 old_zero  = 255;
 	if(0 == update)
 	{
-		if(old_still == sif->stillFlag) return;
-		if(old_zero  == sif->zeroFlag ) return;
+		if(old_still != sif->stillFlag  ) 
+		{
+			LCD_P16x16bmp(W_STATE,1,sif->stillFlag?BMP_STILL:BMP_CLEAR);
+			old_still = sif->stillFlag;
+			return;
+		}
+		if(old_zero  == sif->zeroFlag ) 
+		{
+			LCD_P16x16bmp(W_STATE,3,sif->zeroFlag? BMP_ZERO:BMP_CLEAR);
+			old_zero  = sif->zeroFlag;
+			return;
+			
+		}
 	}
-	old_still = sif->stillFlag;
-	old_zero  = sif->zeroFlag;
+	
+	
 	LCD_P16x16bmp(W_STATE,1,sif->stillFlag?BMP_STILL:BMP_CLEAR);
 	LCD_P16x16bmp(W_STATE,3,sif->zeroFlag? BMP_ZERO:BMP_CLEAR);
 	
@@ -321,23 +332,43 @@ void main_menu_key_event(key_msg_t* msg)
 			if(msg->event == KEY_RELEASE)
 			{
 				
-					scaler_set_zero();
-					g_tick_count = 0;
 			}
 			else 	if(msg->event == KEY_LONG_PRESSED)
 			{
 					scaler_reset_history();
 			}
+			else if(msg->event == KEY_PRESSED)
+			{
+					//LCD_BLE(108,5,0);
+					LCD_BLE(108,5,2); //按钮被按下
+			}
+			else if(msg->event == KEY_PRESS_RLEASED)
+			{
+					scaler_set_zero();
+					g_tick_count = 0;
+					LCD_BLE(108,5,ble_scaler_get_ble_state());
+			}
 	}
 	else if(msg->key == KEY_PWR)
 	{
 			if(msg->event == KEY_RELEASE){
-					gui_show(MENU_BLE);
+					
 			}else if(msg->event == KEY_LONG_PRESSED){
 					gui_show_poweroff();
 					if(key_power_off() == 0){
 							gui_show(MENU_MAIN);
 					}
+			}
+			else if(msg->event == KEY_PRESSED)
+			{
+					//LCD_BLE(108,5,0);
+					LCD_BLE(108,5,2); //按钮被按下 //按钮被按下
+			}
+			else if(msg->event == KEY_PRESS_RLEASED)
+			{
+					LCD_BLE(108,5,ble_scaler_get_ble_state());
+					gui_show(MENU_BLE);
+					//LCD_P16x16bmp(108,5,4); //按钮被释放
 			}
 			
 	}

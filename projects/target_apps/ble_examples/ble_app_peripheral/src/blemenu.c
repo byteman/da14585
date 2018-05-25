@@ -32,6 +32,10 @@ void ble_menu_key_event(key_msg_t* msg)
 {
   if(msg->key == KEY_PWR)
 	{
-			gui_show(MENU_MAIN);
+			if(msg->event == KEY_PRESS_RLEASED)
+			{
+				gui_show(MENU_MAIN);
+			}
+			
 	}
 }

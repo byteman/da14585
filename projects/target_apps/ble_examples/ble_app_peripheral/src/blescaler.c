@@ -1,5 +1,5 @@
 #include "blescaler.h"
-
+static uint8 ble_state = 0;
 //称重库初始化，只需要调用一次.
 int ble_scaler_init(scaler_config_t* config)
 {
@@ -21,7 +21,7 @@ int ble_scaler_register_event(scaler_event_t evt)
 
 int ble_scaler_ble_connected(uint8 state)
 {
-	
+		ble_state = state;
 		dispatch_send_simple_msg(MSG_BLE_STATE, state);
 }
 
@@ -44,4 +44,7 @@ int ble_scaler_set_ble_info(ble_info_t* ble)
 {
 
 }
-
+uint8 ble_scaler_get_ble_state(void)
+{
+	return ble_state;
+}

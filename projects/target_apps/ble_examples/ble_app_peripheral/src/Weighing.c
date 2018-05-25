@@ -129,6 +129,7 @@ Std_ReturnType	Wet_InitPara(void)
 	static INT32S tmpDec = 0;
 
 	g_user->CWT = 200;
+	g_user->ZTR = 10;
  	err+= Wet_ParaIsRight(g_user->LDW,-1600000,4600000);
  	err+= Wet_ParaIsRight(g_user->LWT,-1600000,4600000);
  	err+= Wet_ParaIsRight(g_user->CWT,-1600000,4600000);
@@ -185,6 +186,7 @@ INT32S	Wet_Read(WET_STATE* wt)
 	wt->busy = g_wet_state.busy;	
 	wt->dnew = g_wet_state.dnew;
 	wt->wetready = g_wet_state.wetready;
+	wt->pwrTrackReady = g_wet_state.pwrTrackReady;
 	wt->err = g_wet_state.err;
 	wt->range = g_wet_state.range;
 	wt->aztflg = g_wet_state.aztflg;		
@@ -454,8 +456,8 @@ void	Wet_ZeroJudge(FP32	wt)
 		else
 			g_wet_state.zero = 0;
 	}
-	else
-		g_wet_state.zero = 0;	
+	//else
+	//	g_wet_state.zero = 0;	
 }
 /******************************************************************************
   * @brief	Wet ÇåÁã²Ù×÷  
@@ -525,6 +527,7 @@ void	Wet_ZeroPowerUp(void)
 					g_wet_err.state.err_poweron_set_zero = 1;
 				}
 				s_pzflged = TRUE;
+				
 			}
 			else
 			{
@@ -539,7 +542,8 @@ void	Wet_ZeroPowerUp(void)
 				}
 				s_pzflged = TRUE;
 			}
-		}			
+		}
+		g_wet_state.pwrTrackReady = 1;		
 	} 
 }
 /******************************************************************************

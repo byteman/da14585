@@ -20,7 +20,7 @@ typedef struct {
 #define PRESS_KEY_TIME 2000
 #define PWR_DELAY_NUM 10
 #define ZERO_RLEASE_DELAY_NUM 20
-
+#define PRESS_TIME_TICK 3
 static key_state key_states[MAX_KEY_NUM];
 
 static uint8 key_pressed = 0;
@@ -61,6 +61,7 @@ void  key_isr()
 		
 		if(GPIO_GetPinStatus(KEY_PWR_PORT,KEY_PWR_PIN) )
 		{
+			//被按下，开机后要延迟一段时间
 					if(key_pressed < PWR_DELAY_NUM) return;
 					key_states[0].press_ts++;
 					//key_states[0].state = KEY_PRESSED;
@@ -79,22 +80,27 @@ void  key_isr()
 								key_states[0].state = KEY_LONG_PRESSED; 
 								key_states[0].press_ts = 0;
 					}
-					else
+					else if(key_states[0].press_ts % PRESS_TIME_TICK == 0)
 					{
-					
+							send_key_msg(KEY_PWR, KEY_PRESSED);
 					}
 		}
 		else
 		{
 					if(key_pressed < PWR_DELAY_NUM)
 						key_pressed++;
-				
+					if(key_states[0].press_ts >= PRESS_TIME_TICK ||  key_states[0].state == KEY_LONG_PRESSED)
+					{
+							//曾经被按过，释放了
+							send_key_msg(KEY_PWR, KEY_PRESS_RLEASED);
+					}
 					//LOW LEVEL 按键被释放.
 					if(key_states[0].press_ts > KEY_PRESS_TIME && key_states[0].state != KEY_LONG_PRESSED)
 					{
 							send_key_msg(KEY_PWR, KEY_RELEASE);
 												
 					}
+					
 					key_states[0].state = KEY_RELEASE;
 				  key_states[0].press_ts = 0;
 					
@@ -121,20 +127,31 @@ void  key_isr()
 								key_states[1].press_ts = 0;
 						  
 					}
+					else if(key_states[1].press_ts % PRESS_TIME_TICK == 0)
+					{
+							send_key_msg(KEY_ZERO, KEY_PRESSED);
+					}
 		}
 		else
 		{
+					if(key_states[1].press_ts >= PRESS_TIME_TICK )
+					{
+							//曾经被按过，释放了
+							send_key_msg(KEY_ZERO, KEY_PRESS_RLEASED);
+					}
 					//释放后需要等待2秒才发送按键被释放命令.
 					if(key_states[1].releas_ts > 0){
 							key_states[1].releas_ts--;
 							return;
 					}
+					
 			//LOW LEVEL 按键被释放.
 					if(key_states[1].press_ts > KEY_PRESS_TIME && key_states[1].state != KEY_LONG_PRESSED)
 					{
 								
-								send_key_msg(KEY_ZERO_PORT, KEY_RELEASE);
+								send_key_msg(KEY_ZERO, KEY_RELEASE);
 					}
+				
 					key_states[1].state = KEY_RELEASE;
 				  key_states[1].press_ts = 0;
 		}

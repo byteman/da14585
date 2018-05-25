@@ -22,6 +22,7 @@ typedef struct
 	INT32U			wetready:1;		//称重模块就绪
 	INT32U			range:1;		//量程指示，0=range1，1=range2
 	INT32U			aztflg:1;		//零跟踪指示，1=activated 
+	INT32U			pwrTrackReady:1;		//开机置零完成
 	
 }WET_STATE;
 

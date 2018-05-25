@@ -20,12 +20,12 @@ const char* scaler_get_ble_addr(void)
 		
 		snprintf(g_addr,32,
 							"%02X:%02X:%02X:%02X:%02X:%02X",
-							default_addr[0],
-							default_addr[1],
-							default_addr[2],
-							default_addr[3],
+							default_addr[5],
 							default_addr[4],
-							default_addr[5]
+							default_addr[3],
+							default_addr[2],
+							default_addr[1],
+							default_addr[0]
 		);
 		
 	}
