@@ -17,8 +17,8 @@ static void calib_menu_show_zero(void)
 	char text[5] = {4,14,15,16,17};
 	
 
-	LCD_P16x16_ZH_Arr(1,0,title,4);
-	LCD_P16x16_ZH_Arr(1,3,text,5);
+	LCD_P16x16_ZH_Arr(28,0,title,4);
+	LCD_P16x16_ZH_Arr(20,3,text,5);
 
 	
 }
@@ -28,12 +28,13 @@ static void calib_menu_show_weight(void)
 	
 	*/
 	gui_clear_screen();
-	char title[4] = {12,13,10,11}; //标定重量
-	char text[5] = {4,6,7,10,11};
+	char title[4] = {10,11,2,3}; //标定重量
+	char text[9] = {6,7,21,39,40,41,24,25};
 	
 
 	LCD_P16x16_ZH_Arr(28,0,title,4);
-	LCD_P16x16_ZH_Arr(15,3,text,5);
+	LCD_P16x16_ZH_Arr(8,3,text,6);
+	LCD_P16x16_ZH_Arr(56,5,text+6,2);
 
 	
 }
@@ -91,7 +92,7 @@ void calib_menu_key_event(key_msg_t* msg)
 	
 	if(msg->key == KEY_ZERO)
 	{	
-			if(msg->event == KEY_RELEASE)
+			if(msg->event == KEY_RELEASE_2S)
 			{
 					if(step == 0)
 					{
@@ -117,7 +118,7 @@ void calib_menu_key_event(key_msg_t* msg)
 	}
 	else if(msg->key == KEY_PWR)
 	{
-			if(msg->event == KEY_RELEASE)
+			if(msg->event == KEY_RELEASE_2S)
 			{
 				gui_show(MENU_MAIN);
 			}

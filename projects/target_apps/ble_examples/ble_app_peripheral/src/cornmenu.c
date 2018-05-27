@@ -44,7 +44,7 @@ void corn_menu_key_event(key_msg_t* msg)
 {
 	if(msg->key == KEY_ZERO)
 	{	
-			if(msg->event == KEY_RELEASE)
+			if(msg->event == KEY_RELEASE_2S)
 			{
 				//0 1 2 3 
 					if(step < MAX_ANGLE)
@@ -73,7 +73,7 @@ void corn_menu_key_event(key_msg_t* msg)
 	}
 	else if(msg->key == KEY_PWR)
 	{
-			if(msg->event == KEY_RELEASE)
+			if(msg->event == KEY_RELEASE_2S)
 			{
 				gui_show(MENU_MAIN);
 			}	

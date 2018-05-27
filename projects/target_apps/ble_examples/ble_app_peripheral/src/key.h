@@ -15,9 +15,9 @@ typedef enum{
 }key_code_t;
 #define KEY_PRESSED 1
 #define KEY_LONG_PRESSED 2
-#define KEY_RELEASE 0
+#define KEY_RELEASE_2S 0
 #define KEY_PRESS_RLEASED 3
-
+#define KEY_RELASE_TWICE 4
 typedef struct key_msg{
 	uint8 key;
 	uint8 event;

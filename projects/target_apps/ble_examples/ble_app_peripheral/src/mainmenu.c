@@ -96,7 +96,7 @@ void main_menu_init_func(uint8 prev)
 	gui_show_sum(g_logic->history_sum,1);
 	gui_show_unit();
 	LCD_SUM(W_STATE,5);
-	
+	LCD_BLE(108,5,ble_scaler_get_ble_state());
 	g_sleep_count  = 0;
 //	gui_show_ble_state(0);
 	#endif
@@ -329,29 +329,37 @@ void main_menu_key_event(key_msg_t* msg)
 	if(msg->key == KEY_ZERO)
 	{
 			
-			if(msg->event == KEY_RELEASE)
+			if(msg->event == KEY_RELASE_TWICE)
 			{
-				
+					//0.5秒内按了2次.
+					scaler_reset_history();
 			}
+			//零点长按,显示蓝牙地址
 			else 	if(msg->event == KEY_LONG_PRESSED)
 			{
-					scaler_reset_history();
+					LCD_BLE(108,5,ble_scaler_get_ble_state());
+					gui_show(MENU_BLE);
+					
 			}
 			else if(msg->event == KEY_PRESSED)
 			{
 					//LCD_BLE(108,5,0);
 					LCD_BLE(108,5,2); //按钮被按下
 			}
-			else if(msg->event == KEY_PRESS_RLEASED)
+			else if(msg->event == KEY_RELEASE_2S)
 			{
 					scaler_set_zero();
+			}
+			else if(msg->event == KEY_PRESS_RLEASED)
+			{
+					
 					g_tick_count = 0;
 					LCD_BLE(108,5,ble_scaler_get_ble_state());
 			}
 	}
 	else if(msg->key == KEY_PWR)
 	{
-			if(msg->event == KEY_RELEASE){
+			if(msg->event == KEY_RELEASE_2S){
 					
 			}else if(msg->event == KEY_LONG_PRESSED){
 					gui_show_poweroff();
@@ -366,8 +374,7 @@ void main_menu_key_event(key_msg_t* msg)
 			}
 			else if(msg->event == KEY_PRESS_RLEASED)
 			{
-					LCD_BLE(108,5,ble_scaler_get_ble_state());
-					gui_show(MENU_BLE);
+				
 					//LCD_P16x16bmp(108,5,4); //按钮被释放
 			}
 			

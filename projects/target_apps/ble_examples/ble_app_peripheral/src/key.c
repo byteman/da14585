@@ -17,7 +17,8 @@ typedef struct {
 #define MAX_KEY_NUM 2
 #define KEY_PRESS_TIME 3
 #define TIMER_INT 100
-#define PRESS_KEY_TIME 2000
+#define PRESS_ALL_KEY_TIME 4000
+#define PRESS_ZERO_TIME 2000
 #define PWR_DELAY_NUM 10
 #define ZERO_RLEASE_DELAY_NUM 20
 #define PRESS_TIME_TICK 3
@@ -65,7 +66,7 @@ void  key_isr()
 					if(key_pressed < PWR_DELAY_NUM) return;
 					key_states[0].press_ts++;
 					//key_states[0].state = KEY_PRESSED;
-					if(key_states[0].press_ts > (PRESS_KEY_TIME/TIMER_INT) )
+					if(key_states[0].press_ts > (PRESS_ALL_KEY_TIME/TIMER_INT) )
 					{
 								if(GPIO_GetPinStatus(KEY_ZERO_PORT,KEY_ZERO_PIN))
 								{
@@ -97,11 +98,11 @@ void  key_isr()
 					//LOW LEVEL °´¼ü±»ÊÍ·Å.
 					if(key_states[0].press_ts > KEY_PRESS_TIME && key_states[0].state != KEY_LONG_PRESSED)
 					{
-							send_key_msg(KEY_PWR, KEY_RELEASE);
+							send_key_msg(KEY_PWR, KEY_RELEASE_2S);
 												
 					}
 					
-					key_states[0].state = KEY_RELEASE;
+					key_states[0].state = KEY_RELEASE_2S;
 				  key_states[0].press_ts = 0;
 					
 		}
@@ -111,13 +112,14 @@ void  key_isr()
 					key_states[1].press_ts++;
 					key_states[1].releas_ts=ZERO_RLEASE_DELAY_NUM;
 			
-					if(key_states[1].press_ts > (PRESS_KEY_TIME/TIMER_INT) )
+					if(key_states[1].press_ts > (PRESS_ZERO_TIME/TIMER_INT) )
 					{
 								if(GPIO_GetPinStatus(KEY_PWR_PORT,KEY_PWR_PIN))
 								{
-										send_key_msg(KEY_ALL, KEY_LONG_PRESSED);
-										key_states[0].state = KEY_LONG_PRESSED; 
-										key_states[0].press_ts = 0;
+										//send_key_msg(KEY_ALL, KEY_LONG_PRESSED);
+										//key_states[0].state = KEY_LONG_PRESSED; 
+										//key_states[0].press_ts = 0;
+										return;
 								}
 								else
 								{
@@ -149,10 +151,10 @@ void  key_isr()
 					if(key_states[1].press_ts > KEY_PRESS_TIME && key_states[1].state != KEY_LONG_PRESSED)
 					{
 								
-								send_key_msg(KEY_ZERO, KEY_RELEASE);
+								send_key_msg(KEY_ZERO, KEY_RELEASE_2S);
 					}
 				
-					key_states[1].state = KEY_RELEASE;
+					key_states[1].state = KEY_RELEASE_2S;
 				  key_states[1].press_ts = 0;
 		}
 	#endif
