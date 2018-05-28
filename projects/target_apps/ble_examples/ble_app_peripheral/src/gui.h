@@ -30,7 +30,7 @@ void gui_show_ble_state(uint8 state);
 //void gui_show_ble_addr(uint8 *addr, uint8 len);
 
 
-void gui_show_battry_state(uint8 value);
+void gui_show_battry_state(uint8 value,uint8 update);
 
 //void gui_show_weight(int value, uint8 dot, uint8 unit);
 

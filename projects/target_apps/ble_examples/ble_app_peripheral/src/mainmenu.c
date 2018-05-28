@@ -85,7 +85,7 @@ void main_menu_init_func(uint8 prev)
 	
 	scaler_get_display_weight(weight,16);
 	
-	gui_show_battry_state(battery_get());
+	gui_show_battry_state(battery_get(),1);
 	
 	sif = scaler_get_info();
 	
@@ -310,7 +310,7 @@ void main_menu_gui_func(void)
 	}
 	if((g_tick_count++ % 5) == 0){
 		
-			gui_show_battry_state(battery_get());
+			gui_show_battry_state(battery_get(),0);
 	}
 	
 	
@@ -362,7 +362,7 @@ void main_menu_key_event(key_msg_t* msg)
 			if(msg->event == KEY_RELEASE_2S){
 					
 			}else if(msg->event == KEY_LONG_PRESSED){
-					gui_show_poweroff();
+					//gui_show_poweroff();
 					if(key_power_off() == 0){
 							gui_show(MENU_MAIN);
 					}

@@ -24,7 +24,7 @@ typedef struct {
 #define PRESS_ALL_KEY_TIME 4000
 #define PRESS_ZERO_TIME 2000
 #define PWR_DELAY_NUM 10
-#define ZERO_RLEASE_DELAY_NUM 20
+#define ZERO_RLEASE_DELAY_NUM 10
 #define PRESS_TIME_TICK 3
 static key_state key_states[MAX_KEY_NUM];
 static int32 g_ts = 0;
@@ -180,10 +180,11 @@ void  key_isr()
 uint8 key_power_off(void)
 {
 	//
-		util_delay(20000);
+		//util_delay(20000);
 		if(	GPIO_GetPinStatus(KEY_PWR_PORT,KEY_PWR_PIN) == 0)
 		{
-				return 0;
+			//如果松开按键，则不关机.
+				//return 0;
 		}
 		GPIO_SetInactive(PWR_OFF_PORT,PWR_OFF_PIN);
 		//GPIO_SetInactive(PWR_OFF_PORT,PWR_OFF_PIN);

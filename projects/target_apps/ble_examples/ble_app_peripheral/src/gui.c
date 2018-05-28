@@ -65,14 +65,17 @@ void gui_show(uint8 index)
 
 
 
-void gui_show_battry_state(uint8 value)
+void gui_show_battry_state(uint8 value,uint8 update)
 {
 		//14 level
 	// 100/14
 	// 90
 	static uint8 blink = 1;
+	static uint8 old = 0;
 	uint8 level = (value*3 / 100);
 	if(level > 3 ) level = 3;
+	
+	#if 0
 	if(level == 0){
 		if(blink){
 				level = 1;
@@ -82,6 +85,7 @@ void gui_show_battry_state(uint8 value)
 		}
 		blink=!blink;
 	}
+	#endif
 	LCD_Batty(108,3, level);
 	//LCD_P8x16Ch(108,3,level);
 	 
