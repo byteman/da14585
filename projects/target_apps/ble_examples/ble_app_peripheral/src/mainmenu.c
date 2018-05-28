@@ -204,7 +204,7 @@ static void gui_show_poweroff(void)
 	
 
 		
-		gui_clear_screen();
+		//gui_clear_screen();
 		
 		LCD_P16x16_ZH_Arr(1,32,text,4);
 		
@@ -362,10 +362,8 @@ void main_menu_key_event(key_msg_t* msg)
 			if(msg->event == KEY_RELEASE_2S){
 					
 			}else if(msg->event == KEY_LONG_PRESSED){
-					//gui_show_poweroff();
-					if(key_power_off() == 0){
-							gui_show(MENU_MAIN);
-					}
+					gui_show(MENU_PWR_OFF);
+					
 			}
 			else if(msg->event == KEY_PRESSED)
 			{

@@ -10,6 +10,7 @@
 #define MENU_BLE  		3
 #define MENU_DEBUG  	4
 #define MENU_LOGO    	5
+#define MENU_PWR_OFF	6
 
 #define HIS_W_X  9 //历史重量开始处
 #define HIS_W_Y  9 //历史重量开始处

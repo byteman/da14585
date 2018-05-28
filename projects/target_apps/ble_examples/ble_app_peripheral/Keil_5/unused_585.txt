@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Mon May 28 17:54:27 2018
+;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Mon May 28 22:06:39 2018
 ;VERSION 0.2
 ;FILE adc.o
 ;FILE adc_1.o
@@ -173,6 +173,7 @@ write_one_SW_LUT_entry <= USED 0
 ;FILE power.o
 power_enable <= USED 0
 power_feed <= USED 0
+;FILE poweroff.o
 ;FILE prf.o
 ;FILE prf_utils.o
 prf_pack_date_time <= USED 0

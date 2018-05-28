@@ -7,6 +7,7 @@
 #include "debugmenu.h"
 #include "cornmenu.h"
 #include "logomenu.h"
+#include "poweroff.h"
 #include "key.h"
 #include "utils.h"
 #include "audio.h"
@@ -52,6 +53,11 @@ static menu_item menu_itmes[] = {
 		logo_menu_init_func,
 		logo_menu_gui_func,
 		logo_menu_key_event
+	},
+	{
+		pwr_menu_init_func,
+		pwr_menu_gui_func,
+		pwr_menu_key_event
 	}
 };
 static uint8 menu_index = 0;
