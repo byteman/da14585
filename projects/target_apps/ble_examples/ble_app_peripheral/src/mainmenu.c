@@ -21,6 +21,59 @@ static uint32_t g_sleep_count= 0;
 
 static void gui_show_scaler_state(scaler_info_t *sif,uint8 update);
 static void gui_show_weight(scaler_info_t * sif,uint8 update);
+
+static void gui_show_battry_state(uint8 value,uint8 update)
+{
+		//14 level
+	// 100/14
+	// 90
+	static uint8 blink = 1;
+	static uint8 old = 0;
+	uint8 level = (value*3 / 100);
+	if(level > 3 ) level = 3;
+	
+	#if 0
+	if(level == 0){
+		if(blink){
+				level = 1;
+			
+		}else{
+				level = 0;
+		}
+		blink=!blink;
+	}
+	#endif
+	LCD_Batty(108,3, level);
+	//LCD_P8x16Ch(108,3,level);
+	 
+}
+static uint8 bInit = 0;
+static void gui_show_ble_state(uint8 state)
+{
+	 if(state)
+	 {
+		 //蓝牙已经连接.
+			//param_save();
+			audio_queue_message("bc");
+			LCD_BLE(108,5,1);
+			//LCD_P16x16bmp(112,5,3);
+	 }
+	 else
+	 {
+			if(bInit == 0)
+			{
+				audio_queue_message("b");
+				bInit = 1;
+				return;
+			}
+		 //蓝牙已经断开.
+		  audio_queue_message("bx");
+			//LCD_P16x16bmp(112,5,4);
+			LCD_BLE(108,5,0);
+	 }
+	
+}
+
 /*
 1.休眠模式下无重量显示 OLED关闭/关闭蓝牙信号/无语音播报.
 2.休眠模式下可按置零键唤醒.
@@ -198,17 +251,7 @@ static void gui_show_scaler_state(scaler_info_t *sif,uint8 update)
 	LCD_P16x16bmp(W_STATE,3,sif->zeroFlag? BMP_ZERO:BMP_CLEAR);
 	
 }
-static void gui_show_poweroff(void)
-{	
-		char text[5] = {32,33,34,35};
-	
 
-		
-		//gui_clear_screen();
-		
-		LCD_P16x16_ZH_Arr(1,32,text,4);
-		
-}
 //1.最多只能显示4位 包括小数点
 //2.最后一位数字 按 8x16 字符显示
 //3.小数点按只显示4x4像素.
@@ -249,22 +292,24 @@ static void gui_show_weight(scaler_info_t * sif,uint8 update)
 //4.禁用称重流程.进入定时唤醒流程
 static void goto_sleep(void)
 {
-	 power_ctrl(PWR_SLEEP);
+	 gui_show(MENU_SLEEP);
 }
+#define SLEEP_CNT 180
 static void main_sleep_handle(scaler_info_t * sif)
 {
-	#define ZERO_DELAY_CNT 5
+	#define ZERO_DELAY_CNT 10
 		static int8 cnt = ZERO_DELAY_CNT;
 		//180 sleep
 		if(sif->zeroFlag){
 			cnt = ZERO_DELAY_CNT;
 			//零位状态进行计数，在零位超过3分钟，进入休眠状态
-			if(g_sleep_count++ >= 1800){
+			if(g_sleep_count++ >= SLEEP_CNT){
 					goto_sleep();
 					g_sleep_count = 0;
 					
 			}
 		}else{
+				//1s内的零点变化过滤掉.
 				if(cnt-- > 0)
 				{
 						return;
@@ -274,6 +319,7 @@ static void main_sleep_handle(scaler_info_t * sif)
 		}
 		
 }
+
 void main_menu_debug()
 {
 	char buf[16] = {0,};

@@ -1,5 +1,6 @@
 #include "channel.h"
 #include "adc.h"
+#include "power.h"
 #define MAX_AD_CHAN 8
 
 
@@ -19,23 +20,28 @@ int8_t channel_init(uint8_t nr)
     }
 
 }
-#if 0
-uint8_t channel_read_all(void)
+
+uint8_t channel_read_one(uint8_t chan)
 {
-		int i = 3;
-		if(adc_ready(i)){
+		
+		if(adc_ready(chan)){
             //只要有一路没有准备好就
+        return CHAN_ERR_BUSY;
+    }
+		if(CHAN_ERR_NONE!=channel_read(chan, &g_ad_chan[chan]))
+    {
             return CHAN_ERR_BUSY;
-        }
-		if(CHAN_ERR_NONE!=channel_read(i, &g_ad_chan[i]))
-        {
-            return CHAN_ERR_BUSY;
-        }
+    }
+		
+    return CHAN_ERR_NONE;
 }
-#else
+//如果是待机状态则只读取第一路的ad，其他路的ad任然保留最后一次读取的ad值》
 uint8_t channel_read_all(void)
 {
     int i = 0;
+		if(power_state() == PWR_SLEEP){
+				return channel_read_one(0);
+		}
     for(i = 0; i < ad_chan_nr; i++)
     {
         if(adc_ready(i)){
@@ -56,7 +62,7 @@ uint8_t channel_read_all(void)
 
     return CHAN_ERR_NONE;
 }
-#endif
+
 static 	__CHANNEL_VALUE ad_value[CAP_M];  
 INT32S			AD_filter[CAP_M];
 

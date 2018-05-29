@@ -3,13 +3,11 @@
 #include "gpio.h"
 #include "user_peripheral.h"
 #include "user_periph_setup.h"
-#include "oled.h"
-#include "channel.h"
+
 
 static uint8 g_pwr_state = PWR_ON;
-static uint8 g_enable = 0;
-static int32_t g_sleep_count = 0;
-static int32_t g_old_ad = 0;
+static void power_on(void);
+static void powe_sleep(void);
 static void delay_ms(unsigned int z)
 {
 unsigned int x,y;
@@ -33,40 +31,20 @@ static void delay_us(int nof_us)
         __nop();
     }
 }
-void power_enable(uint8 en)
-{
-	g_enable = en;
-}
-void  power_feed(void)
-{
 
-}
-//定时来做唤醒操作.
-uint8  power_isr(void)
-{
-	if(g_pwr_state != PWR_ON){
-		 return 0;
-	}
-	//每隔1s唤醒一次，读取ad值.
-	if(0==(g_sleep_count++ % 10)){
-			
-	}
-	return 1;
-}
+//电源启用
 static void power_on(void)
 {
 	LCD_Init();
-	channel_all_power(0);
+	channel_all_power(1);
 	g_pwr_state = PWR_ON;
 	
 }
+//睡眠状态就关闭lcd和adc通道.
 static void powe_sleep(void)
 {
-		uint8 i = 0;
-		g_old_ad = channel_get_filter_ad(0);
 		LCD_UnInit();
-		channel_all_power(1);
-		g_sleep_count = 0;
+		channel_all_power(0);
 		
 }
 void  power_ctrl(uint8 state)
@@ -74,9 +52,9 @@ void  power_ctrl(uint8 state)
 		if(state == PWR_SLEEP){
 					powe_sleep();
 		}else if(state == PWR_OFF){
-		
+					power_off();
 		}else{
-				
+					power_on();
 		}
 		
 		g_pwr_state = state;
@@ -87,4 +65,10 @@ uint8 power_state(void)
 	return g_pwr_state;
 
 }
-
+static void power_off(void)
+{
+		
+		GPIO_SetInactive(PWR_OFF_PORT,PWR_OFF_PIN);
+		//GPIO_SetInactive(PWR_OFF_PORT,PWR_OFF_PIN);
+		while(1);
+}

@@ -12,6 +12,7 @@ void power_enable(uint8 en);
 void  power_feed(void);
 uint8  power_isr(void);
 void  power_ctrl(uint8 state);
+void 	power_off(void);
 uint8 power_state(void);
 
 #endif
