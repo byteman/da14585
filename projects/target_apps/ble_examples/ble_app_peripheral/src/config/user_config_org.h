@@ -61,10 +61,10 @@ static const struct advertise_configuration user_adv_conf = {
     .addr_src = GAPM_STATIC_ADDR,
 
     /// Minimum interval for advertising
-    .intv_min = MS_TO_BLESLOTS(100),                    // 687.5ms
+    .intv_min = MS_TO_BLESLOTS(687.5),                    // 687.5ms
 
     /// Maximum interval for advertising
-    .intv_max = MS_TO_BLESLOTS(100),                    // 687.5ms
+    .intv_max = MS_TO_BLESLOTS(687.5),                    // 687.5ms
 
     /**
      *  Advertising channels map:
@@ -138,7 +138,10 @@ static const struct advertise_configuration user_adv_conf = {
 /// Advertising data
 #define USER_ADVERTISE_DATA         ("\x03"\
                                     ADV_TYPE_COMPLETE_LIST_16BIT_SERVICE_IDS\
-                                    "\xF0\xFF")
+                                    ADV_UUID_DEVICE_INFORMATION_SERVICE\
+                                    "\x11"\
+                                    ADV_TYPE_COMPLETE_LIST_128BIT_SERVICE_IDS\
+                                    "\x2F\x2A\x93\xA6\xBD\xD8\x41\x52\xAC\x0B\x10\x99\x2E\xC6\xFE\xED")
 
 /// Advertising data length - maximum 28 bytes, 3 bytes are reserved to set
 #define USER_ADVERTISE_DATA_LEN               (sizeof(USER_ADVERTISE_DATA)-1)
@@ -162,7 +165,7 @@ static const struct advertise_configuration user_adv_conf = {
  ****************************************************************************************
  */
 /// Device name
-#define USER_DEVICE_NAME        ""
+#define USER_DEVICE_NAME        "WZ-Scaler"
 
 /// Device name length
 #define USER_DEVICE_NAME_LEN    (sizeof(USER_DEVICE_NAME)-1)

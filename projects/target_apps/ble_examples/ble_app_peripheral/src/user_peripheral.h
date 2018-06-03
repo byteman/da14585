@@ -54,7 +54,8 @@
 #define APP_PARAM_UPDATE_REQUEST_TO         (1000)   // 1000*10ms = 10sec, The maximum allowed value is 41943sec (4194300 * 10ms)
 
 /* Advertising data update timer */
-#define APP_ADV_DATA_UPDATE_TO              (3000)   // 3000*10ms = 30sec, The maximum allowed value is 41943sec (4194300 * 10ms)
+//#define APP_ADV_DATA_UPDATE_TO              (3000)   // 3000*10ms = 30sec, The maximum allowed value is 41943sec (4194300 * 10ms)
+#define APP_ADV_DATA_UPDATE_TO              (20)   // 20*10ms = 200ms, The maximum allowed value is 41943sec (4194300 * 10ms)
 
 /* Manufacturer specific data constants */
 #define APP_AD_MSD_COMPANY_ID       (0xABCD)

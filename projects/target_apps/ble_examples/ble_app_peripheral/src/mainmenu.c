@@ -22,7 +22,7 @@ static uint32_t g_sleep_count= 0;
 static uint32_t g_tick_count = 0;
 static void gui_show_scaler_state(scaler_info_t *sif,uint8 update);
 static void gui_show_weight(scaler_info_t * sif,uint8 update);
-#define SLEEP_TIME_S 18
+#define SLEEP_TIME_S 180
 static void reset_sleep_tick(void)
 {
 		g_sleep_count = GetTick();
@@ -213,7 +213,7 @@ uint8 main_logic_isr(scaler_info_t * sif)
 		}
 		else
 		{
-				
+				g_still_count = 0;
 		}
 		
 		if(sif->stillFlag &&  

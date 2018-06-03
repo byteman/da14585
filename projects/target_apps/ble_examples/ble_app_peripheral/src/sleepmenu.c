@@ -9,7 +9,7 @@
 static int32 g_sleep_count = 0;
 static PARA_USER_T*  g_user;
 
-#define PWR_DOWN_TICK 60
+#define PWR_DOWN_TICK (600-180)
 static void reset_sleep_tick(void)
 {
 		g_sleep_count = GetTick();

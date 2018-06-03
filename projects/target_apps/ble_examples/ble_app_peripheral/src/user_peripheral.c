@@ -35,6 +35,7 @@
 #include "co_bt.h"
 #include "user_app.h"
 #include "dispatcher.h"
+#include "bt_weight.h"
 /*
  * TYPE DEFINITIONS
  ****************************************************************************************
@@ -163,13 +164,30 @@ static void app_add_ad_struct(struct gapm_start_advertise_cmd *cmd, void *ad_str
     // Store scan_response data
     memcpy(stored_scan_rsp_data, cmd->info.host.scan_rsp_data, stored_scan_rsp_data_len);
 }
-
+#if 1
+#include "scaler.h"
+static void adv_data_update_timer_cb()
+{
+  
+	  
+	  scaler_info_t* sif = scaler_get_info();
+		float cur_weight 	 = ((float)sif->div_weight) / 10.0f;
+		float total_weight = cur_weight;
+	
+	  app_set_data(sif->stillFlag,cur_weight,total_weight);
+	
+	  app_update_adv_data();
+    
+    // Restart timer for the next advertising update
+    app_adv_data_update_timer_used = app_easy_timer(APP_ADV_DATA_UPDATE_TO, adv_data_update_timer_cb);
+}
 /**
  ****************************************************************************************
  * @brief Advertisement data update timer callback function.
  * @return void
  ****************************************************************************************
 */
+#else
 static void adv_data_update_timer_cb()
 {
     // If mnd_data_index has MSB set, manufacturer data is stored in scan response
@@ -187,7 +205,7 @@ static void adv_data_update_timer_cb()
     // Restart timer for the next advertising update
     app_adv_data_update_timer_used = app_easy_timer(APP_ADV_DATA_UPDATE_TO, adv_data_update_timer_cb);
 }
-
+#endif
 /**
  ****************************************************************************************
  * @brief Parameter update request timer callback function.
@@ -221,6 +239,11 @@ void user_app_init(void)
 //当ble协议栈需要广播的时候，会自动调用该函数.
 void user_app_adv_start(void)
 {
+	  app_adv_data_update_timer_used = app_easy_timer(APP_ADV_DATA_UPDATE_TO, adv_data_update_timer_cb);
+    
+    app_start_advertising();
+		ble_scaler_init(NULL);
+	#if 0
     // Schedule the next advertising data update
     app_adv_data_update_timer_used = app_easy_timer(APP_ADV_DATA_UPDATE_TO, adv_data_update_timer_cb);
     
@@ -231,8 +254,9 @@ void user_app_adv_start(void)
     app_add_ad_struct(cmd, &mnf_data, sizeof(struct mnf_specific_data_ad_structure), 1);
 
     app_easy_gap_undirected_advertise_start();
+	#endif
 		//user_app_start();
-		ble_scaler_init(NULL);
+		
 }
 
 void user_app_connection(uint8_t connection_idx, struct gapc_connection_req_ind const *param)
@@ -292,12 +316,12 @@ void user_app_disconnect(struct gapc_disconnect_ind const *param)
 		ble_scaler_ble_connected(0);
 		
 }
-
 void user_catch_rest_hndl(ke_msg_id_t const msgid,
                           void const *param,
                           ke_task_id_t const dest_id,
                           ke_task_id_t const src_id)
 {
+	  app_catch_rest_hndl(msgid,param,dest_id,src_id);
     switch(msgid)
     {
         case CUSTS1_VAL_WRITE_IND:
@@ -407,5 +431,4 @@ void user_catch_rest_hndl(ke_msg_id_t const msgid,
             break;
     }
 }
-
 /// @} APP
