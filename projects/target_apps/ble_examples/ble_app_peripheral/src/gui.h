@@ -2,8 +2,7 @@
 #define GUI_H
 
 #include "types.h"
-#include "scaler.h"
-
+#include "key.h"
 #define MENU_MAIN 		0
 #define MENI_CAL_WET	1
 #define MENI_CAL_CORN	2
@@ -11,6 +10,7 @@
 #define MENU_DEBUG  	4
 #define MENU_LOGO    	5
 #define MENU_PWR_OFF	6
+#define MENU_SLEEP		7
 
 #define HIS_W_X  9 //历史重量开始处
 #define HIS_W_Y  9 //历史重量开始处
@@ -22,27 +22,27 @@
 #define D_STATE				110
 #define DEV_STATE_OFFSET 104
 
-//void gui_show_scaler_state(scaler_info_t* sif);
-
-void gui_show_sum(int value, uint8 dot);
-
-void gui_show_ble_state(uint8 state);
-
-//void gui_show_ble_addr(uint8 *addr, uint8 len);
+typedef void (*menu_func_t)(void);
+typedef void (*init_func_t)(uint8 prev);
 
 
-void gui_show_battry_state(uint8 value,uint8 update);
 
-//void gui_show_weight(int value, uint8 dot, uint8 unit);
+typedef struct {
+	init_func_t			 init_func;	
+	menu_func_t 		 gui_func;
+	key_event_func_t key_func;
+}menu_item;
 
-void gui_clear_screen(void);
-void gui_init(void);
+//清屏
+void 	gui_clear_screen(void);
+//gui模块初始化
+void 	gui_init(void);
 //定时调用显示逻辑业务
-void gui_isr(void);
-
-void gui_show(uint8 index);
+void 	gui_isr(void);
+//切换当前显示界面.
+void 	gui_show(uint8 index);
+//获取当前显示界面id
 uint8 gui_current(void);
-void gui_show_error(const char* err);
 
 #endif
 

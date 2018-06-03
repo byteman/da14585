@@ -940,39 +940,9 @@
               <FilePath>..\src\user_peripheral.c</FilePath>
             </File>
             <File>
-              <FileName>adc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\adc.c</FilePath>
-            </File>
-            <File>
               <FileName>batty.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\batty.c</FilePath>
-            </File>
-            <File>
-              <FileName>CS1237.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\CS1237.c</FilePath>
-            </File>
-            <File>
-              <FileName>Filter_KMedian.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\Filter_KMedian.c</FilePath>
-            </File>
-            <File>
-              <FileName>gui.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\gui.c</FilePath>
-            </File>
-            <File>
-              <FileName>key.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\key.c</FilePath>
-            </File>
-            <File>
-              <FileName>oled.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\oled.c</FilePath>
             </File>
             <File>
               <FileName>param.c</FileName>
@@ -995,9 +965,29 @@
               <FilePath>..\src\user_app.c</FilePath>
             </File>
             <File>
-              <FileName>mainmenu.c</FileName>
+              <FileName>power.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\mainmenu.c</FilePath>
+              <FilePath>..\src\power.c</FilePath>
+            </File>
+            <File>
+              <FileName>blescaler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\blescaler.c</FilePath>
+            </File>
+            <File>
+              <FileName>my_periph_setup.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\my_periph_setup.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>user_gui</GroupName>
+          <Files>
+            <File>
+              <FileName>blemenu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\blemenu.c</FilePath>
             </File>
             <File>
               <FileName>calibmenu.c</FileName>
@@ -1005,24 +995,69 @@
               <FilePath>..\src\calibmenu.c</FilePath>
             </File>
             <File>
+              <FileName>cornmenu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\cornmenu.c</FilePath>
+            </File>
+            <File>
+              <FileName>debugmenu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\debugmenu.c</FilePath>
+            </File>
+            <File>
+              <FileName>logomenu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\logomenu.c</FilePath>
+            </File>
+            <File>
+              <FileName>mainmenu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\mainmenu.c</FilePath>
+            </File>
+            <File>
+              <FileName>poweroff.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\poweroff.c</FilePath>
+            </File>
+            <File>
+              <FileName>gui.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\gui.c</FilePath>
+            </File>
+            <File>
+              <FileName>key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\key.c</FilePath>
+            </File>
+            <File>
+              <FileName>oled.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\oled.c</FilePath>
+            </File>
+            <File>
+              <FileName>sleepmenu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\sleepmenu.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>user_weight</GroupName>
+          <Files>
+            <File>
+              <FileName>Filter_KMedian.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\Filter_KMedian.c</FilePath>
+            </File>
+            <File>
+              <FileName>matrix.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\matrix.c</FilePath>
+            </File>
+            <File>
               <FileName>scaler.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\scaler.c</FilePath>
-            </File>
-            <File>
-              <FileName>channel.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\channel.c</FilePath>
-            </File>
-            <File>
-              <FileName>blemenu.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\blemenu.c</FilePath>
-            </File>
-            <File>
-              <FileName>dispatcher.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\dispatcher.c</FilePath>
             </File>
             <File>
               <FileName>Weighing.c</FileName>
@@ -1040,49 +1075,39 @@
               <FilePath>..\src\cornfix.c</FilePath>
             </File>
             <File>
-              <FileName>matrix.c</FileName>
+              <FileName>adc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\matrix.c</FilePath>
+              <FilePath>..\src\adc.c</FilePath>
             </File>
             <File>
-              <FileName>cornmenu.c</FileName>
+              <FileName>CS1237.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\cornmenu.c</FilePath>
+              <FilePath>..\src\CS1237.c</FilePath>
             </File>
             <File>
-              <FileName>audio.c</FileName>
+              <FileName>channel.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\audio.c</FilePath>
+              <FilePath>..\src\channel.c</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>user_common</GroupName>
+          <Files>
             <File>
               <FileName>utils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\utils.c</FilePath>
             </File>
             <File>
-              <FileName>debugmenu.c</FileName>
+              <FileName>dispatcher.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\debugmenu.c</FilePath>
+              <FilePath>..\src\dispatcher.c</FilePath>
             </File>
             <File>
-              <FileName>power.c</FileName>
+              <FileName>audio.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\power.c</FilePath>
-            </File>
-            <File>
-              <FileName>blescaler.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\blescaler.c</FilePath>
-            </File>
-            <File>
-              <FileName>my_periph_setup.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\my_periph_setup.c</FilePath>
-            </File>
-            <File>
-              <FileName>logomenu.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\logomenu.c</FilePath>
+              <FilePath>..\src\audio.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2022,39 +2047,9 @@
               <FilePath>..\src\user_peripheral.c</FilePath>
             </File>
             <File>
-              <FileName>adc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\adc.c</FilePath>
-            </File>
-            <File>
               <FileName>batty.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\batty.c</FilePath>
-            </File>
-            <File>
-              <FileName>CS1237.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\CS1237.c</FilePath>
-            </File>
-            <File>
-              <FileName>Filter_KMedian.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\Filter_KMedian.c</FilePath>
-            </File>
-            <File>
-              <FileName>gui.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\gui.c</FilePath>
-            </File>
-            <File>
-              <FileName>key.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\key.c</FilePath>
-            </File>
-            <File>
-              <FileName>oled.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\oled.c</FilePath>
             </File>
             <File>
               <FileName>param.c</FileName>
@@ -2077,9 +2072,29 @@
               <FilePath>..\src\user_app.c</FilePath>
             </File>
             <File>
-              <FileName>mainmenu.c</FileName>
+              <FileName>power.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\mainmenu.c</FilePath>
+              <FilePath>..\src\power.c</FilePath>
+            </File>
+            <File>
+              <FileName>blescaler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\blescaler.c</FilePath>
+            </File>
+            <File>
+              <FileName>my_periph_setup.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\my_periph_setup.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>user_gui</GroupName>
+          <Files>
+            <File>
+              <FileName>blemenu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\blemenu.c</FilePath>
             </File>
             <File>
               <FileName>calibmenu.c</FileName>
@@ -2087,24 +2102,69 @@
               <FilePath>..\src\calibmenu.c</FilePath>
             </File>
             <File>
+              <FileName>cornmenu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\cornmenu.c</FilePath>
+            </File>
+            <File>
+              <FileName>debugmenu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\debugmenu.c</FilePath>
+            </File>
+            <File>
+              <FileName>logomenu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\logomenu.c</FilePath>
+            </File>
+            <File>
+              <FileName>mainmenu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\mainmenu.c</FilePath>
+            </File>
+            <File>
+              <FileName>poweroff.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\poweroff.c</FilePath>
+            </File>
+            <File>
+              <FileName>gui.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\gui.c</FilePath>
+            </File>
+            <File>
+              <FileName>key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\key.c</FilePath>
+            </File>
+            <File>
+              <FileName>oled.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\oled.c</FilePath>
+            </File>
+            <File>
+              <FileName>sleepmenu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\sleepmenu.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>user_weight</GroupName>
+          <Files>
+            <File>
+              <FileName>Filter_KMedian.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\Filter_KMedian.c</FilePath>
+            </File>
+            <File>
+              <FileName>matrix.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\matrix.c</FilePath>
+            </File>
+            <File>
               <FileName>scaler.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\scaler.c</FilePath>
-            </File>
-            <File>
-              <FileName>channel.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\channel.c</FilePath>
-            </File>
-            <File>
-              <FileName>blemenu.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\blemenu.c</FilePath>
-            </File>
-            <File>
-              <FileName>dispatcher.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\dispatcher.c</FilePath>
             </File>
             <File>
               <FileName>Weighing.c</FileName>
@@ -2122,49 +2182,39 @@
               <FilePath>..\src\cornfix.c</FilePath>
             </File>
             <File>
-              <FileName>matrix.c</FileName>
+              <FileName>adc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\matrix.c</FilePath>
+              <FilePath>..\src\adc.c</FilePath>
             </File>
             <File>
-              <FileName>cornmenu.c</FileName>
+              <FileName>CS1237.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\cornmenu.c</FilePath>
+              <FilePath>..\src\CS1237.c</FilePath>
             </File>
             <File>
-              <FileName>audio.c</FileName>
+              <FileName>channel.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\audio.c</FilePath>
+              <FilePath>..\src\channel.c</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>user_common</GroupName>
+          <Files>
             <File>
               <FileName>utils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\utils.c</FilePath>
             </File>
             <File>
-              <FileName>debugmenu.c</FileName>
+              <FileName>dispatcher.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\debugmenu.c</FilePath>
+              <FilePath>..\src\dispatcher.c</FilePath>
             </File>
             <File>
-              <FileName>power.c</FileName>
+              <FileName>audio.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\power.c</FilePath>
-            </File>
-            <File>
-              <FileName>blescaler.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\blescaler.c</FilePath>
-            </File>
-            <File>
-              <FileName>my_periph_setup.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\my_periph_setup.c</FilePath>
-            </File>
-            <File>
-              <FileName>logomenu.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\logomenu.c</FilePath>
+              <FilePath>..\src\audio.c</FilePath>
             </File>
           </Files>
         </Group>

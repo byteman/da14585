@@ -8,20 +8,11 @@
 #include "cornmenu.h"
 #include "logomenu.h"
 #include "poweroff.h"
+#include "sleepmenu.h"
 #include "key.h"
-#include "utils.h"
-#include "audio.h"
-
-typedef void (*menu_func_t)(void);
-typedef void (*init_func_t)(uint8 prev);
 
 
 
-typedef struct {
-	init_func_t			 init_func;	
-	menu_func_t 		 gui_func;
-	key_event_func_t key_func;
-}menu_item;
 	
 static menu_item menu_itmes[] = {
 	{
@@ -58,75 +49,22 @@ static menu_item menu_itmes[] = {
 		pwr_menu_init_func,
 		pwr_menu_gui_func,
 		pwr_menu_key_event
+	},
+	{
+		sleep_menu_init_func,
+		sleep_menu_gui_func,
+		sleep_menu_key_event
 	}
+	
 };
 static uint8 menu_index = 0;
-static uint8 bInit = 0;
+
 //切换当前界面.
 void gui_show(uint8 index)
 {
 		menu_itmes[index].init_func(menu_index);
 		menu_index = index;
 }
-
-
-
-void gui_show_battry_state(uint8 value,uint8 update)
-{
-		//14 level
-	// 100/14
-	// 90
-	static uint8 blink = 1;
-	static uint8 old = 0;
-	uint8 level = (value*3 / 100);
-	if(level > 3 ) level = 3;
-	
-	#if 0
-	if(level == 0){
-		if(blink){
-				level = 1;
-			
-		}else{
-				level = 0;
-		}
-		blink=!blink;
-	}
-	#endif
-	LCD_Batty(108,3, level);
-	//LCD_P8x16Ch(108,3,level);
-	 
-}
-
-void gui_show_ble_state(uint8 state)
-{
-	 if(state)
-	 {
-		 //蓝牙已经连接.
-			//param_save();
-			audio_queue_message("bc");
-			LCD_BLE(108,5,1);
-			//LCD_P16x16bmp(112,5,3);
-	 }
-	 else
-	 {
-			if(bInit == 0)
-			{
-				audio_queue_message("b");
-				bInit = 1;
-				return;
-			}
-		 //蓝牙已经断开.
-		  audio_queue_message("bx");
-			//LCD_P16x16bmp(112,5,4);
-			LCD_BLE(108,5,0);
-	 }
-	
-}
-
-
-#include "scaler.h"
-
-
 
 void gui_clear_screen(void)
 {
@@ -141,18 +79,12 @@ void gui_isr(void)
 }
 void key_event(key_msg_t* msg)
 {
-		char buf[16] = {0,};
-		snprintf(buf,16,"key=%d.%d",msg->key,msg->event);
+		//char buf[16] = {0,};
+		//snprintf(buf,16,"key=%d.%d",msg->key,msg->event);
 		//LCD_P8x16Str(0,0,buf);
 		
 		menu_itmes[menu_index].key_func(msg);
 		
-}
-
-void gui_show_error(const char* err)
-{
-	gui_clear_screen();
-	LCD_P6x8Str(10,4,(unsigned char*)err);
 }
 uint8 gui_current(void)
 {

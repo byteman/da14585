@@ -23,15 +23,6 @@ static  uint8 time1s = 0;
 
 void user_app_time_handle(void)
 {
-	  int i = 0;
-	  int32 ad = 0;
-		//time1s++;
-		if(power_state() == PWR_SLEEP){
-			//睡眠模式就不响应按键,gui,称重
-			
-				power_isr();
-				return;
-		}
 		key_isr();
 		gui_isr();
 		scaler_run();
@@ -92,7 +83,7 @@ void user_app_start()
 			err  = param_init();
 			if(err != PARA_ERR_NONE)
 			{
-					gui_show_error("load param err");
+					//gui_show_error("load param err");
 			}
 			key_init();
 			CS1237_Init(AD_HZ_40);

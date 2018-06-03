@@ -5,6 +5,8 @@
 #include "user_periph_setup.h"
 #include "custs1.h"
 #include "custs1_task.h"
+#include "power.h"
+
 typedef struct {
 	 uint8 key;
 		uint8 state; //1 pressed 0 relesed 2 long pressed
@@ -186,8 +188,6 @@ uint8 key_power_off(void)
 			//如果松开按键，则不关机.
 				//return 0;
 		}
-		GPIO_SetInactive(PWR_OFF_PORT,PWR_OFF_PIN);
-		//GPIO_SetInactive(PWR_OFF_PORT,PWR_OFF_PIN);
-		while(1);
+		power_ctrl(PWR_OFF);
 		
 }
