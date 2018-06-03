@@ -321,7 +321,7 @@ void main_menu_gui_func(void)
 static void		scaler_reset_history(void)
 {
 		g_logic->history_sum = 0;
-		param_save(LOGIC_PARA_T);	
+		//param_save(LOGIC_PARA_T);	
 		gui_show_sum(g_logic->history_sum,1);
 }
 void main_menu_key_event(key_msg_t* msg)

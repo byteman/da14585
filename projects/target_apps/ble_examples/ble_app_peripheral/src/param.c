@@ -262,6 +262,7 @@ param_err_t param_init(void)
 			memcpy((void*)&g_user, (void*)&g_Default_User_Para,sizeof(g_user));
 				//return PARA_ERR_READ_CRC;
 		}
+#if 0
 		code = _read_data((uint8_t*)&g_logic, LOGIC_PARA_ADDR, sizeof(g_logic), &bytes_read);
 		if(code != I2C_NO_ERROR)
 		{
@@ -275,7 +276,7 @@ param_err_t param_init(void)
 			
 				//return PARA_ERR_READ_CRC;
 		}
-		
+#endif		
 		g_init = 1;
 		
 		return PARA_ERR_NONE;
@@ -306,9 +307,9 @@ param_err_t param_save(uint8_t t)
 				}
 		}
 		else if(t == LOGIC_PARA_T){
-				g_logic.checksum = checksum((uint8_t*)&g_logic, sizeof(g_logic) - 1);
+				//g_logic.checksum = checksum((uint8_t*)&g_logic, sizeof(g_logic) - 1);
 				
-				_write_data((uint8_t*)&g_logic, LOGIC_PARA_ADDR, sizeof(g_logic),&bytes_written);
+				//_write_data((uint8_t*)&g_logic, LOGIC_PARA_ADDR, sizeof(g_logic),&bytes_written);
 		}
 		return PARA_ERR_NONE;
 }
