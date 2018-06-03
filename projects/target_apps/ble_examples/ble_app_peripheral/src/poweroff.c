@@ -16,9 +16,10 @@ void pwr_menu_init_func(uint8 prev)
 		char text2[3] = {4,26,27};
 		gui_clear_screen();
 		//LCD_P16x16_ZH_Arr(1,0,title,4);
-		LCD_P16x16_ZH_Arr(33,2,text,4);
+		//LCD_P16x16_ZH_Arr(33,2,text,4);
 		//LCD_P16x16_ZH_Arr(33,4,text2,3);
 		tick = 1;
+		LCD_P16x32_OFF(40,2);
 		
 		
 }

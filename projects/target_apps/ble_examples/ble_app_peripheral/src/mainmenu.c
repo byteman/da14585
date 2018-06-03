@@ -9,18 +9,29 @@
 #include "WetApp.h"
 #include "proclogic.h"
 #include "audio.h"
+#include "timer.h"
 
 char weight[16];
 static logic_param_t* g_logic = NULL;
 static device_param* g_param;
 static PARA_USER_T*  g_user;
-
-static uint32_t g_tick_count = 0; //主称重界面的定时器. 3分钟未计重进入休眠状态. 10分钟未计重进入关机状态. 未计重的意思，重量一直未超过称重阈值??
+static uint8_t g_flag = 0;
+static uint8_t g_still_count = 0;
+//static uint32_t g_tick_count = 0; //主称重界面的定时器. 3分钟未计重进入休眠状态. 10分钟未计重进入关机状态. 未计重的意思，重量一直未超过称重阈值??
 static uint32_t g_sleep_count= 0;
-
+static uint32_t g_tick_count = 0;
 static void gui_show_scaler_state(scaler_info_t *sif,uint8 update);
 static void gui_show_weight(scaler_info_t * sif,uint8 update);
-
+#define SLEEP_TIME_S 18
+static void reset_sleep_tick(void)
+{
+		g_sleep_count = GetTick();
+}
+static uint8 is_sleep_timeout(void)
+{
+		INT32U diff = abs(GetTick() - g_sleep_count);
+		return (diff >= SLEEP_TIME_S)?1:0;
+}
 static void gui_show_battry_state(uint8 value,uint8 update)
 {
 		//14 level
@@ -149,7 +160,7 @@ void main_menu_init_func(uint8 prev)
 	gui_show_unit();
 	LCD_SUM(W_STATE,5);
 	LCD_BLE(108,5,ble_scaler_get_ble_state());
-	g_sleep_count  = 0;
+	reset_sleep_tick();
 //	gui_show_ble_state(0);
 	#endif
 }
@@ -171,92 +182,49 @@ static void logic_push_weight(INT32S value)
 		g_logic->history_sum += value;
 		param_save(LOGIC_PARA_T);
 }
-static uint8 check_is_zero(uint8 zero)
-{
-	#define UP_CNT 5
-	static uint8_t g_zero_state = 0;
-	static uint8_t g_zero_cnt   = UP_CNT;
-	//static uint8_t g_unstill_cnt = UP_CNT;
-	if(zero){
-
-		if(g_zero_cnt > 0){
-			g_zero_cnt--;
-			return g_zero_state;
-		}
-		g_zero_state = 1;
-		g_zero_cnt 	= UP_CNT;
-	}
-	else
-	{
-		g_zero_state = 0;
-		g_zero_cnt 	= UP_CNT;
-	}
-	return  g_zero_state;
-	
-}
-#define UP_CNT 10
-static uint8_t g_still_state = 0;
-static uint8_t g_still_cnt   = UP_CNT;
-static uint8 check_is_still(uint8 still)
-{
-
-	if(still){
-
-		if(g_still_cnt > 0){
-			g_still_cnt--;
-			return g_still_state;
-		}
-		g_still_state = 1;
-		g_still_cnt 	= UP_CNT;
-	}
-	else
-	{
-		g_still_state = 0;
-		g_still_cnt 	= UP_CNT;
-	}
-	return  g_still_state;
-}
 
 uint8 main_logic_isr(scaler_info_t * sif)
 {
-
-	static uint8_t g_up_flag = 0;
-	
-
-	
-	#define UP_CNT 5
 		if(abs(sif->div_weight >= 1000)){
-			//g_still_count = 0;
 			return 0;
 		}
-		if(check_is_still(sif->stillFlag))
+		if(
+			sif->stillFlag &&  
+			sif->div_weight > g_user->RSN && 
+			(g_flag==0)
+		)
 		{
-				//还没有称重.
-				if( g_up_flag == 0 )
-				{
-						if(sif->div_weight > g_user->RSN)
-						{
-							
-								char buf[16] = {0,};				
-								g_up_flag = 1;
-
-								//记录历史重量.
-								logic_push_weight(sif->div_weight);
-								format_weight(buf,16,sif->div_weight,1,8);	
-								strcat(buf,"k");
-								//播报重量语言.
-								audio_queue_message(buf);
-								return 1;	
-						}					
+				if(g_still_count++ < 10){
+						return 0;
 				}
+				char buf[16] = {0,};
+			
+			
+				g_flag = 1;
 				
-				if(check_is_zero(sif->zeroFlag)){	
-					check_is_still(0);
-					g_up_flag = 0;
-				}
-							
+				//记录历史重量.
+				logic_push_weight(sif->div_weight);
+				format_weight(buf,16,sif->div_weight,1,8);	
+				strcat(buf,"k");
+				//播报重量语言.
+				audio_queue_message(buf);
+				return 1;
+				
 		}
-
+		else
+		{
+				
+		}
+		
+		if(sif->stillFlag &&  
+			sif->div_weight < 2*g_user->RSN && 
+			(g_flag==1))
+		{
+				g_flag = 0;
+				g_still_count = 0;
+				
+		}
+		
 		return 0;
 }
  
@@ -346,10 +314,9 @@ static void main_sleep_handle(scaler_info_t * sif)
 		if(sif->zeroFlag){
 			cnt = ZERO_DELAY_CNT;
 			//零位状态进行计数，在零位超过3分钟，进入休眠状态
-			if(g_sleep_count++ >= SLEEP_CNT){
-					goto_sleep();
-					g_sleep_count = 0;
-					
+			if(is_sleep_timeout()){
+					reset_sleep_tick();
+					goto_sleep();					
 			}
 		}else{
 				//1s内的零点变化过滤掉.
@@ -358,22 +325,12 @@ static void main_sleep_handle(scaler_info_t * sif)
 						return;
 				}
 				cnt = ZERO_DELAY_CNT;
-				g_sleep_count  = 0;
+				reset_sleep_tick();
 		}
 		
 }
 
-void main_menu_debug()
-{
-	char buf[16] = {0,};
-	if(g_tick_count % 10 == 0)
-	{
-		snprintf(buf,16,"%8d",g_tick_count/10);
-		LCD_P8x16Str(48,5,buf);
 
-	}
-	
-}
 void main_menu_gui_func(void)
 {
 
@@ -393,11 +350,11 @@ void main_menu_gui_func(void)
 					gui_show_history_weight();
 					gui_show_sum(g_logic->history_sum,1);
 			}
-			//main_sleep_handle(sif);
+			main_sleep_handle(sif);
 			//main_menu_debug();
 		
 	}
-	if((g_tick_count++ % 5) == 0){
+	if((GetTick() % 5) == 0){
 		
 			gui_show_battry_state(battery_get(),0);
 	}
@@ -422,6 +379,7 @@ void main_menu_key_event(key_msg_t* msg)
 			{
 					//0.5秒内按了2次.
 					scaler_reset_history();
+					LCD_BLE(108,5,ble_scaler_get_ble_state());
 			}
 			//零点长按,显示蓝牙地址
 			else 	if(msg->event == KEY_LONG_PRESSED)
@@ -438,11 +396,10 @@ void main_menu_key_event(key_msg_t* msg)
 			else if(msg->event == KEY_RELEASE_2S)
 			{
 					scaler_set_zero();
+					LCD_BLE(108,5,ble_scaler_get_ble_state());
 			}
 			else if(msg->event == KEY_PRESS_RLEASED)
 			{
-					
-					g_tick_count = 0;
 					LCD_BLE(108,5,ble_scaler_get_ble_state());
 			}
 	}

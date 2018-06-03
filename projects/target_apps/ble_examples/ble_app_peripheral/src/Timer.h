@@ -40,7 +40,7 @@ extern	void Timer_Server(void);					//请在主循环中调用
 /*请不要在该中断中做很多事情，否则会造成中断嵌套*/
 extern	Std_ReturnType Timer6_Init(INT32U us,TIME_OUT_PROC fn);	//最小为100uS，最大为6553600uS(6.5536S)
 extern	Std_ReturnType Timer6_Close(void);
-
+extern  INT32U GetTick(void);
 extern	void Delay(INT32U nClock);					//纯软件延时
 
 #endif /* __TIMER_H */

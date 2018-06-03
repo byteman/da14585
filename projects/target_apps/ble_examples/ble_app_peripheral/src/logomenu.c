@@ -16,8 +16,12 @@ void logo_menu_init_func(uint8 prev)
 		char text2[3] = {4,26,27};
 		gui_clear_screen();
 		//LCD_P16x16_ZH_Arr(1,0,title,4);
-		LCD_P16x16_ZH_Arr(16,2,text,5);
-		LCD_P16x16_ZH_Arr(33,4,text2,3);
+		//LCD_P16x16_ZH_Arr(16,2,text,5);
+		//LCD_P16x16_ZH_Arr(33,4,text2,3);
+		LCD_P16x32_ExS(8,1);
+		LCD_P16x32Str(70,1,"100");
+		LCD_Vesion(25,5);
+		LCD_P8x16Str(40,5,"2018-06-03");
 
 		
 }

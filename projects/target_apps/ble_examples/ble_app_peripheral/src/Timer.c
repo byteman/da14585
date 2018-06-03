@@ -18,6 +18,7 @@
 static timer timer_list[MAX_TIMER_NUM];
 static TIME_OUT_PROC Timer6_fn = NULL;
 static	INT32U	g_Flg_T6inited = FALSE;
+static INT32U g_second_tick = 0;
 /* Private functions ---------------------------------------------------------*/
 //static void Timer_SysTickConfig(void);
 #define SYSTICK_PERIOD_US   1000000     // period for systick timer in us, so 1000000ticks = 1second
@@ -25,7 +26,12 @@ static	INT32U	g_Flg_T6inited = FALSE;
 void SysTick_Event(void);
 void systick_isr(void)
 {
-		SysTick_Event();
+		g_second_tick++;
+		//SysTick_Event();
+}
+INT32U GetTick(void)
+{
+		return g_second_tick;
 }
 
 /******************************************************************************

@@ -77,7 +77,7 @@ void user_app_start()
 			param_err_t err = PARA_ERR_NONE;
 			//user_app_button_press_cb();
 			
-			//Timer_Init();
+			Timer_Init();
 			sc5040b_init(); //“Ù∆µ≤•∑≈≥ı ºªØ
 			
 			err  = param_init();

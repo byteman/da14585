@@ -40,7 +40,7 @@ uint8_t channel_read_all(void)
 {
     int i = 0;
 		if(power_state() == PWR_SLEEP){
-				return channel_read_one(0);
+				return channel_read_one(1);
 		}
     for(i = 0; i < ad_chan_nr; i++)
     {

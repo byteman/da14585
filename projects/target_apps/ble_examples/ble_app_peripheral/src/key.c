@@ -23,11 +23,11 @@ typedef struct {
 #define KEY_PRESS_TIME 3
 #define KEY_ZERO_PRESS_TIME 5
 #define TIMER_INT 100
-#define PRESS_ALL_KEY_TIME 4000
+#define PRESS_ALL_KEY_TIME 3000
 #define PRESS_ZERO_TIME 2000
 #define PWR_DELAY_NUM 10
 #define ZERO_RLEASE_DELAY_NUM 10
-#define PRESS_TIME_TICK 3
+#define PRESS_TIME_TICK 4
 static key_state key_states[MAX_KEY_NUM];
 static int32 g_ts = 0;
 static uint8 key_pressed = 0;
@@ -139,6 +139,7 @@ void  key_isr()
 					else if(key_states[1].press_ts % PRESS_TIME_TICK == 0)
 					{
 							send_key_msg(KEY_ZERO, KEY_PRESSED);
+							key_states[1].state = KEY_PRESSED;
 					}
 			
 					
@@ -154,10 +155,11 @@ void  key_isr()
 							key_states[1].relase_stamp = g_ts;
 							key_states[1].press_stamp = 0;
 					}
-					if(key_states[1].press_ts >= PRESS_TIME_TICK )
+					if(key_states[1].press_ts >= PRESS_TIME_TICK && key_states[1].state != KEY_PRESS_RLEASED)
 					{
 							//曾经被按过，释放了
 							send_key_msg(KEY_ZERO, KEY_PRESS_RLEASED);
+							key_states[1].state = KEY_PRESS_RLEASED;
 							
 					}
 					//释放后需要等待2秒才发送按键被释放命令.
