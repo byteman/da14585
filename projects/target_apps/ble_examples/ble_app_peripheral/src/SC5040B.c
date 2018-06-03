@@ -123,6 +123,8 @@ static audio_soc_t _sc5040;
 void  sc5040b_init(void)
 {
 		_sc5040.play = sc5040b_play;
+		SC50X0B_SDA(0xFF); //初始化后，要发两个无效数字，第一个播放的数字会失败
+		SC50X0B_SDA(0xFF); //初始化后，要发两个无效数字，第一个播放的数字会失败
 		audio_queue_init(&_sc5040);
 }
 

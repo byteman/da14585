@@ -436,7 +436,37 @@ void	Wet_Process(INT32S adcode,FP32 temp)
 
 void	Wet_StableWt(void)
 {
-	g_wet_state.stable = IsFilterDataStable();	 //KM滤波中可以获取稳定
+	static	INT32U	s_flg_inited = 1;
+	static	FP32	s_wt_bufer[NUM_STBUF];
+	static	INT32U	s_wt_BufPtr = 0;
+			FP32	wtMAX,wtMIN,wtAVG,linmit;
+			INT32U	i;
+	static	INT32U	s_flg_Stable = 0;
+	static	FP32	s_wtLOCK;
+	static	INT32U	s_AvgUp_counter = 0,s_AvgDown_counter = 0;
+	static 	FP32		bf_cmp_wet = 0;
+	static	int		stable_cnt = 0;
+
+	if(IsFilterDataStable() )
+	{
+		g_wet_state.stable  = 1;
+		stable_cnt = 0;
+	}
+	else
+	{
+		if(fabs(g_Stable_input - bf_cmp_wet ) > 2)
+		{
+			stable_cnt++;
+			//if(stable_cnt > 4)
+			{
+				g_wet_state.stable  = 0;
+				stable_cnt = 0;
+			}
+		}
+	}
+	bf_cmp_wet = g_Stable_input;
+	return;
+	//g_wet_state.stable = IsFilterDataStable();	 //KM滤波中可以获取稳定
 }
 /******************************************************************************
   * @brief  判断示值是否稳定(0.1秒处理一次，处理长度1秒)
