@@ -18,9 +18,11 @@ static void corn_menu_show_angle(uint8 num)
 	//LCD_P8x16Str(48,1,"corn");
 	//LCD_P16x16_ZH(0,1,1);
 	
-	LCD_P16x16_ZH_Arr(28,0,arr,4);
-	LCD_P16x16_ZH_Arr(9,3,arr2,6);
-	LCD_P16x16_ZH_Arr(20,5,arr2+6,4);
+	LCD_CAL(8,1,num);
+	
+	//LCD_P16x16_ZH_Arr(28,0,arr,4);
+	//LCD_P16x16_ZH_Arr(9,3,arr2,6);
+	//LCD_P16x16_ZH_Arr(20,5,arr2+6,4);
 }
 static void corn_menu_show_complete()
 {

@@ -13,13 +13,13 @@ const PARA_USER_T g_Default_User_Para = {
 		0,						//INT8U		FMD;(0 = IIR2,1 = FIR32,2 = IIR8,3 = IIR4FT,4 = FIR64,5 = FIR64+ MA)
 		3,						//INT8U		ICR;(0...7, 600\300\150\75\38\19\9\4)
 
-		100000,						//INT32S	NOV;(0...1599999,Nominal Value)
+		10000,						//INT32S	NOV;(0...1599999,Nominal Value)
 		50,				//INT32S	CWT;(1000000,20%...120%NOV)
 		0,						//INT32S	LDW;(0...+-1599999,zero point)
 		1000000,				//INT32S	LWT;(0...+-1599999,full scale)
 
 		0,						//INT32S	MRA;(Multirange switch point)
-		1,						//INT32S	RSN;(1, 2, 5, 10, 20, 50, 100 )
+		5,						//INT32S	RSN;(1, 2, 5, 10, 20, 50, 100 )
 		0,						//INT8U		DPT;(0...6,1 = xxxxxx.x,2 = xxxxx.xx,3 = xxxx.xxx)
 		20,						//INT8U		ZSE;(0 = deactivated,1 = 2%NOV,2 = 5%,3 = 10%,4 = 20%)
 		5,						//INT8U		ZTR;(0 = deactivated,1 = 0.5d,2 = 1.0d,3 = 2.0d,4 = 3.0d)

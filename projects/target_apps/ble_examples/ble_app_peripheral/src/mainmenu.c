@@ -185,6 +185,7 @@ static void logic_push_weight(INT32S value)
 
 uint8 main_logic_isr(scaler_info_t * sif)
 {
+	//
 		if(abs(sif->div_weight >= 1000)){
 			return 0;
 		}
