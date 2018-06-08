@@ -67,8 +67,11 @@ uint8 power_state(void)
 }
 static void power_off(void)
 {
-		
-		GPIO_SetInactive(PWR_OFF_PORT,PWR_OFF_PIN);
-		//GPIO_SetInactive(PWR_OFF_PORT,PWR_OFF_PIN);
-		while(1);
+		GLOBAL_INT_DISABLE();
+		while(1)
+		{
+			GPIO_SetInactive(PWR_OFF_PORT,PWR_OFF_PIN);
+		}
+		GLOBAL_INT_RESTORE();
+
 }

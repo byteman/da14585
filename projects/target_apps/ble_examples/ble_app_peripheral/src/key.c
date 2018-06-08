@@ -96,10 +96,12 @@ void  key_isr()
 		{
 					if(key_pressed < PWR_DELAY_NUM)
 						key_pressed++;
-					if(key_states[0].press_ts >= PRESS_TIME_TICK ||  key_states[0].state == KEY_LONG_PRESSED)
+		
+					if(key_states[0].press_ts >= PRESS_TIME_TICK ||  key_states[0].state != KEY_PRESS_RLEASED)
 					{
 							//曾经被按过，释放了
 							send_key_msg(KEY_PWR, KEY_PRESS_RLEASED);
+							key_states[0].state = KEY_PRESS_RLEASED;
 					}
 					//LOW LEVEL 按键被释放.
 					if(key_states[0].press_ts > KEY_PRESS_TIME && key_states[0].state != KEY_LONG_PRESSED)
@@ -185,6 +187,7 @@ uint8 key_power_off(void)
 {
 	//
 		//util_delay(20000);
+		
 		if(	GPIO_GetPinStatus(KEY_PWR_PORT,KEY_PWR_PIN) == 0)
 		{
 			//如果松开按键，则不关机.

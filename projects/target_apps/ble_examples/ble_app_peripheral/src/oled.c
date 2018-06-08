@@ -1660,6 +1660,16 @@ void LCD_OverLoad(unsigned char x, unsigned y)
 				LCD_WrDat(over_arr[i*42+wm]);	
 			}     
 		}
+		LCD_Set_Pos(x+42 , y+2);
+		for(wm = 0;wm < 8;wm++)  //             
+		{
+			LCD_WrDat(blank_arr[wm]);	
+		} 
+		LCD_Set_Pos(x+42 , y+3);
+		for(wm = 0;wm < 8;wm++)  //             
+		{
+			LCD_WrDat(blank_arr[wm]);	
+		} 
 		#if 0
 		LCD_Set_Pos(x , y+1);
 		for(wm = 0;wm < 50;wm++)  //             

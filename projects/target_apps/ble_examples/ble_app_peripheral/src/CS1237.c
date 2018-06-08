@@ -213,9 +213,13 @@ int8 CS1237_ReadAD(uint8 chan,ad_channel_t *info)
   int32 addat = 0;
   int32 diff = 0;
 	GPIOConfig* config = &cs1237_gpio_cfg[chan];
+	
+	
+	
 	data_high(config);
   if(read_io(config))
     return 0;
+	GLOBAL_INT_DISABLE();
   for(i = 0; i < 24; i++) //发送 24 个 CLK，接收数据
   {
     addat <<= 1;
@@ -226,7 +230,7 @@ int8 CS1237_ReadAD(uint8 chan,ad_channel_t *info)
   CS1237_Clock(config);
   CS1237_Clock(config);
   CS1237_Clock(config); //CLK27，拉高 DRDY
-	
+	GLOBAL_INT_RESTORE();
 	diff = abs(addat - info->org);
 	if(diff > 1000)
 	{

@@ -18,7 +18,8 @@ static void corn_menu_show_angle(uint8 num)
 	
 	LCD_CAL(8,1,num-1);
 	LCD_P8x16Str(72,5,buf);
-	
+	LCD_P16x32Str(W_VALUE+8,1,"20.00");
+	LCD_KG(100,1);
 
 }
 static void corn_menu_show_complete()
@@ -53,6 +54,7 @@ static void gui_show_weight(scaler_info_t * sif,uint8 update)
 
 void corn_menu_gui_func(void)
 {
+	#if 0
 		scaler_info_t * sif = scaler_get_info();
 		if(sif != NULL){
 				if(!sif->ready)
@@ -63,6 +65,7 @@ void corn_menu_gui_func(void)
 				}
 				gui_show_weight(sif,1);
 		}
+	#endif
 }
 
 void corn_menu_key_event(key_msg_t* msg)
@@ -89,11 +92,11 @@ void corn_menu_key_event(key_msg_t* msg)
 			}
 			else if(msg->event == KEY_PRESSED)
 			{
-					LCD_P16x16bmp(110,0,5); //按钮被按下
+					//LCD_P16x16bmp(110,0,5); //按钮被按下
 			}
 			else if(msg->event == KEY_PRESS_RLEASED)
 			{
-					LCD_P16x16bmp(110,0,4); //按钮被释放
+					//LCD_P16x16bmp(110,0,4); //按钮被释放
 			}
 	}
 	else if(msg->key == KEY_PWR)
@@ -104,11 +107,11 @@ void corn_menu_key_event(key_msg_t* msg)
 			}	
 			else if(msg->event == KEY_PRESSED)
 			{
-					LCD_P16x16bmp(2,0,5); //按钮被按下
+					//LCD_P16x16bmp(2,0,5); //按钮被按下
 			}
 			else if(msg->event == KEY_PRESS_RLEASED)
 			{
-					LCD_P16x16bmp(2,0,4); //按钮被释放
+					//LCD_P16x16bmp(2,0,4); //按钮被释放
 			}
 			
 	}

@@ -46,6 +46,8 @@ static void calib_menu_show_zero(void)
 
 	LCD_CAL(8,1,4);
 	LCD_P8x16Str(72,5,buf);
+	LCD_KG(100,1);
+	LCD_P16x32Str(W_VALUE+8,1,"0.00");
 	
 }
 static void calib_menu_show_weight(void)
@@ -60,6 +62,8 @@ static void calib_menu_show_weight(void)
 
 	LCD_CAL(8,1,5);
 	LCD_P8x16Str(72,5,buf);
+	LCD_KG(100,1);
+	LCD_P16x32Str(W_VALUE+8,1,"20.00");
 
 	
 }
@@ -82,6 +86,7 @@ void calib_menu_init_func(uint8 prev)
 
 void calib_menu_gui_func(void)
 {
+	#if 0
 	scaler_info_t * sif = scaler_get_info();
 		if(sif != NULL){
 				if(!sif->ready)
@@ -92,6 +97,7 @@ void calib_menu_gui_func(void)
 				}
 				gui_show_weight(sif,1);
 		}
+	#endif
 }
 static void Cal_Zero_Callback(INT32S avg)
 {
@@ -143,11 +149,11 @@ void calib_menu_key_event(key_msg_t* msg)
 			}
 			else if(msg->event == KEY_PRESSED)
 			{
-					LCD_P16x16bmp(112,0,5); //按钮被按下
+					//LCD_P16x16bmp(112,0,5); //按钮被按下
 			}
 			else if(msg->event == KEY_PRESS_RLEASED)
 			{
-					LCD_P16x16bmp(112,0,4); //按钮被释放
+					//LCD_P16x16bmp(112,0,4); //按钮被释放
 			}
 	}
 	else if(msg->key == KEY_PWR)
@@ -158,11 +164,11 @@ void calib_menu_key_event(key_msg_t* msg)
 			}
 			else if(msg->event == KEY_PRESSED)
 			{
-					LCD_P16x16bmp(2,0,5); //按钮被按下
+					//LCD_P16x16bmp(2,0,5); //按钮被按下
 			}
 			else if(msg->event == KEY_PRESS_RLEASED)
 			{
-					LCD_P16x16bmp(2,0,4); //按钮被释放
+					//LCD_P16x16bmp(2,0,4); //按钮被释放
 			}
 			
 	}

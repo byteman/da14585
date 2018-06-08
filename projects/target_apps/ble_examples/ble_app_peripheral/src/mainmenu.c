@@ -418,9 +418,8 @@ void main_menu_key_event(key_msg_t* msg)
 					LCD_BLE(108,5,2); //按钮被按下 //按钮被按下
 			}
 			else if(msg->event == KEY_PRESS_RLEASED)
-			{
-				
-					//LCD_P16x16bmp(108,5,4); //按钮被释放
+			{		
+					LCD_BLE(108,5,ble_scaler_get_ble_state());
 			}
 			
 	}
