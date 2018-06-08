@@ -16,8 +16,8 @@ void util_delay(unsigned int ms)
 void format_weight(char* buffer, int size, INT32S value, uint8 dot,uint8 max)
 {
 		memset(buffer,0,size);
-		//dot++;
-		//max++;
+		dot++;
+		max++;
 		switch(dot)
 			{
 
@@ -44,8 +44,8 @@ void format_weight(char* buffer, int size, INT32S value, uint8 dot,uint8 max)
 void format_total(char* buffer, int size, INT32S value, uint8 dot,uint8 max)
 {
 		memset(buffer,0,size);
-		//dot++;
-		//max++;
+		dot++;
+		max++;
 	
 		switch(dot)
 			{

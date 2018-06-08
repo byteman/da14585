@@ -6,20 +6,46 @@
 #include "channel.h"
 #include "param.h"
 #include "Weighing.h"
+#include "scaler.h"
 
 static PARA_USER_T *g_user = NULL;
 static uint8 step = 0;
+static void gui_show_weight(scaler_info_t * sif,uint8 update)
+{
+	static uint8 clear = 0;
+	static int32_t old_value = 12345678;
+	
+	char buf[16]={0,};
+	if(!update)
+	{
+		if(sif->div_weight == old_value)
+		{
+				return;
+		}
+	}
+
+	old_value = sif->div_weight;
+	if(sif->upFlow || sif->downFlow || sif->div_weight>=10000){
+			LCD_OverLoad(W_VALUE+8,1);
+			return;
+	}
+	format_weight((char*)buf,16,sif->div_weight,1,4);
+
+	LCD_P16x32Str(W_VALUE+8,1,buf);
+
+
+}
 
 static void calib_menu_show_zero(void)
 {
-	gui_clear_screen();
-	char title[4] = {12,13,2,3};
-	char text[5] = {4,14,15,16,17};
 	
+	gui_clear_screen();
+	char buf[32] = {0,};
+	
+	snprintf(buf,32,"CAL.%02d",5);
 
-	LCD_P16x16_ZH_Arr(28,0,title,4);
-	LCD_P16x16_ZH_Arr(20,3,text,5);
-
+	LCD_CAL(8,1,4);
+	LCD_P8x16Str(72,5,buf);
 	
 }
 static void calib_menu_show_weight(void)
@@ -28,13 +54,12 @@ static void calib_menu_show_weight(void)
 	
 	*/
 	gui_clear_screen();
-	char title[4] = {10,11,2,3}; //标定重量
-	char text[9] = {6,7,21,39,40,41,24,25};
+	char buf[32] = {0,};
 	
+	snprintf(buf,32,"CAL.%02d",6);
 
-	LCD_P16x16_ZH_Arr(28,0,title,4);
-	LCD_P16x16_ZH_Arr(8,3,text,6);
-	LCD_P16x16_ZH_Arr(56,5,text+6,2);
+	LCD_CAL(8,1,5);
+	LCD_P8x16Str(72,5,buf);
 
 	
 }
@@ -57,7 +82,16 @@ void calib_menu_init_func(uint8 prev)
 
 void calib_menu_gui_func(void)
 {
-	
+	scaler_info_t * sif = scaler_get_info();
+		if(sif != NULL){
+				if(!sif->ready)
+				{
+						
+				
+						return;
+				}
+				gui_show_weight(sif,1);
+		}
 }
 static void Cal_Zero_Callback(INT32S avg)
 {
@@ -96,13 +130,13 @@ void calib_menu_key_event(key_msg_t* msg)
 			{
 					if(step == 0)
 					{
-						calib_state_show();
+						//calib_state_show();
 						Wet_StartAvg(20,Cal_Zero_Callback); //600
 						
 					}
 					else
 					{		
-						calib_state_show();						
+						//calib_state_show();						
 						Wet_StartAvg(20,Cal_Wet_Callback); //600
 						
 					}

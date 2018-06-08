@@ -3,26 +3,23 @@
 #include "cornmenu.h"
 #include "param.h"
 #include "key.h"
-
+#include "scaler.h"
 #define MAX_ANGLE 4
 static uint8 step = 0;
 static device_param* g_para;
 static void corn_menu_show_angle(uint8 num)
 {
-	uint8 arr[] = {0,1,2,3};
-	uint8 arr2[] = {4,18,7,8,num+20-1,9,16,17,10,11};
+
 	gui_clear_screen();
 	char buf[32] = {0,};
 	
-	//snprintf(buf,32,"%d",num);
-	//LCD_P8x16Str(48,1,"corn");
-	//LCD_P16x16_ZH(0,1,1);
+	snprintf(buf,32,"CAL.%02d",num);
+
 	
-	LCD_CAL(8,1,num);
+	LCD_CAL(8,1,num-1);
+	LCD_P8x16Str(72,5,buf);
 	
-	//LCD_P16x16_ZH_Arr(28,0,arr,4);
-	//LCD_P16x16_ZH_Arr(9,3,arr2,6);
-	//LCD_P16x16_ZH_Arr(20,5,arr2+6,4);
+
 }
 static void corn_menu_show_complete()
 {
@@ -36,10 +33,36 @@ void corn_menu_init_func(uint8 prev)
 		param_get(&g_para);
 		corn_menu_show_angle(step+1);		
 }
+static void gui_show_weight(scaler_info_t * sif,uint8 update)
+{
+	static uint8 clear = 0;
+	static int32_t old_value = 12345678;
+	
+	char buf[16]={0,};
+
+	if(sif->upFlow || sif->downFlow || sif->div_weight>=10000){
+			LCD_OverLoad(W_VALUE+8,1);
+			return;
+	}
+	format_weight((char*)buf,16,sif->div_weight,1,4);
+
+	LCD_P16x32Str(W_VALUE+8,1,buf);
+
+
+}
 
 void corn_menu_gui_func(void)
 {
-		
+		scaler_info_t * sif = scaler_get_info();
+		if(sif != NULL){
+				if(!sif->ready)
+				{
+						
+				
+						return;
+				}
+				gui_show_weight(sif,1);
+		}
 }
 
 void corn_menu_key_event(key_msg_t* msg)

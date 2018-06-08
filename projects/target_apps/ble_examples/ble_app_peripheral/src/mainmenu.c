@@ -287,7 +287,7 @@ static void gui_show_weight(scaler_info_t * sif,uint8 update)
 	}
 
 	old_value = sif->div_weight;
-	if(sif->upFlow || sif->downFlow || sif->div_weight>=1000){
+	if(sif->upFlow || sif->downFlow || sif->div_weight>=10000){
 			LCD_OverLoad(W_VALUE,1);
 			return;
 	}
