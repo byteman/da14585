@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Sat Jun 09 16:42:57 2018
+;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Sat Jun 09 18:41:56 2018
 ;VERSION 0.2
 ;FILE adc.o
 ;FILE adc_1.o
@@ -64,14 +64,14 @@ arch_set_pxact_gpio <= USED 0
 arch_wkupct_tweak_deb_time <= USED 0
 set_xtal16m_trim_value <= USED 0
 ;FILE attm_db_128.o
-;FILE audio.o
+;FILE audio_1.o
 ;FILE battery.o
 batt_cal_aaa <= USED 0
 batt_cal_cr1225 <= USED 0
 batt_cal_cr2032 <= USED 0
 battery_get_lvl <= USED 0
 ;FILE batty.o
-;FILE blemenu.o
+;FILE blemenu_1.o
 ;FILE blescaler.o
 ble_scaler_exec_cmd <= USED 0
 ble_scaler_get_info <= USED 0
@@ -79,20 +79,20 @@ ble_scaler_register_event <= USED 0
 ble_scaler_run <= USED 0
 ble_scaler_set_ble_info <= USED 0
 ;FILE boot_vectors.o
-;FILE calibmenu.o
+;FILE calibmenu_1.o
 ;FILE channel.o
 channel_init <= USED 0
 ;FILE commenu.o
 gui_show_weight <= USED 0
 ;FILE cornfix.o
-;FILE cornmenu.o
+;FILE cornmenu_1.o
 ;FILE cs1237.o
 ;FILE custom_common.o
 custs1_get_att_handle <= USED 0
 ;FILE custs1.o
 ;FILE custs1_task.o
-;FILE debugmenu.o
-;FILE dispatcher.o
+;FILE debugmenu_1.o
+;FILE dispatcher_1.o
 ;FILE diss.o
 ;FILE filter_kmedian.o
 FKM_InitFilterList <= USED 0
@@ -106,7 +106,7 @@ GPIO_GetPorTime <= USED 0
 GPIO_RegisterCallback <= USED 0
 GPIO_SetIRQInputLevel <= USED 0
 GPIO_SetPorTime <= USED 0
-;FILE gui.o
+;FILE gui_1.o
 ;FILE hardfault_handler.o
 ;FILE hw_otpc.o
 hw_otpc_blank <= USED 0
@@ -134,7 +134,7 @@ dummyf <= USED 0
 ;FILE key.o
 key_isr2 <= USED 0
 key_press_handle <= USED 0
-;FILE logomenu.o
+;FILE logomenu_1.o
 ;FILE mainmenu.o
 ;FILE matrix.o
 ;FILE nmi_handler.o
@@ -173,7 +173,7 @@ update_calcap_ranges <= USED 0
 write_HW_LUT <= USED 0
 write_one_SW_LUT_entry <= USED 0
 ;FILE power.o
-;FILE poweroff.o
+;FILE poweroff_1.o
 ;FILE prf.o
 ;FILE prf_utils.o
 prf_pack_date_time <= USED 0
@@ -266,7 +266,7 @@ user_svc1_indicateable_ind_cfm_handler <= USED 0
 user_svc1_long_val_ntf_cfm_handler <= USED 0
 ;FILE user_periph_setup.o
 ;FILE user_peripheral.o
-;FILE utils.o
+;FILE utils_1.o
 ;FILE weighing.o
 AD_CheckNew <= USED 0
 AD_Read <= USED 0

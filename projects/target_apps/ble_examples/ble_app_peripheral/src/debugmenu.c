@@ -53,7 +53,7 @@ void debug_menu_key_event(key_msg_t* msg)
 {
 	if(msg->key == KEY_ZERO)
 	{
-			
+			gui_show(MENU_MAIN);
 	}
 	else if(msg->key == KEY_PWR)
 	{

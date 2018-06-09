@@ -61,6 +61,13 @@ void ble_menu_key_event(key_msg_t* msg)
 				
 			}
 	}
+	else if(msg->key == KEY_ALL)
+	{
+			if(msg->event == KEY_LONG_PRESSED)
+			{
+					gui_show(MENU_DEBUG);
+			}
+	}
 
 	
 	
