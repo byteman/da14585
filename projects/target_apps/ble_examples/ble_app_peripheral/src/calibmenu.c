@@ -6,35 +6,15 @@
 #include "channel.h"
 #include "param.h"
 #include "Weighing.h"
-#include "scaler.h"
+#include "commenu.h"
+#include "utils.h"
+#include "oled.h"
 
+#define BTN_X 56
+#define BTN_Y 5
 static PARA_USER_T *g_user = NULL;
 static uint8 step = 0;
-static void gui_show_weight(scaler_info_t * sif,uint8 update)
-{
-	static uint8 clear = 0;
-	static int32_t old_value = 12345678;
-	
-	char buf[16]={0,};
-	if(!update)
-	{
-		if(sif->div_weight == old_value)
-		{
-				return;
-		}
-	}
 
-	old_value = sif->div_weight;
-	if(sif->upFlow || sif->downFlow || sif->div_weight>=10000){
-			LCD_OverLoad(W_VALUE+8,1);
-			return;
-	}
-	format_weight((char*)buf,16,sif->div_weight,1,4);
-
-	LCD_P16x32Str(W_VALUE+8,1,buf);
-
-
-}
 
 static void calib_menu_show_zero(void)
 {
@@ -45,7 +25,7 @@ static void calib_menu_show_zero(void)
 	snprintf(buf,32,"CAL.%02d",5);
 
 	LCD_CAL(8,1,4);
-	LCD_P8x16Str(72,5,buf);
+	LCD_P8x16Str(72,5,(unsigned char*)buf);
 	LCD_KG(100,1);
 	LCD_P16x32Str(W_VALUE+8,1,"0.00");
 	
@@ -67,14 +47,6 @@ static void calib_menu_show_weight(void)
 
 	
 }
-static void calib_state_show()
-{
-	gui_clear_screen();
-	//char title[4] = {12,13,10,11}; //标定重量
-	char text[7] = {32,33,2,3,4,26,27}; 
-	//LCD_P16x16_ZH_Arr(1,0,title,4);
-	LCD_P16x16_ZH_Arr(1,3,text,7);
-}
 
 void calib_menu_init_func(uint8 prev)
 {
@@ -83,13 +55,7 @@ void calib_menu_init_func(uint8 prev)
 		calib_menu_show_zero();
 		
 }
-static void show_button(uint8 show)
-{
-		if(show)
-				LCD_P16x16bmp(56,5,5); //按钮被按下
-		else
-				LCD_P16x16bmp(56,5,4); //按钮被按下
-}
+
 void calib_menu_gui_func(void)
 {
 	#if 0
@@ -117,7 +83,7 @@ static void Cal_Zero_Callback(INT32S avg)
 		step = 1;
 		calib_menu_show_weight();
 	}
-	show_button(0);
+	gui_show_button(0,BTN_X,BTN_Y);
 }
 static void	 Cal_Wet_Callback(INT32S avg)
 {
@@ -158,20 +124,18 @@ void calib_menu_key_event(key_msg_t* msg)
 	{	
 			if(msg->event == KEY_PRESSED)
 			{
-					show_button(1);
-					//LCD_P16x16bmp(112,0,5); //按钮被按下
+					gui_show_button(1,BTN_X,BTN_Y);
 			}
 			else if(msg->event == KEY_PRESS_RLEASED)
 			{
 					DelayToDo(KEY_DELAY_TIME,doCalib);
-					//LCD_P16x16bmp(112,0,4); //按钮被释放
 			}
 	}
 	else if(msg->key == KEY_PWR)
 	{
 			if(msg->event == KEY_PRESSED)
 			{
-				show_button(1);
+				gui_show_button(1,BTN_X,BTN_Y);
 					//LCD_P16x16bmp(2,0,5); //按钮被按下
 			}
 			else if(msg->event == KEY_PRESS_RLEASED)

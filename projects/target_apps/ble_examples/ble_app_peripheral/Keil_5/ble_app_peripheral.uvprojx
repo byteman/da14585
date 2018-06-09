@@ -1039,6 +1039,11 @@
               <FileType>1</FileType>
               <FilePath>..\src\sleepmenu.c</FilePath>
             </File>
+            <File>
+              <FileName>commenu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\commenu.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2145,6 +2150,11 @@
               <FileName>sleepmenu.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\sleepmenu.c</FilePath>
+            </File>
+            <File>
+              <FileName>commenu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\commenu.c</FilePath>
             </File>
           </Files>
         </Group>

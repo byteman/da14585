@@ -1516,10 +1516,7 @@ void LCD_P8x16Str(unsigned char x, unsigned y,unsigned char ch[])
 		j++;
 	}
 }
-void LCD_CAL_Logo(unsigned char x, unsigned char y,unsigned char  N)
-{
-	
-}
+
 void LCD_CAL(unsigned char x, unsigned char y,unsigned char  N)
 {
 	unsigned char wm=0,nr = 16;

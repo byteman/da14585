@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Sat Jun 09 15:39:42 2018
+;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Sat Jun 09 16:42:57 2018
 ;VERSION 0.2
 ;FILE adc.o
 ;FILE adc_1.o
@@ -82,6 +82,8 @@ ble_scaler_set_ble_info <= USED 0
 ;FILE calibmenu.o
 ;FILE channel.o
 channel_init <= USED 0
+;FILE commenu.o
+gui_show_weight <= USED 0
 ;FILE cornfix.o
 ;FILE cornmenu.o
 ;FILE cs1237.o
@@ -140,7 +142,6 @@ key_press_handle <= USED 0
 ;FILE oled.o
 Draw_BMP <= USED 0
 LCD_16x16_Char <= USED 0
-LCD_CAL_Logo <= USED 0
 LCD_CLS <= USED 0
 LCD_Dot2 <= USED 0
 LCD_Init2 <= USED 0
