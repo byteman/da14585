@@ -37,7 +37,7 @@ void ad_calib_corl_k(device_param* parm)
 	float min_k = 0;
 	//ad_put_corl_bx( parm->mLinerNov[1]) ;
 	//ad_put_corl_bx(parm->mCornCalibWet);
-	ad_put_corl_bx(50);
+	ad_put_corl_bx(2000);
 	linear_equation_group(0, corl_ad.Adx, corl_ad.Bx,CAP_M, res);	
 
 	for(i =0;i< CAP_M;i++)
