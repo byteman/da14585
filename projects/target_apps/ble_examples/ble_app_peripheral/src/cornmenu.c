@@ -67,51 +67,57 @@ void corn_menu_gui_func(void)
 		}
 	#endif
 }
+static void show_button(uint8 show)
+{
+		if(show)
+				LCD_P16x16bmp(56,5,5); //按钮被按下
+		else
+				LCD_P16x16bmp(56,5,4); //按钮被按下
+}
+void doCornCalib(void)
+{
+	//0 1 2 3 
+		show_button(0);
+		if(step < MAX_ANGLE)
+		{
+				ad_put_corl_adx(step++);
+				if(step == MAX_ANGLE){
+					ad_calib_corl_k(g_para);
+					param_save(DEV_PARA_T);
+					gui_show(MENI_CAL_WET);
+				}
+				else
+				{
+					corn_menu_show_angle(step+1);
+				}
+				
+		}
+}
 
 void corn_menu_key_event(key_msg_t* msg)
 {
 	if(msg->key == KEY_ZERO)
 	{	
-			if(msg->event == KEY_RELEASE_2S)
+			if(msg->event == KEY_PRESSED)
 			{
-				//0 1 2 3 
-					if(step < MAX_ANGLE)
-					{
-							ad_put_corl_adx(step++);
-							if(step == MAX_ANGLE){
-								ad_calib_corl_k(g_para);
-								param_save(DEV_PARA_T);
-								gui_show(MENI_CAL_WET);
-							}
-							else
-							{
-								corn_menu_show_angle(step+1);
-							}
-							
-					}
-			}
-			else if(msg->event == KEY_PRESSED)
-			{
-					//LCD_P16x16bmp(110,0,5); //按钮被按下
+					show_button(1);
 			}
 			else if(msg->event == KEY_PRESS_RLEASED)
 			{
 					//LCD_P16x16bmp(110,0,4); //按钮被释放
+					DelayToDo(KEY_DELAY_TIME,doCornCalib);
 			}
 	}
 	else if(msg->key == KEY_PWR)
 	{
-			if(msg->event == KEY_RELEASE_2S)
+			if(msg->event == KEY_PRESSED)
 			{
-				gui_show(MENU_MAIN);
-			}	
-			else if(msg->event == KEY_PRESSED)
-			{
-					//LCD_P16x16bmp(2,0,5); //按钮被按下
+					//LCD_P16x16bmp(64,6,5); //按钮被按下
+					show_button(1);
 			}
 			else if(msg->event == KEY_PRESS_RLEASED)
 			{
-					//LCD_P16x16bmp(2,0,4); //按钮被释放
+					gui_show(MENU_MAIN);
 			}
 			
 	}

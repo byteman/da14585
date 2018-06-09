@@ -35,7 +35,11 @@ static uint32_t adc_get_vbat_sample2()
     return adc_sample;
 }
 #define BATTERY_MEASUREMENT_BUCK_AT_1V8     (0x370)
-#define BATTERY_MEASUREMENT_BUCK_AT_3V0     (0x6B0)
+#define BATTERY_MEASUREMENT_BUCK_AT_2V0     (0x3F2)
+#define BATTERY_MEASUREMENT_BUCK_AT_2V4     (0x4F6)
+#define BATTERY_MEASUREMENT_BUCK_AT_2V8     (0x600)
+
+
 static uint8_t batt_cal_aaa2(uint16_t adc_sample)
 {
     uint8_t batt_lvl;
@@ -44,14 +48,14 @@ static uint8_t batt_cal_aaa2(uint16_t adc_sample)
 		//Buck mode
 		if(adc_sample >= BATTERY_MEASUREMENT_BUCK_AT_1V8)
 				batt_lvl = (adc_sample - BATTERY_MEASUREMENT_BUCK_AT_1V8)*100/
-										(BATTERY_MEASUREMENT_BUCK_AT_3V0-BATTERY_MEASUREMENT_BUCK_AT_1V8);
+										(BATTERY_MEASUREMENT_BUCK_AT_2V8-BATTERY_MEASUREMENT_BUCK_AT_1V8);
 		else
 				batt_lvl = 0;
     
     return batt_lvl;
 }
 
-static uint8_t battery_get_lvl2(uint8_t batt_type)
+static uint32_t battery_get_lvl2(uint8_t batt_type)
 {
     uint8_t batt_lvl;
     uint16_t adc_sample;
@@ -65,14 +69,32 @@ static uint8_t battery_get_lvl2(uint8_t batt_type)
     adc_sample = battery_filter_value(adc_sample);
 
 
-   
-    batt_lvl = batt_cal_aaa2(adc_sample);
+		return adc_sample;
+    //batt_lvl = batt_cal_aaa2(adc_sample);
 
 
-    return batt_lvl;
+    //return batt_lvl;
 }
+/*
+//获取电池电量级别
+0-> 电量极低 闪烁图标  < 1.8V
+1-> 电量为空 < 2V
+2-> 1格电量  2V < x < 2.4V
+3-> 2格电量	 2.4V < x < 2.8V
+4-> 3格电量  >= 2.8V
+*/
 uint8  battery_get()
 {
-	return battery_get_lvl2(0);
+	uint8 level = 0;
+	uint32 value = battery_get_lvl2(0);
+	
+	if(value < BATTERY_MEASUREMENT_BUCK_AT_1V8) return 0;
+	else if(value < BATTERY_MEASUREMENT_BUCK_AT_2V0) return 1;
+	else if(value < BATTERY_MEASUREMENT_BUCK_AT_2V4) return 2;
+	else if(value < BATTERY_MEASUREMENT_BUCK_AT_2V8) return 3;
+	else {
+			return 4;
+	}
+	
 }
 

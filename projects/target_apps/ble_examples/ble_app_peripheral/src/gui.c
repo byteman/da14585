@@ -96,6 +96,6 @@ void gui_init(void)
 		key_register(key_event);
 		//gui_show(MENI_CAL_CORN);
 		//gui_show(MENU_DEBUG);
-		gui_show(MENU_MAIN);
+		gui_show(MENU_LOGO);
 }
 

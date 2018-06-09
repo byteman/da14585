@@ -975,11 +975,6 @@
               <FilePath>..\src\blescaler.c</FilePath>
             </File>
             <File>
-              <FileName>my_periph_setup.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\my_periph_setup.c</FilePath>
-            </File>
-            <File>
               <FileName>bt_weight.lib</FileName>
               <FileType>4</FileType>
               <FilePath>..\src\bt_weight.lib</FilePath>
@@ -2085,11 +2080,6 @@
               <FileName>blescaler.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\blescaler.c</FilePath>
-            </File>
-            <File>
-              <FileName>my_periph_setup.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\my_periph_setup.c</FilePath>
             </File>
             <File>
               <FileName>bt_weight.lib</FileName>

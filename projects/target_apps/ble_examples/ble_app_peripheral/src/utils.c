@@ -69,3 +69,8 @@ void format_total(char* buffer, int size, INT32S value, uint8 dot,uint8 max)
 		
 			buffer[max] = 0;
 }
+#include "app_easy_timer.h"
+void DelayToDo(const uint32 ms, DoFunc func)
+{
+	app_easy_timer(ms,func);
+}

@@ -15,13 +15,13 @@ typedef enum{
 }key_code_t;
 #define KEY_PRESSED 1
 #define KEY_LONG_PRESSED 2
-#define KEY_RELEASE_2S 0
 #define KEY_PRESS_RLEASED 3
 #define KEY_RELASE_TWICE 4
+#define KEY_DELAY_TIME 100 //2000ms
 typedef struct key_msg{
 	uint8 key;
 	uint8 event;
-	uint8 invalid;
+	uint32 ts;
 }key_msg_t;
 
 typedef void(*key_event_func_t)(key_msg_t* event);

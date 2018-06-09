@@ -17,17 +17,18 @@ typedef struct {
 	
 	 GPIO_PORT port;
 	 GPIO_PIN  pin;
+	
 }key_state;
 
 #define MAX_KEY_NUM 2
 #define KEY_PRESS_TIME 3
 #define KEY_ZERO_PRESS_TIME 5
 #define TIMER_INT 100
-#define PRESS_ALL_KEY_TIME 3000
-#define PRESS_ZERO_TIME 2000
+#define PRESS_ALL_KEY_TIME 4000
+#define PRESS_LONG_TIME 2000
 #define PWR_DELAY_NUM 10
 #define ZERO_RLEASE_DELAY_NUM 10
-#define PRESS_TIME_TICK 4
+#define PRESS_TIME_TICK 2
 static key_state key_states[MAX_KEY_NUM];
 static int32 g_ts = 0;
 static uint8 key_pressed = 0;
@@ -43,11 +44,12 @@ void key_init()
 	memset(&key_states[0], 0 , sizeof(key_states));
 	key_states[0].port = KEY_PWR_PORT;
 	key_states[0].pin = KEY_PWR_PIN;
-	key_states[0].key = 0;
+	key_states[0].key = KEY_PWR;
+	key_states[0].state = KEY_PRESS_RLEASED;
 	key_states[1].port = KEY_ZERO_PORT;
 	key_states[1].pin = KEY_ZERO_PIN;
-	key_states[1].key = 1;
-	
+	key_states[1].key = KEY_ZERO;
+	key_states[1].state = KEY_PRESS_RLEASED;
 }
 
 void send_key_msg(uint8 key, uint8 event)
@@ -56,79 +58,143 @@ void send_key_msg(uint8 key, uint8 event)
 
 	req.key = key;
 	req.event = event;
- 
+	req.ts = g_ts;
 	key_cb(&req);
 }
+void key_press_handle()
+{
 
-//按键分析逻辑,定时调用.
+}
 void  key_isr()
 {
-		int i = 0;
+	int i = 0;
+	g_ts++;
+	for(i = 0; i < 2; i++)
+	{
+		if(GPIO_GetPinStatus(key_states[i].port,key_states[i].pin) )
+		{
+					if(key_states[i].state == KEY_LONG_PRESSED)
+					{
+							continue;
+					}
+					//key_states[i].press_stamp++;
+					key_states[i].press_ts++;
+					
+					//key_states[0].state = KEY_PRESSED;
+					if(key_states[i].press_ts > (PRESS_LONG_TIME/TIMER_INT) )
+					{
+						//电源键按住3秒了
+								uint8 j = (i==0?1:0);
+								if(GPIO_GetPinStatus(key_states[j].port,key_states[j].pin))
+								{
+										if(key_states[i].press_ts > (PRESS_ALL_KEY_TIME/TIMER_INT))
+										{
+												//置零键也是按住的
+												key_states[j].state = KEY_LONG_PRESSED; 
+												send_key_msg(KEY_ALL, KEY_LONG_PRESSED);
+										}else{
+												continue;
+										}
+									
+								}
+								else
+								{
+										send_key_msg(key_states[i].key, KEY_LONG_PRESSED);
+								}
+								key_states[i].state = KEY_LONG_PRESSED; 
+								key_states[0].press_ts = 0; //清零按键按下计数器.
+								key_states[1].press_ts = 0; //清零按键按下计数器.
+								continue; //已经产生了按键事件
+					}
+					else if(key_states[i].press_ts >= PRESS_TIME_TICK && key_states[i].state != KEY_PRESSED)
+					{
+							//短按事件处理.
+							send_key_msg(key_states[i].key, KEY_PRESSED);
+							key_states[i].state = KEY_PRESSED; 
+					}
+		}
+		else
+		{
+					//处理按键释放事件，必须要有按下时间，才产生释放事件.
+					if(key_states[i].press_ts >= PRESS_TIME_TICK &&  key_states[i].state != KEY_PRESS_RLEASED)
+					{
+							//曾经被按过，释放了
+							
+							send_key_msg(key_states[i].key, KEY_PRESS_RLEASED);						
+					}
+					key_states[i].state = KEY_PRESS_RLEASED;
+				  key_states[i].press_ts = 0;
+					
+		}
+	}
+}
+//按键分析逻辑,定时调用.
+void  key_isr2()
+{
+		
+	int i = 0;
+		
 	 #if 1
 		g_ts++;
 		if(GPIO_GetPinStatus(KEY_PWR_PORT,KEY_PWR_PIN) )
 		{
-			//被按下，开机后要延迟一段时间
-					if(key_pressed < PWR_DELAY_NUM) return;
+					if(key_states[0].state == KEY_LONG_PRESSED)
+					{
+							return;
+					}
 					key_states[0].press_ts++;
+					
 					//key_states[0].state = KEY_PRESSED;
 					if(key_states[0].press_ts > (PRESS_ALL_KEY_TIME/TIMER_INT) )
 					{
+						//电源键按住3秒了
 								if(GPIO_GetPinStatus(KEY_ZERO_PORT,KEY_ZERO_PIN))
 								{
+									//置零键也是按住的
 										send_key_msg(KEY_ALL, KEY_LONG_PRESSED);
-										key_states[1].state = KEY_LONG_PRESSED; 
-										key_states[1].press_ts = 0;
 								}
 								else
 								{
 										send_key_msg(KEY_PWR, KEY_LONG_PRESSED);
 								}
 								key_states[0].state = KEY_LONG_PRESSED; 
-								key_states[0].press_ts = 0;
+								key_states[0].press_ts = 0; //清零按键按下计数器.
+								key_states[1].press_ts = 0; //清零按键按下计数器.
+								return; //已经产生了按键事件
 					}
-					else if(key_states[0].press_ts % PRESS_TIME_TICK == 0)
+					else if(key_states[0].press_ts >= PRESS_TIME_TICK && key_states[0].state != KEY_PRESSED)
 					{
+							//短按事件处理.
 							send_key_msg(KEY_PWR, KEY_PRESSED);
+							key_states[0].state = KEY_PRESSED; 
 					}
 		}
 		else
 		{
-					if(key_pressed < PWR_DELAY_NUM)
-						key_pressed++;
-		
-					if(key_states[0].press_ts >= PRESS_TIME_TICK ||  key_states[0].state != KEY_PRESS_RLEASED)
+					//处理按键释放事件，必须要有按下时间，才产生释放事件.
+					if(key_states[0].press_ts >= PRESS_TIME_TICK &&  key_states[0].state != KEY_PRESS_RLEASED)
 					{
 							//曾经被按过，释放了
-							send_key_msg(KEY_PWR, KEY_PRESS_RLEASED);
-							key_states[0].state = KEY_PRESS_RLEASED;
+							send_key_msg(KEY_PWR, KEY_PRESS_RLEASED);						
 					}
-					//LOW LEVEL 按键被释放.
-					if(key_states[0].press_ts > KEY_PRESS_TIME && key_states[0].state != KEY_LONG_PRESSED)
-					{
-							send_key_msg(KEY_PWR, KEY_RELEASE_2S);
-												
-					}
-					
-					key_states[0].state = KEY_RELEASE_2S;
+					key_states[0].state = KEY_PRESS_RLEASED;
 				  key_states[0].press_ts = 0;
 					
 		}
-		
+
 		if(GPIO_GetPinStatus(KEY_ZERO_PORT,KEY_ZERO_PIN))
 		{
+					if(key_states[1].state == KEY_LONG_PRESSED)
+					{
+							return;
+					}
 					key_states[1].press_ts++;
-					key_states[1].press_stamp++;
-					key_states[1].releas_ts=ZERO_RLEASE_DELAY_NUM;
 					
-					if(key_states[1].press_ts > (PRESS_ZERO_TIME/TIMER_INT) )
+					if(key_states[1].press_ts > (PRESS_ALL_KEY_TIME/TIMER_INT) )
 					{
 								if(GPIO_GetPinStatus(KEY_PWR_PORT,KEY_PWR_PIN))
 								{
-										//send_key_msg(KEY_ALL, KEY_LONG_PRESSED);
-										//key_states[0].state = KEY_LONG_PRESSED; 
-										//key_states[0].press_ts = 0;
-										return;
+										send_key_msg(KEY_ALL, KEY_LONG_PRESSED);		
 								}
 								else
 								{
@@ -136,48 +202,28 @@ void  key_isr()
 								}
 								key_states[1].state = KEY_LONG_PRESSED; 
 								key_states[1].press_ts = 0;
+								key_states[0].press_ts = 0; //清零按键按下计数器.
+								return;
 						  
 					}
-					else if(key_states[1].press_ts % PRESS_TIME_TICK == 0)
+					else if(key_states[1].press_ts >= PRESS_TIME_TICK && key_states[1].state != KEY_PRESSED)
 					{
+							//短按事件处理.
 							send_key_msg(KEY_ZERO, KEY_PRESSED);
-							key_states[1].state = KEY_PRESSED;
+							key_states[1].state = KEY_PRESSED; 
 					}
 			
 					
 		}
 		else
 		{
-					if(key_states[1].press_stamp > 0){
-									//再400ms内，按下了2次rlease就触发2次按键事件
-							if(abs(key_states[1].relase_stamp - g_ts) < 4){
-									send_key_msg(KEY_ZERO, KEY_RELASE_TWICE);
-									key_states[1].press_ts = 0;
-							}
-							key_states[1].relase_stamp = g_ts;
-							key_states[1].press_stamp = 0;
-					}
 					if(key_states[1].press_ts >= PRESS_TIME_TICK && key_states[1].state != KEY_PRESS_RLEASED)
 					{
 							//曾经被按过，释放了
 							send_key_msg(KEY_ZERO, KEY_PRESS_RLEASED);
-							key_states[1].state = KEY_PRESS_RLEASED;
 							
 					}
-					//释放后需要等待2秒才发送按键被释放命令.
-					if(key_states[1].releas_ts > 0){
-							key_states[1].releas_ts--;
-							return;
-					}
-					
-			//LOW LEVEL 按键被释放.
-					if(key_states[1].press_ts > KEY_ZERO_PRESS_TIME && key_states[1].state != KEY_LONG_PRESSED)
-					{
-								
-								send_key_msg(KEY_ZERO, KEY_RELEASE_2S);
-					}
-				
-					key_states[1].state = KEY_RELEASE_2S;
+					key_states[1].state = KEY_PRESS_RLEASED;				
 				  key_states[1].press_ts = 0;
 		}
 	#endif

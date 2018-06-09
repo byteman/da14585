@@ -50,17 +50,14 @@ void ble_menu_key_event(key_msg_t* msg)
 
 	else if(msg->key == KEY_ZERO)
 	{
-			if(msg->event == KEY_RELEASE_2S)
-			{
-					gui_show(MENU_MAIN);
-			}
-			else if(msg->event == KEY_PRESSED)
+			if(msg->event == KEY_PRESSED)
 			{
 					LCD_P16x16bmp(110,0,5); //按钮被按下
 			}
 			else if(msg->event == KEY_PRESS_RLEASED)
 			{
 					LCD_P16x16bmp(110,0,4); //按钮被释放
+					gui_show(MENU_MAIN);
 				
 			}
 	}

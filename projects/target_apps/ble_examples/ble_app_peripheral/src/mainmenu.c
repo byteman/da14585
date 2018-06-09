@@ -39,10 +39,9 @@ static void gui_show_battry_state(uint8 value,uint8 update)
 	// 90
 	static uint8 blink = 1;
 	static uint8 old = 0;
-	uint8 level = (value*3 / 100);
-	if(level > 3 ) level = 3;
+	uint8 level = value;
+
 	
-	#if 0
 	if(level == 0){
 		if(blink){
 				level = 1;
@@ -52,9 +51,8 @@ static void gui_show_battry_state(uint8 value,uint8 update)
 		}
 		blink=!blink;
 	}
-	#endif
+	
 	LCD_Batty(108,3, level);
-	//LCD_P8x16Ch(108,3,level);
 	 
 }
 static uint8 bInit = 0;
@@ -186,7 +184,7 @@ static void logic_push_weight(INT32S value)
 uint8 main_logic_isr(scaler_info_t * sif)
 {
 	//
-		if(abs(sif->div_weight >= 1000)){
+		if(abs(sif->div_weight >= 10000)){
 			return 0;
 		}
 		if(
@@ -330,12 +328,30 @@ static void main_sleep_handle(scaler_info_t * sif)
 		}
 		
 }
-
+//根据电量情况开始判断关机逻辑.
+void main_menu_low_batty(uint8 level)
+{
+		
+		static int tick = 0;
+		if(level == 0){
+			  if(tick == 0){
+					 //第一次设置计数器.
+						tick = GetTick();
+				}
+				if( abs(GetTick() - tick) > 20*60){
+						//超过20分钟，关机
+						gui_show(MENU_PWR_OFF);
+				}
+		}else{
+			//电量超过0,开始重新设置计数器.
+				tick = GetTick();
+		}
+}
 
 void main_menu_gui_func(void)
 {
 
-		
+		static int count = 0;
 	scaler_info_t * sif = scaler_get_info();
 	if(sif != NULL){
 			if(!sif->ready)
@@ -355,10 +371,12 @@ void main_menu_gui_func(void)
 			//main_menu_debug();
 		
 	}
-	if((GetTick() % 5) == 0){
-		
-			gui_show_battry_state(battery_get(),0);
+	if((count++ % 10) == 0){
+			uint8 level = battery_get();
+			main_menu_low_batty(level);
+			gui_show_battry_state(level,0);
 	}
+	
 	
 	
 
@@ -371,6 +389,11 @@ static void		scaler_reset_history(void)
 		//param_save(LOGIC_PARA_T);	
 		gui_show_sum(g_logic->history_sum,1);
 }
+static void clear_zero(void)
+{
+	scaler_set_zero();
+	LCD_BLE(108,5,ble_scaler_get_ble_state());
+}
 void main_menu_key_event(key_msg_t* msg)
 {
 	if(msg->key == KEY_ZERO)
@@ -379,8 +402,8 @@ void main_menu_key_event(key_msg_t* msg)
 			if(msg->event == KEY_RELASE_TWICE)
 			{
 					//0.5秒内按了2次.
-					scaler_reset_history();
-					LCD_BLE(108,5,ble_scaler_get_ble_state());
+					
+					//LCD_BLE(108,5,ble_scaler_get_ble_state());
 			}
 			//零点长按,显示蓝牙地址
 			else 	if(msg->event == KEY_LONG_PRESSED)
@@ -391,24 +414,27 @@ void main_menu_key_event(key_msg_t* msg)
 			}
 			else if(msg->event == KEY_PRESSED)
 			{
-					//LCD_BLE(108,5,0);
 					LCD_BLE(108,5,2); //按钮被按下
+					//DelayToDo(KEY_DELAY_TIME, clear_zero);
 			}
-			else if(msg->event == KEY_RELEASE_2S)
-			{
-					scaler_set_zero();
-					LCD_BLE(108,5,ble_scaler_get_ble_state());
-			}
+
 			else if(msg->event == KEY_PRESS_RLEASED)
 			{
-					LCD_BLE(108,5,ble_scaler_get_ble_state());
+					static int ts = 0;
+					if( (abs(ts - msg->ts) < 5)){
+						scaler_reset_history();
+					}
+					else{
+							DelayToDo(KEY_DELAY_TIME,clear_zero);	
+					}
+					ts = msg->ts;
+					
+					
 			}
 	}
 	else if(msg->key == KEY_PWR)
 	{
-			if(msg->event == KEY_RELEASE_2S){
-					
-			}else if(msg->event == KEY_LONG_PRESSED){
+			if(msg->event == KEY_LONG_PRESSED){
 					gui_show(MENU_PWR_OFF);
 					
 			}

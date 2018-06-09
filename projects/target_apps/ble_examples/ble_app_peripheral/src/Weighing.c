@@ -132,6 +132,7 @@ Std_ReturnType	Wet_InitPara(void)
 	g_user->ZTR = 10;
 	g_user->RSN = 5;
 	g_user->NOV = 10000;
+	g_user->ZSEHd = 100;
  	err+= Wet_ParaIsRight(g_user->LDW,-1600000,4600000);
  	err+= Wet_ParaIsRight(g_user->LWT,-1600000,4600000);
  	err+= Wet_ParaIsRight(g_user->CWT,-1600000,4600000);

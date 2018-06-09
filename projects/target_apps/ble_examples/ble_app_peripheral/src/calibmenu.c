@@ -83,7 +83,13 @@ void calib_menu_init_func(uint8 prev)
 		calib_menu_show_zero();
 		
 }
-
+static void show_button(uint8 show)
+{
+		if(show)
+				LCD_P16x16bmp(56,5,5); //按钮被按下
+		else
+				LCD_P16x16bmp(56,5,4); //按钮被按下
+}
 void calib_menu_gui_func(void)
 {
 	#if 0
@@ -111,6 +117,7 @@ static void Cal_Zero_Callback(INT32S avg)
 		step = 1;
 		calib_menu_show_weight();
 	}
+	show_button(0);
 }
 static void	 Cal_Wet_Callback(INT32S avg)
 {
@@ -121,53 +128,55 @@ static void	 Cal_Wet_Callback(INT32S avg)
 		Wet_InitZero();
 		param_save(USER_PARA_T);
 		step = 2;
+		//show_button(0);
 		gui_show(MENU_MAIN);
+		
 	}
 	
 
 }
 
+void doCalib(void)
+{
+			if(step == 0)
+			{
+				//calib_state_show();
+				Wet_StartAvg(20,Cal_Zero_Callback); //600
+				
+			}
+			else
+			{		
+				//calib_state_show();						
+				Wet_StartAvg(20,Cal_Wet_Callback); //600
+				
+			}
+}
 void calib_menu_key_event(key_msg_t* msg)
 {
 	
 	if(msg->key == KEY_ZERO)
 	{	
-			if(msg->event == KEY_RELEASE_2S)
+			if(msg->event == KEY_PRESSED)
 			{
-					if(step == 0)
-					{
-						//calib_state_show();
-						Wet_StartAvg(20,Cal_Zero_Callback); //600
-						
-					}
-					else
-					{		
-						//calib_state_show();						
-						Wet_StartAvg(20,Cal_Wet_Callback); //600
-						
-					}
-			}
-			else if(msg->event == KEY_PRESSED)
-			{
+					show_button(1);
 					//LCD_P16x16bmp(112,0,5); //按钮被按下
 			}
 			else if(msg->event == KEY_PRESS_RLEASED)
 			{
+					DelayToDo(KEY_DELAY_TIME,doCalib);
 					//LCD_P16x16bmp(112,0,4); //按钮被释放
 			}
 	}
 	else if(msg->key == KEY_PWR)
 	{
-			if(msg->event == KEY_RELEASE_2S)
+			if(msg->event == KEY_PRESSED)
 			{
-				gui_show(MENU_MAIN);
-			}
-			else if(msg->event == KEY_PRESSED)
-			{
+				show_button(1);
 					//LCD_P16x16bmp(2,0,5); //按钮被按下
 			}
 			else if(msg->event == KEY_PRESS_RLEASED)
 			{
+					gui_show(MENU_MAIN);
 					//LCD_P16x16bmp(2,0,4); //按钮被释放
 			}
 			
