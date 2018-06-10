@@ -398,15 +398,7 @@ void main_menu_key_event(key_msg_t* msg)
 {
 	if(msg->key == KEY_ZERO)
 	{
-			
-			if(msg->event == KEY_RELASE_TWICE)
-			{
-					//0.5秒内按了2次.
-					
-					//LCD_BLE(108,5,ble_scaler_get_ble_state());
-			}
-			//零点长按,显示蓝牙地址
-			else 	if(msg->event == KEY_LONG_PRESSED)
+		if(msg->event == KEY_LONG_PRESSED)
 			{
 					LCD_BLE(108,5,ble_scaler_get_ble_state());
 					gui_show(MENU_BLE);

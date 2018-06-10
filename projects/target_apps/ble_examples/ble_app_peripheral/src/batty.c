@@ -34,9 +34,9 @@ static uint32_t adc_get_vbat_sample2()
 
     return adc_sample;
 }
-#define BATTERY_MEASUREMENT_BUCK_AT_1V8     (0x370)
-#define BATTERY_MEASUREMENT_BUCK_AT_2V0     (0x3F2)
-#define BATTERY_MEASUREMENT_BUCK_AT_2V4     (0x4F6)
+#define BATTERY_MEASUREMENT_BUCK_AT_1V8     (0x3A0)
+#define BATTERY_MEASUREMENT_BUCK_AT_2V0     (0x430)
+#define BATTERY_MEASUREMENT_BUCK_AT_2V4     (0x510)
 #define BATTERY_MEASUREMENT_BUCK_AT_2V8     (0x600)
 
 

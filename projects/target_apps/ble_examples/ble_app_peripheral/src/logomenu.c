@@ -43,12 +43,5 @@ void logo_menu_gui_func(void)
 }
 void logo_menu_key_event(key_msg_t* msg)
 {
-	if(msg->key == KEY_ZERO)
-	{
-			gui_show(MENU_DEBUG);
-	}
-	else if(msg->key == KEY_PWR)
-	{
-			
-	}
+	
 }
