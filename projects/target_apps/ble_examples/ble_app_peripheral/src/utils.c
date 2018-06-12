@@ -88,7 +88,7 @@ int  filter_high_ad(int in_ad)
 	//	cmp_update_cnt = 0;
 	//	cmp_10_ad = in_ad;
 	//}
-	if(abs(in_ad - cmp_10_ad) > 100)
+	if(abs(in_ad - cmp_10_ad) > 10)
 	{
 		cmp_cnt++;
 		if(cmp_cnt > 3)

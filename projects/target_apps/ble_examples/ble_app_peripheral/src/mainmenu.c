@@ -200,13 +200,16 @@ uint8 main_logic_isr(scaler_info_t * sif)
 			
 			
 				g_flag = 1;
-				
-				//记录历史重量.
-				logic_push_weight(sif->div_weight);
-				format_weight(buf,16,sif->div_weight,1,8);	
-				strcat(buf,"k");
-				//播报重量语言.
-				audio_queue_message(buf);
+				if(!key_is_press())
+				{
+					//记录历史重量.
+					logic_push_weight(sif->div_weight);
+					format_weight(buf,16,sif->div_weight,1,8);	
+					strcat(buf,"k");
+					//播报重量语言.
+					audio_queue_message(buf);
+				}
+				g_still_count = 0;
 				return 1;
 				
 		}
@@ -413,7 +416,7 @@ void main_menu_key_event(key_msg_t* msg)
 			else if(msg->event == KEY_PRESS_RLEASED)
 			{
 					static int ts = 0;
-					if( (abs(ts - msg->ts) < 5)){
+					if( (abs(ts - msg->ts) < 10)){
 						scaler_reset_history();
 					}
 					else{

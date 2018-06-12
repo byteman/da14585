@@ -65,6 +65,19 @@ void key_press_handle()
 {
 
 }
+uint8 key_is_press(void)
+{
+	uint8 press = 0;
+	uint8 i = 0;
+	for(i = 0; i < 2; i++)
+	{
+		if(GPIO_GetPinStatus(key_states[i].port,key_states[i].pin) )
+		{
+				press= 1;
+		}
+	}
+	return press;
+}
 void  key_isr()
 {
 	int i = 0;

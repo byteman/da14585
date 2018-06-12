@@ -17,7 +17,7 @@ typedef enum{
 #define KEY_LONG_PRESSED 2
 #define KEY_PRESS_RLEASED 3
 #define KEY_RELASE_TWICE 4
-#define KEY_DELAY_TIME 100 //2000ms
+#define KEY_DELAY_TIME 200 //2000ms
 typedef struct key_msg{
 	uint8 key;
 	uint8 event;
@@ -41,5 +41,6 @@ void  key_isr(void);
 void  key_register(key_event_func_t cb);
 
 uint8  key_get_msg(key_msg_t* msg);
+uint8 key_is_press(void);
 #endif
 

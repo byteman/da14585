@@ -129,7 +129,7 @@ Std_ReturnType	Wet_InitPara(void)
 	static INT32S tmpDec = 0;
 
 	g_user->CWT = 2000;
-	g_user->ZTR = 10;
+	g_user->ZTR = 15;
 	g_user->RSN = 5;
 	g_user->NOV = 10000;
 	g_user->ZSEHd = 100;
