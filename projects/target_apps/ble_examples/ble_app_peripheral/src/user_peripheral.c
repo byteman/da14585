@@ -171,7 +171,7 @@ static void adv_data_update_timer_cb()
   
 	  
 	  scaler_info_t* sif = scaler_get_info();
-		float cur_weight 	 = ((float)sif->div_weight) / 10.0f;
+		float cur_weight 	 = ((float)sif->div_weight) / 100.0f;
 		float total_weight = cur_weight;
 	
 	  app_set_data(sif->stillFlag,cur_weight,total_weight);
@@ -236,27 +236,28 @@ void user_app_init(void)
 	 
 		
 }
+//关闭蓝牙的广播
+void user_app_adv_stop(void)
+{
+	if(app_adv_data_update_timer_used != EASY_TIMER_INVALID_TIMER)
+		app_easy_timer_cancel(app_adv_data_update_timer_used);
+	
+	app_adv_data_update_timer_used = EASY_TIMER_INVALID_TIMER;
+	
+	app_easy_gap_advertise_stop();
+}
 //当ble协议栈需要广播的时候，会自动调用该函数.
 void user_app_adv_start(void)
 {
-	  app_adv_data_update_timer_used = app_easy_timer(APP_ADV_DATA_UPDATE_TO, adv_data_update_timer_cb);
-    
+		if(app_adv_data_update_timer_used == EASY_TIMER_INVALID_TIMER)
+		{
+			//如果广播定时器还未开启，则启动.
+			 app_adv_data_update_timer_used = app_easy_timer(APP_ADV_DATA_UPDATE_TO, adv_data_update_timer_cb);
+		}
+	 
     app_start_advertising();
 		ble_scaler_init(NULL);
-	#if 0
-    // Schedule the next advertising data update
-    app_adv_data_update_timer_used = app_easy_timer(APP_ADV_DATA_UPDATE_TO, adv_data_update_timer_cb);
-    
-    struct gapm_start_advertise_cmd* cmd;
-    cmd = app_easy_gap_undirected_advertise_get_active();
-    
-    // Add manufacturer data to initial advertising or scan response data, if there is enough space
-    app_add_ad_struct(cmd, &mnf_data, sizeof(struct mnf_specific_data_ad_structure), 1);
-
-    app_easy_gap_undirected_advertise_start();
-	#endif
-		//user_app_start();
-		
+	
 }
 
 void user_app_connection(uint8_t connection_idx, struct gapc_connection_req_ind const *param)
@@ -296,7 +297,7 @@ void user_app_adv_undirect_complete(uint8_t status)
     // If advertising was canceled then update advertising data and start advertising again
     if (status == GAP_ERR_CANCELED)
     {
-        user_app_adv_start();
+        //user_app_adv_start();
     }
 }
 

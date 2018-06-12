@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Mon Jun 11 21:59:50 2018
+;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Tue Jun 12 23:16:59 2018
 ;VERSION 0.2
 ;FILE adc.o
 ;FILE adc_1.o
@@ -6,7 +6,6 @@ adc_config <= USED 0
 ;FILE app.o
 active_conhdl_to_conidx <= USED 0
 active_conidx_to_conhdl <= USED 0
-app_easy_gap_advertise_stop <= USED 0
 app_easy_gap_dev_config_get_active <= USED 0
 app_easy_gap_directed_advertise_get_active <= USED 0
 app_easy_gap_directed_advertise_start <= USED 0

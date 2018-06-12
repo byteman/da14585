@@ -20,21 +20,15 @@ static uint8 is_sleep_timeout(void)
 		return (diff >= PWR_DOWN_TICK)?1:0;
 }
 
-//睡眠状态就关闭lcd和adc通道.
-static void powe_sleep(void)
-{
-		uint8 i = 0;
-		LCD_UnInit();
-		channel_all_power(0);
-		reset_sleep_tick();
-		
-}
 
 //睡眠界面一进入就执行睡眠的操作.
 void sleep_menu_init_func(uint8 prev)
 {
 		param_get_user(&g_user);
+		user_app_adv_stop();
 		power_ctrl(PWR_SLEEP);
+		
+		
 		reset_sleep_tick();
 		
 }
@@ -42,6 +36,7 @@ static void power_on(void)
 {
 	//超过10个d唤醒
 	power_ctrl(PWR_ON);
+	user_app_adv_start();
 	//并进入主称重界面.
 	gui_show(MENU_MAIN);
 }
