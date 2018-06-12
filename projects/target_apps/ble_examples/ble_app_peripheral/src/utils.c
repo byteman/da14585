@@ -74,3 +74,37 @@ void DelayToDo(const uint32 ms, DoFunc func)
 {
 	app_easy_timer(ms,func);
 }
+
+int  filter_high_ad(int in_ad)
+{
+	static int cmp_10_ad = 0;
+	static int cmp_cnt = 0;
+	static int cmp_update_cnt = 0;
+	static int rt_ad = 0;
+
+	//cmp_update_cnt++;
+	//if(cmp_update_cnt > 1)
+	//{
+	//	cmp_update_cnt = 0;
+	//	cmp_10_ad = in_ad;
+	//}
+	if(abs(in_ad - cmp_10_ad) > 100)
+	{
+		cmp_cnt++;
+		if(cmp_cnt > 3)
+		{
+			cmp_10_ad = in_ad;
+			rt_ad = in_ad;
+		}else{
+				
+		}
+	}
+	else
+	{
+		cmp_cnt = 0;
+		rt_ad = in_ad;
+	}
+
+	return rt_ad;
+
+}

@@ -140,8 +140,8 @@ Std_ReturnType	Wet_InitPara(void)
     g_UserClb_k = (FP32)g_user->CWT /(FP32)(g_user->LWT - g_user->LDW);
 	else
 		g_UserClb_k = 1.0;
-
-  g_UserClb_DivCod =(INT32U)g_user->RSN  ;
+	g_UserClb_DivCod =(INT32U)((FP32)g_user->RSN  / g_UserClb_k  );
+  //g_UserClb_DivCod =(INT32U)g_user->RSN  ;
 	
 	if(g_UserClb_DivCod < 20)
 		g_UserClb_DivCod = 20;

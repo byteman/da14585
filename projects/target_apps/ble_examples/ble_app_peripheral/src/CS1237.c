@@ -216,7 +216,7 @@ int8 CS1237_ReadAD(uint8 chan,ad_channel_t *info)
 	
 	
 	
-	data_high(config);
+	//data_high(config);
   if(read_io(config))
     return 0;
 	GLOBAL_INT_DISABLE();

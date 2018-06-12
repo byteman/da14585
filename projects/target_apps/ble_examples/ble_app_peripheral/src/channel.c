@@ -42,6 +42,7 @@ uint8_t channel_read_all(void)
 		if(power_state() == PWR_SLEEP){
 				return channel_read_one(1);
 		}
+		#if 0
     for(i = 0; i < ad_chan_nr; i++)
     {
         if(adc_ready(i)){
@@ -50,6 +51,7 @@ uint8_t channel_read_all(void)
         }
 
     }
+		#endif
     for(i = 0; i < ad_chan_nr; i++)
     {
         if(CHAN_ERR_NONE!=channel_read(i, &g_ad_chan[i]))

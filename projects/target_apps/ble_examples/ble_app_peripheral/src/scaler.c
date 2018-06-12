@@ -57,7 +57,7 @@ void scaler_run()
         }
         g_sinfo.org_ad = ad;
         //中值滤波后加上零点跟踪
-        g_sinfo.filter_ad = creep_ad_deal(FKM_Filter(ad),1);
+        g_sinfo.filter_ad = creep_ad_deal(filter_high_ad(FKM_Filter(ad)),1);
 
         if((g_sinfo.filter_ad > 8000000)||(g_sinfo.filter_ad < -8000000))		//超出范围
               g_sinfo.adc_soc_err = 1;
