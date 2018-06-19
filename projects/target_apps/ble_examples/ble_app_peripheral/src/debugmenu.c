@@ -53,7 +53,7 @@ void debug_menu_gui_func(void)
 	{
 			char buf[16] = {0,};
 			snprintf(buf,16,"%4d",tick);
-			LCD_P6x8Str(1,1,buf);
+			LCD_P6x8Str(1,1,buf); 
 	}
 
 	
