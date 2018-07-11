@@ -1,12 +1,12 @@
-;#<FEEDBACK># ARM Linker, 5060528: Last Updated: Tue Oct 17 15:42:07 2017
+;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Wed Jun 27 23:09:55 2018
 ;VERSION 0.2
 ;FILE adc.o
-adc_calibrate <= USED 0
 adc_disable <= USED 0
+;FILE adc_1.o
+adc_config <= USED 0
 ;FILE app.o
 active_conhdl_to_conidx <= USED 0
 active_conidx_to_conhdl <= USED 0
-app_easy_gap_advertise_stop <= USED 0
 app_easy_gap_advertise_with_timeout_stop <= USED 0
 app_easy_gap_dev_config_get_active <= USED 0
 app_easy_gap_directed_advertise_get_active <= USED 0
@@ -71,28 +71,49 @@ lld_sleep_us_2_lpcycles_rcx_func <= USED 0
 read_rcx_freq <= USED 0
 set_xtal16m_trim_value <= USED 0
 ;FILE attm_db_128.o
+;FILE audio.o
 ;FILE battery.o
 batt_cal_aaa <= USED 0
 batt_cal_cr1225 <= USED 0
 batt_cal_cr2032 <= USED 0
 battery_get_lvl <= USED 0
+;FILE batty.o
+;FILE blemenu.o
+;FILE blescaler.o
+ble_scaler_exec_cmd <= USED 0
+ble_scaler_get_info <= USED 0
+ble_scaler_register_event <= USED 0
+ble_scaler_run <= USED 0
+ble_scaler_set_ble_info <= USED 0
 ;FILE boot_vectors.o
+;FILE calibmenu.o
+;FILE channel.o
+channel_init <= USED 0
+;FILE commenu.o
+gui_show_weight <= USED 0
+;FILE cornfix.o
+;FILE cornmenu.o
+;FILE cs1237.o
 ;FILE custom_common.o
 custs1_get_att_handle <= USED 0
 ;FILE custs1.o
 ;FILE custs1_task.o
+;FILE debugmenu.o
+;FILE dispatcher.o
 ;FILE diss.o
+;FILE filter_kmedian.o
+FKM_InitFilterList <= USED 0
 ;FILE gpio.o
 GPIO_ConfigurePinPower <= USED 0
 GPIO_DisablePorPin <= USED 0
 GPIO_EnableIRQ <= USED 0
 GPIO_EnablePorPin <= USED 0
 GPIO_GetIRQInputLevel <= USED 0
-GPIO_GetPinStatus <= USED 0
 GPIO_GetPorTime <= USED 0
 GPIO_RegisterCallback <= USED 0
 GPIO_SetIRQInputLevel <= USED 0
 GPIO_SetPorTime <= USED 0
+;FILE gui.o
 ;FILE hardfault_handler.o
 ;FILE hw_otpc.o
 hw_otpc_blank <= USED 0
@@ -112,18 +133,34 @@ hw_otpc_tdec <= USED 0
 hw_otpc_twr <= USED 0
 hw_otpc_write_rr <= USED 0
 ;FILE i2c_eeprom.o
-i2c_eeprom_init <= USED 0
 i2c_eeprom_read_byte <= USED 0
-i2c_eeprom_read_data <= USED 0
 i2c_eeprom_release <= USED 0
 i2c_eeprom_write_byte <= USED 0
-i2c_eeprom_write_data <= USED 0
-i2c_eeprom_write_page <= USED 0
-i2c_wait_until_eeprom_ready <= USED 0
 ;FILE jump_table.o
 dummyf <= USED 0
+;FILE key.o
+key_isr2 <= USED 0
+key_press_handle <= USED 0
+;FILE logomenu.o
+;FILE mainmenu.o
+;FILE matrix.o
 ;FILE nmi_handler.o
 ;FILE nvds.o
+;FILE oled.o
+Draw_BMP <= USED 0
+LCD_16x16_Char <= USED 0
+LCD_CLS <= USED 0
+LCD_Dot2 <= USED 0
+LCD_Init2 <= USED 0
+LCD_P10x8Ch <= USED 0
+LCD_P16x16Ch <= USED 0
+LCD_P16x16_ZH <= USED 0
+LCD_P16x16_ZH_Arr <= USED 0
+LCD_P8x16Ch <= USED 0
+LCD_P8x8_ZH <= USED 0
+LCD_P8x8_ZH_Arr <= USED 0
+;FILE param.o
+param_test <= USED 0
 ;FILE patch.o
 ;FILE pll_vcocal_lut.o
 GPADC_init <= USED 0
@@ -142,6 +179,8 @@ update_calcap_min_channel <= USED 0
 update_calcap_ranges <= USED 0
 write_HW_LUT <= USED 0
 write_one_SW_LUT_entry <= USED 0
+;FILE power.o
+;FILE poweroff.o
 ;FILE prf.o
 ;FILE prf_utils.o
 prf_pack_date_time <= USED 0
@@ -157,6 +196,13 @@ rf_calibration_580 <= USED 0
 set_gauss_modgain <= USED 0
 ;FILE rwble.o
 ;FILE rwip.o
+;FILE sc5040b.o
+;FILE sca100.o
+;FILE scaler.o
+scaler_get_history_record <= USED 0
+scaler_reset_history <= USED 0
+scaler_set_ble_addr <= USED 0
+;FILE sleepmenu.o
 ;FILE smpc_util.o
 ;FILE spi.o
 spi_disable <= USED 0
@@ -184,6 +230,17 @@ spi_read_flash_unique_id <= USED 0
 syscntl_set_dcdc_vbat3v_level <= USED 0
 ;FILE system_armcm0.o
 SystemCoreClockUpdate <= USED 0
+;FILE systick.o
+systick_stop <= USED 0
+systick_value <= USED 0
+systick_wait <= USED 0
+;FILE timer.o
+SysTick_Event <= USED 0
+Timer_Delete <= USED 0
+Timer_Disable <= USED 0
+Timer_Enable <= USED 0
+Timer_Regist <= USED 0
+Timer_Server <= USED 0
 ;FILE trng.o
 ;FILE uart2.o
 uart2_finish_transfers <= USED 0
@@ -193,6 +250,10 @@ uart2_init <= USED 0
 uart2_read <= USED 0
 uart2_set_flow_off_retries_limit <= USED 0
 uart2_write <= USED 0
+;FILE user_app.o
+goto_sleep <= USED 0
+user_sleep <= USED 0
+user_wakeup <= USED 0
 ;FILE user_custs1_impl.o
 user_svc1_adc_val_1_ntf_cfm_handler <= USED 0
 user_svc1_button_ntf_cfm_handler <= USED 0
@@ -201,6 +262,27 @@ user_svc1_indicateable_ind_cfm_handler <= USED 0
 user_svc1_long_val_ntf_cfm_handler <= USED 0
 ;FILE user_periph_setup.o
 ;FILE user_peripheral.o
+;FILE utils.o
+;FILE weighing.o
+AD_CheckNew <= USED 0
+AD_Read <= USED 0
+Wet_Clear_Err <= USED 0
+Wet_ErrRead <= USED 0
+Wet_Filter_Set <= USED 0
+Wet_Read_Err <= USED 0
+Wet_Read_State <= USED 0
+Wet_Taring <= USED 0
+Wet_Working <= USED 0
+;FILE wetapp.o
+LED_Flash <= USED 0
+WetApp_Cal_Wet <= USED 0
+WetApp_Cal_Zero <= USED 0
+WetApp_Get_RealPt <= USED 0
+WetApp_Get_StableFlag <= USED 0
+WetApp_Poweroff_Manage <= USED 0
+WetApp_Work_En <= USED 0
+com_flash <= USED 0
+wet_set_work_mode <= USED 0
 ;FILE wkupct_quadec.o
 quad_decoder_disable_irq <= USED 0
 quad_decoder_enable_irq <= USED 0

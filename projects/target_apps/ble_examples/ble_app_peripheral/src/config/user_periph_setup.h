@@ -153,9 +153,9 @@
 
 //4 channel cs1237
 #define ADC1_CLK_PORT  GPIO_PORT_1
-#define ADC1_CLK_PIN   GPIO_PIN_2
+#define ADC1_CLK_PIN   GPIO_PIN_0
 #define ADC1_DO_PORT  GPIO_PORT_1
-#define ADC1_DO_PIN   GPIO_PIN_3
+#define ADC1_DO_PIN   GPIO_PIN_1
 
 #define ADC2_CLK_PORT  GPIO_PORT_2
 #define ADC2_CLK_PIN   GPIO_PIN_3
@@ -171,8 +171,8 @@
 
 #define ADC4_CLK_PORT  GPIO_PORT_0
 #define ADC4_CLK_PIN   GPIO_PIN_4
-#define ADC4_DO_PORT  GPIO_PORT_1
-#define ADC4_DO_PIN   GPIO_PIN_1
+#define ADC4_DO_PORT  GPIO_PORT_2
+#define ADC4_DO_PIN   GPIO_PIN_9
 
 
 //SC5040b audio
@@ -209,7 +209,7 @@
 #define PWR_OFF_PIN  GPIO_PIN_4
 
 #define I2C_GPIO_PORT     GPIO_PORT_2
-#define I2C_SCL_PIN       GPIO_PIN_5
+#define I2C_SCL_PIN       GPIO_PIN_8
 #define I2C_SDA_PIN       GPIO_PIN_0
 
 /*
