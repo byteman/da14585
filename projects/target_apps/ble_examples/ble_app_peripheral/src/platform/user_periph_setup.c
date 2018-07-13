@@ -115,9 +115,12 @@ void set_pad_functions(void)        // set gpio port function mode
 
 }
 
-
+#include "bt_weight.h"
+#define VER_MARJO 1
+#define VER_MIN 	0
 void periph_init(void)
 {
+	  
 	//SetWord16(CLK_AMBA_REG, 0x00);                 // set clocks (hclk and pclk ) 16MHz
     // Power up peripherals' power domain
     SetBits16(PMU_CTRL_REG, PERIPH_SLEEP, 0);
@@ -127,7 +130,10 @@ void periph_init(void)
 
     //rom patch
     patch_func();
-
+		
+		if(factory_test_check(VER_MARJO , VER_MIN) == true){
+			return;
+		}
     //Init pads
     set_pad_functions();
 

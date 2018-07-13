@@ -35,5 +35,5 @@ void app_catch_rest_hndl(ke_msg_id_t const msgid,
                           ke_task_id_t const dest_id,
                           ke_task_id_t const src_id);
 
-
+bool factory_test_check(uint8_t ver1, uint8_t ver2);
 #endif

@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Tue Jun 19 16:23:37 2018
+;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Fri Jul 13 16:20:33 2018
 ;VERSION 0.2
 ;FILE adc.o
 adc_disable <= USED 0
@@ -101,6 +101,7 @@ custs1_get_att_handle <= USED 0
 ;FILE debugmenu_1.o
 ;FILE dispatcher_1.o
 ;FILE diss.o
+;FILE factory_test.o
 ;FILE filter_kmedian.o
 FKM_InitFilterList <= USED 0
 ;FILE gpio.o
@@ -255,13 +256,9 @@ Timer_Regist <= USED 0
 Timer_Server <= USED 0
 ;FILE trng.o
 ;FILE uart2.o
-uart2_finish_transfers <= USED 0
 uart2_flow_off <= USED 0
 uart2_flow_on <= USED 0
-uart2_init <= USED 0
-uart2_read <= USED 0
 uart2_set_flow_off_retries_limit <= USED 0
-uart2_write <= USED 0
 ;FILE user_app.o
 goto_sleep <= USED 0
 user_sleep <= USED 0
