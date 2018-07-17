@@ -7,6 +7,7 @@
 #include "WetApp.h"
 static device_param* g_param;
 static scaler_info_t g_sinfo;
+static logic_param_t* g_logic = NULL;
 static uint8_t g_addr[32] = {0,};
 static uint8_t default_addr[6] = CFG_NVDS_TAG_BD_ADDRESS;
 void		scaler_set_ble_addr(char* addr)
@@ -37,6 +38,7 @@ void scaler_init()
     {
         return;
     }
+		param_get_logic(&g_logic);
 		WetApp_Init();
 		creep_init(g_param->mCrpValue);
 		Std_ReturnType rtn = Wet_Init();
@@ -81,6 +83,11 @@ scaler_info_t* 		scaler_get_info(void)
 		g_sinfo.div_weight = gScaleAppData.mScaleWet;
 		g_sinfo.org_weight = gScaleAppData.mScaleWetInter;
 		g_sinfo.ready = gScaleAppData.mScaleStatue.stReady;
+		if(g_logic!=NULL){
+			g_sinfo.total_weight = g_logic->history_sum;
+		}else{
+			g_sinfo.total_weight = 0;
+		}
 		return &g_sinfo;
 	
 }

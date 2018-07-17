@@ -172,7 +172,7 @@ static void adv_data_update_timer_cb()
 	  
 	  scaler_info_t* sif = scaler_get_info();
 		float cur_weight 	 = ((float)sif->div_weight) / 100.0f;
-		float total_weight = cur_weight;
+		float total_weight = ((float)sif->total_weight) / 100.0f;
 	
 	  app_set_data(sif->stillFlag,cur_weight,total_weight);
 	
