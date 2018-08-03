@@ -9,6 +9,9 @@ static device_param* g_param;
 static scaler_info_t g_sinfo;
 static uint8_t g_addr[32] = {0,};
 static uint8_t default_addr[6] = CFG_NVDS_TAG_BD_ADDRESS;
+extern uint8_t bd_address[6];
+//OPT addr 0x47FD4
+static unsigned char* ble_addr = (unsigned char*)0x47FD4;
 void		scaler_set_ble_addr(char* addr)
 {
 	memset(g_addr,0,32);
@@ -16,19 +19,20 @@ void		scaler_set_ble_addr(char* addr)
 }
 const char* scaler_get_ble_addr(void)
 {
-	if(g_addr[0] == 0){
+	//if(g_addr[0] == 0){
 		
 		snprintf(g_addr,32,
 							"%02X:%02X:%02X:%02X:%02X:%02X",
-							default_addr[5],
-							default_addr[4],
-							default_addr[3],
-							default_addr[2],
-							default_addr[1],
-							default_addr[0]
+							bd_address[5],
+							bd_address[4],
+							bd_address[3],
+							bd_address[2],
+							bd_address[1],
+							bd_address[0]
 		);
+	
 		
-	}
+	//}
 	return g_addr;
 }
 void scaler_init()
