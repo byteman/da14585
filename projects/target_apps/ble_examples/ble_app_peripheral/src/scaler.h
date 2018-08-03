@@ -20,6 +20,7 @@ typedef struct _scaler_info_t{
 		uint8		ready; //开机后重量可以用吗.
 		int32_t div_weight; //分度值后的毛重
 	  int32_t org_weight; //没有经过分度值处理的重量.	
+		int32_t total_weight; //总重量
 		int32_t adArrs[MAX_CHAN]; //ad数据.
 }scaler_info_t;
 void    scaler_init();
