@@ -52,7 +52,8 @@ void scaler_init()
 void scaler_run()
 {
 
-    if(!channel_read_all()){
+    uint8 state = channel_read_all();
+	  {
         int i = 0;
         int32_t ad = 0;
         for(; i < MAX_CHAN; i++)

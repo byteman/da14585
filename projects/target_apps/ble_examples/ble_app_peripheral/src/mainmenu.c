@@ -68,12 +68,6 @@ static void gui_show_ble_state(uint8 state)
 	 }
 	 else
 	 {
-			if(bInit == 0)
-			{
-				audio_queue_message("b");
-				bInit = 1;
-				return;
-			}
 		 //À¶ÑÀÒÑ¾­¶Ï¿ª.
 		  audio_queue_message("bx");
 			//LCD_P16x16bmp(112,5,4);
@@ -416,7 +410,7 @@ void main_menu_key_event(key_msg_t* msg)
 			else if(msg->event == KEY_PRESS_RLEASED)
 			{
 					static int ts = 0;
-					if( (abs(ts - msg->ts) < 10)){
+					if( (abs(ts - msg->ts) < 20)){
 						scaler_reset_history();
 					}
 					else{

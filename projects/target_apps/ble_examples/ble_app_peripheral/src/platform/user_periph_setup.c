@@ -117,7 +117,7 @@ void set_pad_functions(void)        // set gpio port function mode
 
 #include "bt_weight.h"
 #define VER_MARJO 1
-#define VER_MIN 	2
+#define VER_MIN 	4
 void periph_init(void)
 {
 	  

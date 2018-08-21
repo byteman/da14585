@@ -475,6 +475,23 @@ const unsigned char F16x32[][16] = {
 
 
 };
+const unsigned char F16x32_XM[][16] = {
+	
+{0x00,0x00,0x1E,0x7E,0xF8,0xC0,0x00,0x00,0x00,0x00,0x00,0xC0,0xF8,0x7E,0x1E,0x00},
+{0x00,0x00,0x00,0x00,0x03,0x1F,0x7F,0xF8,0xE0,0xF8,0x7F,0x1F,0x03,0x00,0x00,0x00},
+{0x00,0x00,0x00,0x00,0xE0,0xFC,0x7F,0x0F,0x03,0x0F,0x7F,0xFC,0xE0,0x00,0x00,0x00},
+{0x00,0x00,0x3C,0x3F,0x0F,0x01,0x00,0x00,0x00,0x00,0x00,0x01,0x0F,0x3F,0x3C,0x00},/*"C:\works\DA14585\source\lcd字体\32x16\16x32_x.BMP.BMP",0*/
+
+{0x00,0x00,0xFC,0xFE,0xFE,0x1C,0x38,0x70,0xE0,0x70,0x38,0x1C,0xFE,0xFE,0xFC,0x00},
+{0x00,0x00,0xFF,0xFF,0xFF,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xFF,0xFF,0xFF,0x00},
+{0x00,0x00,0xFF,0xFF,0xFF,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xFF,0xFF,0xFF,0x00},
+{0x00,0x00,0x3F,0x7F,0x7F,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x7F,0x7F,0x3F,0x00},/*"C:\works\DA14585\source\lcd字体\32x16\16x32_M.BMP.BMP",0*/
+
+
+
+
+
+};
 const unsigned char F16x32_ExS[][16] = {
 	
 {0x00,0x00,0xF8,0xF8,0xFE,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x00,0x00},
@@ -1444,6 +1461,9 @@ unsigned char dot_arr2[] = {
 0x00,0x00,0x00,0x00,0x00,0x00,0x30,0x30/*"未命名文件",0*/
 
 };
+unsigned char m_arr[] = {
+0x0C,0x0C,0x30,0x30,/*"C:\works\DA14585\source\lcd字体\2x16_冒号.BMP",0*/
+};
 
 void LCD_Dot(unsigned char x, unsigned y)
 {
@@ -1457,6 +1477,20 @@ void LCD_Dot(unsigned char x, unsigned y)
 		for(wm = 0;wm < 2;wm++)  //             
 		{
 			LCD_WrDat(dot_arr[wm+2]);	
+		}     
+}
+void LCD_MaoHao(unsigned char x, unsigned y)
+{
+		unsigned char wm=0;
+		LCD_Set_Pos(x , y);
+		for(wm = 0;wm < 2;wm++)  //             
+		{
+			LCD_WrDat(m_arr[wm]);	
+		}     
+		LCD_Set_Pos(x , y+1);
+		for(wm = 0;wm < 2;wm++)  //             
+		{
+			LCD_WrDat(m_arr[wm+2]);	
 		}     
 }
 void LCD_Dot2(unsigned char x, unsigned y)
@@ -1493,6 +1527,38 @@ void LCD_P8x16Str(unsigned char x, unsigned y,unsigned char ch[])
 		c =ch[j]-32;
 		if(ch[j] == '.' ){
 				LCD_Dot(x,y);
+				x+=2;
+				j++;
+				
+				continue;
+		}
+		else if(((ch[j]== '-') && (ch[j+1]==0)))
+		{
+				nr = 4;
+		} 
+		else{
+				nr = 8;
+		}
+		if(x>120){x=0;y++;}
+			LCD_Set_Pos(x,y);    
+		for(i=0; i<nr; i++)     
+			LCD_WrDat(F8X16[c*16+i]);
+		LCD_Set_Pos(x,y+1);    
+		for(i=0;i<nr;i++)     
+			LCD_WrDat(F8X16[c*16+i+8]);  
+		x+=nr;
+		j++;
+	}
+}
+/*******************功能描述：显示8*16一组标准ASCII字符串	 显示的坐标（x,y），y为页范围0～7****************/
+void LCD_P8x16AddrStr(unsigned char x, unsigned y,unsigned char ch[])
+{
+	unsigned char c=0,i=0,j=0,nr=0;
+	while (ch[j]!='\0')
+	{    
+		c =ch[j]-32;
+		if(ch[j] == ':' ){
+				LCD_MaoHao(x,y);
 				x+=2;
 				j++;
 				
@@ -1696,6 +1762,34 @@ void LCD_OverLoad(unsigned char x, unsigned y)
 			LCD_WrDat(blank_arr[wm+8]);	
 		} 
 #endif		 		
+}
+void LCD_P16x32_XM(unsigned char x, unsigned y)
+{
+		uint8_t nr = 16;
+		uint8_t c = 0;
+		uint8_t i = 0;
+		for(c = 0; c < 2; c++)
+		{
+			LCD_Set_Pos(x,y);    
+			for(i=0;i<nr;i++)     
+				LCD_WrDat(F16x32_XM[c*4][i]);
+			
+			LCD_Set_Pos(x,y+1);    
+			for(i=0;i<nr;i++)     
+				LCD_WrDat(F16x32_XM[c*4+1][i]);  
+			
+			LCD_Set_Pos(x,y+2);    
+			for(i=0;i<nr;i++)     
+				LCD_WrDat(F16x32_XM[c*4+2][i]);  
+			
+			LCD_Set_Pos(x,y+3); 
+			
+			for(i=0;i<nr;i++)     
+				LCD_WrDat(F16x32_XM[c*4+3][i]); 
+			
+			x+=nr;
+		}
+		
 }
 void LCD_P16x32_ExS(unsigned char x, unsigned y)
 {

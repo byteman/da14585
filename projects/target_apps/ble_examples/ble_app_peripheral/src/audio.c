@@ -59,8 +59,10 @@ void  audio_isr(void)
 {
 		static uint8 cnt;
 		if(cnt++%5 != 0) return;
+	 
 		if(audio_queue_empty())
 		{
+			  
 				return;
 		}
 		
@@ -79,6 +81,7 @@ void  audio_isr(void)
 								{
 									//播放成功就累加播放指针.
 										msg->index++;
+										cnt = 1;
 								}
 						}
 						else

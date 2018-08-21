@@ -3,7 +3,7 @@
 
 #include "common.h"
 #include "state.h"
-
+#include "scaler.h"
 
 #define 		CAP_N   10 	
 #define		  CAP_M   4  //四个角差点. 	
@@ -61,8 +61,8 @@ INT32S channel_get_filter_ad(uint8_t chan);
  * @return 0 完成 1 还未转换完成.
  */
 
-uint8_t channel_read_all(void);
 
+uint8_t channel_read_all(void);
 uint8_t channel_all_power(uint8_t en);
 
 uint8_t channel_power(uint8_t chan, uint8_t en);

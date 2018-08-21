@@ -63,7 +63,7 @@ void format_total(char* buffer, int size, INT32S value, uint8 dot,uint8 max)
 							snprintf(buffer,size,"%7.4f",(float)value/10000.0f);
 							break;
 					default:
-							snprintf(buffer,size,"%7f",value);
+							snprintf(buffer,size,"%7.1f",value);
 							break;
 			}
 		

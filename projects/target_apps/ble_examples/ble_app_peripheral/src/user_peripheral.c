@@ -267,7 +267,7 @@ void user_app_connection(uint8_t connection_idx, struct gapc_connection_req_ind 
         app_connection_idx = connection_idx;
 
         // Stop the advertising data update timer
-        app_easy_timer_cancel(app_adv_data_update_timer_used);
+        //app_easy_timer_cancel(app_adv_data_update_timer_used);
 
         // Check if the parameters of the established connection are the preferred ones.
         // If not then schedule a connection parameter update request.
