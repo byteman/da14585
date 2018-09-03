@@ -84,7 +84,7 @@ void  key_isr()
 	g_ts++;
 	for(i = 0; i < 2; i++)
 	{
-		if(GPIO_GetPinStatus(key_states[i].port,key_states[i].pin) )
+		if(GPIO_GetPinStatus(key_states[i].port,key_states[i].pin) == 0 )
 		{
 					if(key_states[i].state == KEY_LONG_PRESSED)
 					{
@@ -98,7 +98,7 @@ void  key_isr()
 					{
 						//电源键按住3秒了
 								uint8 j = (i==0?1:0);
-								if(GPIO_GetPinStatus(key_states[j].port,key_states[j].pin))
+								if(GPIO_GetPinStatus(key_states[j].port,key_states[j].pin) == 0)
 								{
 										if(key_states[i].press_ts > (PRESS_ALL_KEY_TIME/TIMER_INT))
 										{
