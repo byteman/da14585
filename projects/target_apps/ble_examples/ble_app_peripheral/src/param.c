@@ -332,6 +332,7 @@ param_err_t param_get_logic(logic_param_t** para)
 {
 		if(!g_init) return PARA_ERR_UNINIT;
     if(para == 0) return PARA_ERR_INVALID_PARA;
+		//g_logic.history_sum = 30;
     *para = &g_logic;
     return PARA_ERR_NONE;
 }

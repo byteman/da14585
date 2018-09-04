@@ -28,7 +28,7 @@ typedef struct {
 #define PRESS_LONG_TIME 2000
 #define PWR_DELAY_NUM 10
 #define ZERO_RLEASE_DELAY_NUM 10
-#define PRESS_TIME_TICK 2
+#define PRESS_TIME_TICK 1
 static key_state key_states[MAX_KEY_NUM];
 static int32 g_ts = 0;
 static uint8 key_pressed = 0;
@@ -71,7 +71,7 @@ uint8 key_is_press(void)
 	uint8 i = 0;
 	for(i = 0; i < 2; i++)
 	{
-		if(GPIO_GetPinStatus(key_states[i].port,key_states[i].pin) )
+		if(0 == GPIO_GetPinStatus(key_states[i].port,key_states[i].pin) )
 		{
 				press= 1;
 		}

@@ -211,7 +211,7 @@ uint8 main_logic_isr(scaler_info_t * sif)
 		{
 				g_still_count = 0;
 		}
-		
+		//重量稳定，并且重量<2d后,并且有过上称台.
 		if(sif->stillFlag &&  
 			sif->div_weight < 2*g_user->RSN && 
 			(g_flag==1))
@@ -410,7 +410,7 @@ void main_menu_key_event(key_msg_t* msg)
 			else if(msg->event == KEY_PRESS_RLEASED)
 			{
 					static int ts = 0;
-					if( (abs(ts - msg->ts) < 20)){
+					if( (abs(ts - msg->ts) < 10)){
 						scaler_reset_history();
 					}
 					else{

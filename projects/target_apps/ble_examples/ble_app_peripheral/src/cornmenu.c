@@ -70,7 +70,15 @@ void corn_menu_key_event(key_msg_t* msg)
 			}
 			else if(msg->event == KEY_PRESS_RLEASED)
 			{
-					DelayToDo(KEY_DELAY_TIME,doCornCalib);
+					static int ts = 0;
+					if( (abs(ts - msg->ts) < 20)){
+						
+					}
+					else{
+							DelayToDo(KEY_DELAY_TIME,doCornCalib);	
+					}
+					ts = msg->ts;
+					//DelayToDo(KEY_DELAY_TIME,doCornCalib);
 			}
 	}
 	else if(msg->key == KEY_PWR)

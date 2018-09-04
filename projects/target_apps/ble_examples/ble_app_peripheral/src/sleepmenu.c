@@ -49,6 +49,7 @@ static void power_check_weight(void)
 			{
 					return;
 			}
+			//四个传感器的重量>4d,第二个传感器的重量大于1个d就表示需要唤醒，
 			if(sif->div_weight > g_user->RSN){
 					power_on();
 			}else{

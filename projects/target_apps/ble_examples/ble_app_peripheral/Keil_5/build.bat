@@ -1,0 +1,1 @@
+copy out_585\XM5000.hex bin\XM5000.hex

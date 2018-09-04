@@ -27,7 +27,7 @@
 
 //internal configuration option to select the filtering of the adc_values
 //0<= No filter, 1<=Drop the last 4-bits, 2<= Moving average filter, 3<=Moving average, reactive at big changes
-static const uint8_t battery_filter_option=0;
+static const uint8_t battery_filter_option=2;
 
 /*
  * FUNCTION DEFINITIONS
@@ -103,9 +103,9 @@ uint8_t batt_cal_aaa(uint16_t adc_sample)
     else
     {
         //Buck mode
-        if(adc_sample >= BATTERY_MEASUREMENT_BUCK_AT_1V8)
-            batt_lvl = (adc_sample - BATTERY_MEASUREMENT_BUCK_AT_1V8)*100/
-                        (BATTERY_MEASUREMENT_BUCK_AT_3V0-BATTERY_MEASUREMENT_BUCK_AT_1V8);
+        if(adc_sample >= BATTERY_MEASUREMENT_BUCK_AT_2V4)
+            batt_lvl = (adc_sample - BATTERY_MEASUREMENT_BUCK_AT_2V4)*100/
+                        (BATTERY_MEASUREMENT_BUCK_AT_3V0-BATTERY_MEASUREMENT_BUCK_AT_2V4);
         else
             batt_lvl = 0;
     }

@@ -129,7 +129,7 @@ Std_ReturnType	Wet_InitPara(void)
 	static INT32S tmpDec = 0;
 
 	g_user->CWT = 2000;
-	g_user->ZTR = 15;
+	g_user->ZTR = 2; //<2d¾Í¸ú×Ù
 	g_user->RSN = 5;
 	g_user->NOV = 10000;
 	g_user->ZSEHd = 100;
@@ -597,7 +597,7 @@ static	INT32U	s_wt_BufPtr = 0;
     if(g_user->ZTR == 0)
 		goto pr_AZT_out;
     else if(g_user->ZTR < 100)
-        linmit = g_user->ZTR * (FP32)g_user->RSN /10; //g_param->mZeroTruckTmr
+        linmit = g_user->ZTR * (FP32)g_user->RSN ; //g_param->mZeroTruckTmr
 	else	
 		goto pr_AZT_out;
 			 

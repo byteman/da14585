@@ -22,7 +22,7 @@ void logo_menu_init_func(uint8 prev)
 		LCD_P16x32_XM(8,1);
 		LCD_P16x32Str(54,1,"5000");
 		LCD_Vesion(25,5);
-		LCD_P8x16Str(40,5,"2018-08-21");
+		LCD_P8x16Str(40,5,"2018-09-04");
 
 		
 }
