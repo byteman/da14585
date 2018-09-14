@@ -14,7 +14,7 @@ void gui_show_weight(scaler_info_t * sif,uint8 update,uint8 x, uint8 y)
 	char buf[16]={0,};
 
 
-	if(sif->upFlow || sif->downFlow || sif->div_weight>=10000){
+	if(sif->upFlow || sif->downFlow){
 			LCD_OverLoad(x,y);
 			return;
 	}

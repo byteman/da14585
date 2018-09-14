@@ -178,7 +178,7 @@ static void logic_push_weight(INT32S value)
 uint8 main_logic_isr(scaler_info_t * sif)
 {
 	//
-		if(abs(sif->div_weight >= 10000)){
+		if(abs(sif->div_weight >= g_user->NOV)){
 			return 0;
 		}
 		if(
@@ -282,7 +282,7 @@ static void gui_show_weight(scaler_info_t * sif,uint8 update)
 	}
 
 	old_value = sif->div_weight;
-	if(sif->upFlow || sif->downFlow || sif->div_weight>=10000){
+	if(sif->upFlow || sif->downFlow){
 			LCD_OverLoad(W_VALUE,1);
 			return;
 	}

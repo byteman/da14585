@@ -14,6 +14,7 @@
 #include "Weighing.h"
 #include "Timer.h"
 #include "param.h"
+#include "weight_cfg.h"
 /* Private macro -------------------------------------------------------------*/
 
 #define		NP_LIN    	4 		//3个加载点
@@ -117,6 +118,7 @@ void Wet_Filter_Set(int cal)
 	else
         FKM_SetFilterGrade(g_param->mFltLevel ,g_UserClb_DivCod,g_UserClb_DivCod*10);
 }
+
 /******************************************************************************
   * @brief  称重初始化参数
   * @param  None
@@ -128,11 +130,12 @@ Std_ReturnType	Wet_InitPara(void)
 	INT32S	err = 0;
 	static INT32S tmpDec = 0;
 
-	g_user->CWT = 2000;
-	g_user->ZTR = 2; //<2d就跟踪
-	g_user->RSN = 5;
-	g_user->NOV = 10000;
-	g_user->ZSEHd = 100;
+	g_user->CWT = CAL_KG;
+	g_user->ZTR = ZERO_TRACK; //<2d就跟踪
+	g_user->RSN = DIS_DIV;
+	g_user->NOV = MAX_SPAN_KG;
+	g_user->ZSEHd = ZSEHd_V;
+	g_user->ZSE =  ZSE_V;
  	err+= Wet_ParaIsRight(g_user->LDW,-1600000,4600000);
  	err+= Wet_ParaIsRight(g_user->LWT,-1600000,4600000);
  	err+= Wet_ParaIsRight(g_user->CWT,-1600000,4600000);
@@ -401,15 +404,15 @@ void	Wet_Process(INT32S adcode,FP32 temp)
 	g_wet_gross = WetApp_Convert_Data(g_Stable_input);						//毛重,分度值格式化，多量程
     g_wet_net   = g_wet_gross - WetApp_Convert_Data(g_user->TAV);						//净重
 
-    if(g_wet_newest > (g_user->NOV + 9*g_user->RSN))					//毛重超载
+    if(g_wet_newest > (g_user->NOV + 9*E_DIV))					//毛重超载
 		g_wet_state.overGross = 1;
 	else 	
 		g_wet_state.overGross = 0;
-    if(g_wet_newest < (0 - 20*g_user->RSN))						//毛重欠载
+    if(g_wet_newest < (0 - 20*E_DIV))						//毛重欠载
 		g_wet_state.underGross = 1;
 	else	
 		g_wet_state.underGross = 0;
-    if(g_wet_net > ( g_user->NOV + 9*g_user->RSN))	//1000000				//净重超载
+    if(g_wet_net > ( g_user->NOV + 9*E_DIV))	//1000000				//净重超载
 		g_wet_state.overNET = 1;
 	else	
 		g_wet_state.overNET = 0;
@@ -504,7 +507,7 @@ Std_ReturnType	Wet_Zeroing(void)
         if(g_user->NOV > 0)
 		{
             //if(g_wet_newest < (g_user->NOV /50 ))	//< 2%
-            if(g_wet_newest <(g_user->NOV / 100 * g_user->ZSEHd) )
+      if(abs(g_wet_newest) <(g_user->NOV / 100 * g_user->ZSEHd) )
 			{	
 				g_fwet_zero += g_Stable_input;
 				g_wet_err.state.err_set_zero = 0;
@@ -548,9 +551,9 @@ void	Wet_ZeroPowerUp(void)
 		cnt =0;
 		if((g_wet_state.stable == 1)&&(g_wet_state.wetready == 1))
 		{
-            if(g_user->NOV > 0)
+       if(g_user->NOV > 0)
 			{
-                if(g_wet_newest < (g_user->NOV / 100 * g_user->ZSE ) )//g_table_ZSE[g_user->ZSE]))
+         if(abs(g_wet_newest) < (g_user->NOV / 100 * g_user->ZSE ) )//g_table_ZSE[g_user->ZSE]))
 				{
 					g_fwet_zero += g_Stable_input;
 					g_wet_err.state.err_poweron_set_zero = 0;
@@ -564,7 +567,7 @@ void	Wet_ZeroPowerUp(void)
 			}
 			else
 			{
-                if(g_wet_newest < (10000 *  g_user->ZSE) )//g_table_ZSE[g_user->ZSE]))
+        if(abs(g_wet_newest) < (g_user->NOV *  g_user->ZSE) )//g_table_ZSE[g_user->ZSE]))
 				{
 					g_fwet_zero += g_Stable_input;
 					g_wet_err.state.err_poweron_set_zero = 0;
