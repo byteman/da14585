@@ -10,6 +10,7 @@
 #include "proclogic.h"
 #include "audio.h"
 #include "timer.h"
+#include "weight_cfg.h"
 
 char weight[16];
 static logic_param_t* g_logic = NULL;
@@ -179,6 +180,7 @@ uint8 main_logic_isr(scaler_info_t * sif)
 {
 	//
 		if(abs(sif->div_weight >= g_user->NOV)){
+			g_still_count = 0;
 			return 0;
 		}
 		if(
@@ -282,7 +284,8 @@ static void gui_show_weight(scaler_info_t * sif,uint8 update)
 	}
 
 	old_value = sif->div_weight;
-	if(sif->upFlow || sif->downFlow){
+	//Èç¹ûÉÏ³¬ÔØ
+	if(sif->upFlow || sif->downFlow || sif->div_weight >= MAX_DISP_KG ){
 			LCD_OverLoad(W_VALUE,1);
 			return;
 	}

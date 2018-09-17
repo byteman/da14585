@@ -5,8 +5,9 @@
 
 #define DOT_NUM (100) 
 //满量程50kg
-#define MAX_SPAN_KG (5000)
-
+#define MAX_SPAN_KG (10000)
+//重量最多只能显示这么多位，否则显示不下了
+#define MAX_DISP_KG (10000) 
 //标定砝码重量20kg
 
 #define CAL_KG (2000)

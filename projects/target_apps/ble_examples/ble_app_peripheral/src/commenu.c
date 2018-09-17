@@ -7,14 +7,14 @@
 #include "Weighing.h"
 #include "scaler.h"
 
-
+#if 0
 void gui_show_weight(scaler_info_t * sif,uint8 update,uint8 x, uint8 y)
 {
 
 	char buf[16]={0,};
 
 
-	if(sif->upFlow || sif->downFlow){
+	if(sif->upFlow || sif->downFlow  ){
 			LCD_OverLoad(x,y);
 			return;
 	}
@@ -24,6 +24,7 @@ void gui_show_weight(scaler_info_t * sif,uint8 update,uint8 x, uint8 y)
 
 
 }
+#endif
 void gui_show_button(uint8 show,uint8 x, uint8 y)
 {
 		if(show)
