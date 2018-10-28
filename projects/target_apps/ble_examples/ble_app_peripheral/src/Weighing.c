@@ -129,7 +129,7 @@ Std_ReturnType	Wet_InitPara(void)
 	INT32U	i;
 	INT32S	err = 0;
 	static INT32S tmpDec = 0;
-
+ 
 	g_user->CWT = CAL_KG;
 	g_user->ZTR = ZERO_TRACK; //<2d¾Í¸ú×Ù
 	g_user->RSN = DIS_DIV;

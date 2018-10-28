@@ -36,7 +36,7 @@
 
 ke_msg_id_t timer_used      __attribute__((section("retention_mem_area0"), zero_init)); //@RETENTION MEMORY;
 uint16_t indication_counter __attribute__((section("retention_mem_area0"), zero_init)); //@RETENTION MEMORY
-
+ 
 /*
  * FUNCTION DEFINITIONS
  ****************************************************************************************
